@@ -35,6 +35,7 @@ app.get('/resume/:name', routes.resume);
 app.get('/suspend/:name', routes.suspend);
 app.get('/shutdown/:name', routes.shutdown);
 app.get('/destroy/:name', routes.destroy);
+app.get('/save/:name', routes.save);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

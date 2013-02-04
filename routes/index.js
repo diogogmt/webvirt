@@ -8,17 +8,21 @@ var virtClient = new Virt();
  * GET home page.
  */
 
-exports.index = function(req, res){
+exports.index = function (req, res) {
   res.render('index', { title: 'Express' });
 };
 
-exports.list = function(req, res){
+exports.list = function (req, res) {
+  console.log("list route");
   virtClient.list(function (err, list) {
+    console.log("virtClient.list callback");
+    console.log("err: ", err);
+    console.log("list: ", list);
     res.json(list);
   });
 };
 
-exports.status = function(req, res){
+exports.status = function (req, res) {
   var vmName = req.params["name"];
   // Add validation and intuitive error message
   if (!vmName) {
@@ -39,12 +43,12 @@ exports.start = function(req, res){
     return;
   }
 
-  virtClient.start(name, function (err, status) {
+  virtClient.start(vmName, function (err, status) {
     res.json(status);
   });
 };
 
-exports.resume = function(req, res){
+exports.resume = function (req, res) {
   var vmName = req.params["name"];
   // Add validation and intuitive error message
   if (!vmName) {
@@ -70,7 +74,7 @@ exports.suspend = function(req, res){
   });
 };
 
-exports.shutdown = function(req, res){
+exports.shutdown = function (req, res) {
   var vmName = req.params["name"];
   // Add validation and intuitive error message
   if (!vmName) {
@@ -83,7 +87,7 @@ exports.shutdown = function(req, res){
   });
 };
 
-exports.destroy = function(req, res){
+exports.destroy = function (req, res) {
   var vmName = req.params["name"];
   // Add validation and intuitive error message
   if (!vmName) {
@@ -96,7 +100,7 @@ exports.destroy = function(req, res){
   });
 };
 
-exports.save = function(req, res){
+exports.save = function (req, res) {
   var vmName = req.params["name"];
   // Add validation and intuitive error message
   if (!vmName) {

@@ -17,15 +17,20 @@ function Virt () {
 Virt.prototype.list = function (cb) {
   // Output reference
   console.log("\nListing VMs:\n");
-  // res.end();
 
-  exec("virsh list --all", function(err, stdout, stderr) {
+  exec("sudo virsh list --all", function (err, stdout, stderr) {
+    console.log("args; ", arguments);
     // Display output from VIRSH 
     console.log("\nCL Output:");
     console.log("--------------------");
 
     // Run regex and display matches
     var rawList = stdout.match(/^ [0-9-]+ +[a-zA-Z0-9-]+ +[a-z A-Z]+/mg);
+    if (!rawList) {
+      // Need to create default error msg
+      cb(null, {});
+      return;
+    }
     var listLength = rawList.length;
 
     console.log("\nmatches:\n--------------------");
@@ -64,7 +69,7 @@ Virt.prototype.status = function (vmName, cb) {
   // Output reference
   console.log("\nListing status of ", vmName, ":\n");
 
-  exec("virsh domstate " + vmName, function(err, stdout, stderr) {
+  exec("sudo virsh domstate " + vmName, function(err, stdout, stderr) {
     // Display output from VIRSH 
     console.log("\nCL Output:");
     console.log("--------------------");
@@ -88,7 +93,7 @@ Virt.prototype.start = function (vmName, cb) {
   // Output reference
   console.log("\nStarting ", vmName, ":\n");
 
-  exec("virsh start " + vmName, function(err, stdout, stderr) {
+  exec("sudo virsh start " + vmName, function(err, stdout, stderr) {
     // Display output from VIRSH 
     console.log("\nCL Output:");
     console.log("--------------------");
@@ -112,7 +117,7 @@ Virt.prototype.resume = function (vmName, cb) {
   // Output reference
   console.log("Resuming ", vmName, ":");
 
-  exec("virsh resume " + vmName, function(err, stdout, stderr) {
+  exec("sudo virsh resume " + vmName, function(err, stdout, stderr) {
     // Display output from VIRSH 
     console.log("CL Output:");
     console.log("--------------------");
@@ -136,7 +141,7 @@ Virt.prototype.suspend = function (vmName, cb) {
   // Output reference
   console.log("Suspending ", vmName, ":");
 
-  exec("virsh suspend " + vmName, function(err, stdout, stderr) {
+  exec("sudo virsh suspend " + vmName, function(err, stdout, stderr) {
     // Display output from VIRSH 
     console.log("CL Output:");
     console.log("--------------------");
@@ -160,7 +165,7 @@ Virt.prototype.shutdown = function (vmName, cb) {
   // Output reference
   console.log("Shutting down ", vmName, ":");
 
-  exec("virsh shutdown " + vmName, function(err, stdout, stderr) {
+  exec("sudo virsh shutdown " + vmName, function(err, stdout, stderr) {
     // Display output from VIRSH 
     console.log("CL Output:");
     console.log("--------------------");
@@ -184,7 +189,7 @@ Virt.prototype.destroy = function (vmName, cb) {
   // Output reference
   console.log("Destroying ", vmName, ":");
 
-  exec("virsh destroy " + vmName, function(err, stdout, stderr) {
+  exec("sudo virsh destroy " + vmName, function(err, stdout, stderr) {
     // Display output from VIRSH 
     console.log("\nCL Output:");
     console.log("--------------------");
@@ -209,7 +214,7 @@ Virt.prototype.save = function(vmName, cb) {
   // Output reference
   console.log("Saving ", vmName, ":");
 
-  exec("virsh save "
+  exec("sudo virsh save "
         + vmName + " " 
         + vmName + ".sfile"
         , function(err, stdout, stderr) {
