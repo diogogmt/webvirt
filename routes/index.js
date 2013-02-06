@@ -1,12 +1,25 @@
 
 
-var Virt = require("../virt.js").Virt;
-console.log("Virt: ", Virt);
-
-var virtClient = new Virt(); 
+var type = process.env.APP_TYPE;
+var virt;
+if (type === "SERVER") {
+  var Virt = new require("../server-virt.js").Virt;
+  console.log("Virt: ", Virt);
+  var virt = new Virt();
+  console.log("virt: ", virt);  
+} else if (type === "CLIENT") {
+  var Virt = new require("../client-virt.js").Virt;
+  console.log("Virt: ", Virt);
+  var virt = new Virt();
+  console.log("virt: ", virt);
+}
+ 
 /*
  * GET home page.
  */
+
+console.log("type: ", process.env.APP_TYPE);
+console.log("path: ", process.env.PATH);
 
 exports.index = function (req, res) {
   res.render('index', { title: 'Express' });
@@ -14,8 +27,8 @@ exports.index = function (req, res) {
 
 exports.list = function (req, res) {
   console.log("list route");
-  virtClient.list(function (err, list) {
-    console.log("virtClient.list callback");
+  virt.list(function (err, list) {
+    console.log("virt.list callback");
     console.log("err: ", err);
     console.log("list: ", list);
     res.json(list);
@@ -23,27 +36,39 @@ exports.list = function (req, res) {
 };
 
 exports.status = function (req, res) {
-  var vmName = req.params["name"];
+  console.log("status route");
+  var vmInfo = {
+    name: req.params["name"],
+    ip: req.params["ip"] || null
+  };
+ 
+  console.log("vmInfo: ", vmInfo);
   // Add validation and intuitive error message
-  if (!vmName) {
+  if (!vmInfo.name) {
     res.send({error: 1});
     return;
   }
 
-  virtClient.status(vmName, function (err, status) {
+  virt.status(vmInfo, function (err, status) {
     res.json(status);
   });
 };
 
 exports.start = function(req, res){
-  var vmName = req.params["name"];
+  console.log("start route");
+  var vmInfo = {
+    name: req.params["name"],
+    ip: req.params["ip"] || null
+  };
+ 
+  console.log("vmInfo: ", vmInfo);
   // Add validation and intuitive error message
-  if (!vmName) {
+  if (!vmInfo.name) {
     res.send({error: 1});
     return;
   }
 
-  virtClient.start(vmName, function (err, status) {
+  virt.start(vmInfo, function (err, status) {
     res.json(status);
   });
 };
@@ -56,7 +81,7 @@ exports.resume = function (req, res) {
     return;
   }
 
-  virtClient.resume(vmName, function (err, status) {
+  virt.resume(vmName, function (err, status) {
     res.json(status);
   });
 };
@@ -69,7 +94,7 @@ exports.suspend = function(req, res){
     return;
   }
 
-  virtClient.suspend(vmName, function (err, status) {
+  virt.suspend(vmName, function (err, status) {
     res.json(status);
   });
 };
@@ -82,7 +107,7 @@ exports.shutdown = function (req, res) {
     return;
   }
 
-  virtClient.shutdown(vmName, function (err, status) {
+  virt.shutdown(vmName, function (err, status) {
     res.json(status);
   });
 };
@@ -95,7 +120,7 @@ exports.destroy = function (req, res) {
     return;
   }
 
-  virtClient.destroy(vmName, function (err, status) {
+  virt.destroy(vmName, function (err, status) {
     res.json(status);
   });
 };
@@ -108,7 +133,7 @@ exports.save = function (req, res) {
     return;
   }
 
-  virtClient.save(vmName, function (err, status) {
+  virt.save(vmName, function (err, status) {
     res.json(status);
   });
 };

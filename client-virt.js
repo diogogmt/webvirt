@@ -65,8 +65,9 @@ Virt.prototype.list = function (cb) {
   }); // END-EXEC
 } // END-FUNCTION
 
-Virt.prototype.status = function (vmName, cb) {
+Virt.prototype.status = function (vmInfo, cb) {
   // Output reference
+  var vmName = vmInfo.name;
   console.log("\nListing status of ", vmName, ":\n");
 
   exec("sudo virsh domstate " + vmName, function(err, stdout, stderr) {
@@ -89,8 +90,9 @@ Virt.prototype.status = function (vmName, cb) {
   }); // END-EXEC
 } // END-FUNCTION
 
-Virt.prototype.start = function (vmName, cb) {
+Virt.prototype.start = function (vmInfo, cb) {
   // Output reference
+  var vmName = vmInfo.name;
   console.log("\nStarting ", vmName, ":\n");
 
   exec("sudo virsh start " + vmName, function(err, stdout, stderr) {
