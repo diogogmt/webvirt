@@ -10,7 +10,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Description**:
 
-> This call returns a list of host machines that have both **livirt** and the **VNM-Daemon** installed.  Results are returned as an array of JSON objects, detailed below.
+> This call returns a list of host machines that have both **libvirt** and the **VNM-Daemon** installed.  Results are returned as an array of JSON objects, detailed below.
 
 **Usage**: 
 
