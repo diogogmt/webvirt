@@ -5,9 +5,13 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
   , http = require('http')
   , path = require('path')
+
+var di = {};
+di.config = config = require('./config.js');
+di.config.type = "client";
+var routes = require('./routes').inject(di);
 
 var app = express();
 

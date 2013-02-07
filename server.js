@@ -4,16 +4,23 @@
  * Module dependencies.
  */
 
+
 var express = require('express')
-  , routes = require('./routes')
   , crawler = require('./routes/crawler-routes.js')
   , http = require('http')
-  , path = require('path')
+  , path = require('path');
+
+var di = {};
+di.config = config = require('./config.js');
+di.config.type = "server";
+var routes = require('./routes').inject(di);
+
+console.log("config: ", config);  
 
 var app = express();
 
-app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+app.configure(function () {
+  app.set('port', config.interfaceServerPort);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());

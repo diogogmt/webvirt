@@ -1,31 +1,36 @@
 
-
-var type = process.env.APP_TYPE;
-var virt;
-if (type === "SERVER") {
-  var Virt = new require("../server-virt.js").Virt;
-  console.log("Virt: ", Virt);
-  var virt = new Virt();
-  console.log("virt: ", virt);  
-} else if (type === "CLIENT") {
-  var Virt = new require("../client-virt.js").Virt;
-  console.log("Virt: ", Virt);
-  var virt = new Virt();
-  console.log("virt: ", virt);
-}
+// var type = process.env.APP_TYPE;
+// if (type === "SERVER") {
+//   var Virt = new require("../server-virt.js").Virt;
+// } else if (type === "CLIENT") {
+//   var Virt = new require("../client-virt.js").Virt;
+// }
+// var virt = new Virt();
  
 /*
  * GET home page.
  */
 
-console.log("type: ", process.env.APP_TYPE);
-console.log("path: ", process.env.PATH);
 
-exports.index = function (req, res) {
+// virt can't be a member of Controller because when the Controller methods are invoked they have a different 'this'
+// a possible reason for this problem is that the Controller methods are being used as express callback for the API routes
+var virt;
+var Controller = function (config) {
+  console.log("Controller constructor");
+  console.log("config: ", config);
+  var Virt = config.type === "server"
+    ? new require("../server-virt.js").Virt
+    : new require("../client-virt.js").Virt;
+
+  virt = new Virt();
+
+}
+
+Controller.prototype.index = function (req, res) {
   res.render('index', { title: 'Express' });
 };
 
-exports.list = function (req, res) {
+Controller.prototype.list = function (req, res) {
   console.log("list route");
   virt.list(function (err, list) {
     console.log("virt.list callback");
@@ -36,7 +41,7 @@ exports.list = function (req, res) {
 };
 
 
-exports.actions = function (req,res) {
+Controller.prototype.actions = function (req,res) {
   console.log("actions route");
   var route  = req.originalUrl.split("\/")[1];
   console.log("route: ", route);
@@ -59,4 +64,8 @@ exports.actions = function (req,res) {
   });
 }
 
+module.exports.inject = function(di) {
+  console.log("inject");
+  return new Controller(di.config);
+}
 
