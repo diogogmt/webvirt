@@ -6,12 +6,60 @@ var exec = require('child_process').exec
 
 module.exports = exports = NetworkScanner;
 
+
 function NetworkScanner () {
   this.networkRegex = /10\.0\.0\.[0-9]*/g;
   this.networkId = "10.0.0.0";
   this.subnetMask = "24";
   this.portNumber = "4000";
 }
+
+
+// Search for active hosts as well compute nodes
+NetworkScanner.prototype.networkScann = function (cb) {
+  console.log("NetworkScanner networkScann");
+  var self = this;
+  Step(
+    function searchHostsStep () {
+      console.log("searchHostsStep");
+      self.searchHosts(this);
+    },
+
+    function saveHostsStep (error, stdout, stderr) {
+      console.log("saveHostsStep");
+      self.saveHosts(stdout, this);
+    },
+
+    function serchDaemonsStep () {
+      console.log("searchDaemonsStep");
+      self.searchDaemons(this);
+    },
+
+    function saveDaemonsStep (error, stdout, stderr) {
+      console.log("saveDaemonsStep");
+      console.log("stdout: ", stdout);
+      self.saveDaemons(stdout, cb);
+    }
+  );
+};
+
+
+// Search for active hosts as well compute nodes
+NetworkScanner.prototype.daemonScann = function (cb) {
+  console.log("NetworkScanner daemonScann");
+  var self = this;
+  Step(
+    function serchDaemonsStep () {
+      console.log("searchDaemonsStep");
+      self.searchDaemons(this);
+    },
+
+    function saveDaemonsStep (error, stdout, stderr) {
+      console.log("saveDaemonsStep");
+      self.saveDaemons(stdout, cb);
+    }
+  );
+};
 
 
 // Scan network for active hosts
@@ -47,11 +95,12 @@ NetworkScanner.prototype.saveHosts = function (hosts, cb) {
 
 
 // Scan port of active hosts
-NetworkScanner.prototype.searchComputeNodes = function (cb) {
-  console.log("searchComputeNodes");
+NetworkScanner.prototype.searchDaemons = function (cb) {
+  console.log("searchDaemons");
   var hosts = [];
   var self = this;
   client.keys("hosts:*", function (err, keys) {
+    console.log("keys: ", keys);
     var keysLength = keys.length - 1; // 0 index
     keys.forEach(function (val, index) {
       console.log(index, " - adding hosts ", val, " to the list");
@@ -67,31 +116,30 @@ NetworkScanner.prototype.searchComputeNodes = function (cb) {
 
 
 // Save compute nodes
-NetworkScanner.prototype.saveComputeNodes = function (computeNodes, cb) {
-  console.log("NetworkScanner saveComputeNodes");
+NetworkScanner.prototype.saveDaemons = function (daemons, cb) {
+  console.log("NetworkScanner saveDaemons");
   var self = this;
-
   Step(
     function grep () {
       console.log("grep");
-      exec("echo \"" +  computeNodes + "\" | grep closed", this);
+      exec("echo \"" +  daemons + "\" | grep closed", this);
     },
 
     function save (err, stdout, stderr) {
       console.log("save");
 
       var hosts = stdout.match(self.networkRegex);    
-      var hypervisors =  _.difference(computeNodes.match(self.networkRegex), hosts);
-      var hvLength = hypervisors.length; // 0 index
-      console.log("hv: ", hypervisors);
+      daemons =  _.difference(daemons.match(self.networkRegex), hosts);
+      var daemonsLength = daemons.length; // 0 index
+      console.log("daemons: ", daemons);
       
       // Add error checking
       var hsetCb = function () {
-        !--hvLength && cb();
+        !--daemonsLength && cb(daemons);
       }
 
-      hypervisors.forEach(function (val, index) {
-        console.log("saving compute node with IP: ", val);
+      daemons.forEach(function (val, index) {
+        console.log("saving daemon with IP: ", val);
         client.hset("hosts:" + val, "type", "compute", hsetCb);
       });
     }
@@ -103,51 +151,6 @@ NetworkScanner.prototype.saveComputeNodes = function (computeNodes, cb) {
 
 
 
-// Search for active hosts as well compute nodes
-NetworkScanner.prototype.hypervisorScann = function (cb) {
-  console.log("NetworkScanner hypervisorScann");
-  var self = this;
-  Step(
-    function serchComputeNodesStep () {
-      console.log("searchComputeNodesStep");
-      self.searchComputeNodes(this);
-    },
-
-    function saveComputeNodesStep (error, stdout, stderr) {
-      console.log("saveComputeNodesStep");
-      self.saveComputeNodes(stdout, cb);
-    }
-  );
-};
-
-
-// Search for active hosts as well compute nodes
-NetworkScanner.prototype.networkScann = function (cb) {
-  console.log("NetworkScanner fullScann");
-  var self = this;
-  Step(
-    function searchHostsStep () {
-      console.log("searchHostsStep");
-      self.searchHosts(this);
-    },
-
-    function saveHostsStep (error, stdout, stderr) {
-      console.log("saveHostsStep");
-      self.saveHosts(stdout, this);
-    },
-
-    function serchComputeNodesStep () {
-      console.log("searchComputeNodesStep");
-      self.searchComputeNodes(this);
-    },
-
-    function saveComputeNodesStep (error, stdout, stderr) {
-      console.log("saveComputeNodesStep");
-      console.log("stdout: ", stdout);
-      self.saveComputeNodes(stdout, cb);
-    }
-  );
-};
 
 // Check if compute nodes are still online
 var checkComputeCodes = function () {};

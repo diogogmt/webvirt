@@ -6,7 +6,7 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , crawler = require('./routes/net-scanner.js')
+  , crawler = require('./routes/crawler-routes.js')
   , http = require('http')
   , path = require('path')
 
@@ -42,7 +42,7 @@ app.get('/destroy/:ip/:name', routes.actions);
 
 
 // Network Scanner API
-app.get("/hypervisorScann", crawler.hyperVisorScann);
+app.get("/daemonScann", crawler.daemonScann);
 app.get("/networkScann", crawler.networkScann);
 
 http.createServer(app).listen(app.get('port'), function(){
