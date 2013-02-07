@@ -75,7 +75,8 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Arguments**:
 
-> ip - *IP address of the daemon-host managing the instance*
+> ip - *IP address of the daemon-host managing the instance* 
+  
 > name - *Unique identifier of the instance*  
 
 **Return Data**:
@@ -104,6 +105,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 **Arguments**:
 
 > ip - *IP address of the daemon-host managing the instance*
+
 > name - *Unique identifier of the instance*  
 
 **Return Data**:
@@ -138,6 +140,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 **Arguments**:
 
 > ip - *IP address of the daemon-host managing the instance*
+
 > name - *Unique identifier of the instance*  
 
 **Return Data**:
@@ -173,6 +176,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 **Arguments**:
 
 > ip - *IP address of the daemon-host managing the instance*
+
 > name - *Unique identifier of the instance*  
 
 **Return Data**:
@@ -208,6 +212,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 **Arguments**:
 
 > ip - *IP address of the daemon-host managing the instance*
+
 > name - *Unique identifier of the instance*  
 
 **Return Data**:
@@ -243,6 +248,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 **Arguments**:
 
 > ip - *IP address of the daemon-host managing the instance*
+
 > name - *Unique identifier of the instance*  
 
 **Return Data**:
@@ -380,6 +386,7 @@ This RESTful API is used to send commands directly to an instance of the **VNM-D
 > `/resume/name`
 
 **Arguments**:
+
 > name - *Unique identifier of the instance*  
 
 **Return Data**:
