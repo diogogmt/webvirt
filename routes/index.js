@@ -35,11 +35,17 @@ exports.list = function (req, res) {
   });
 };
 
-exports.status = function (req, res) {
-  console.log("status route");
+
+exports.actions = function (req,res) {
+  console.log("actions route");
+  var route  = req.originalUrl.split("\/")[1];
+  console.log("route: ", route);
+  console.log("params: ", req.params);
+
   var vmInfo = {
     name: req.params["name"],
-    ip: req.params["ip"] || null
+    ip: req.params["ip"] || null,
+    route: route
   };
  
   console.log("vmInfo: ", vmInfo);
@@ -48,93 +54,9 @@ exports.status = function (req, res) {
     res.send({error: 1});
     return;
   }
-
-  virt.status(vmInfo, function (err, status) {
+  virt[route](vmInfo, function (err, status) {
     res.json(status);
   });
-};
+}
 
-exports.start = function(req, res){
-  console.log("start route");
-  var vmInfo = {
-    name: req.params["name"],
-    ip: req.params["ip"] || null
-  };
- 
-  console.log("vmInfo: ", vmInfo);
-  // Add validation and intuitive error message
-  if (!vmInfo.name) {
-    res.send({error: 1});
-    return;
-  }
-
-  virt.start(vmInfo, function (err, status) {
-    res.json(status);
-  });
-};
-
-exports.resume = function (req, res) {
-  var vmName = req.params["name"];
-  // Add validation and intuitive error message
-  if (!vmName) {
-    res.send({error: 1});
-    return;
-  }
-
-  virt.resume(vmName, function (err, status) {
-    res.json(status);
-  });
-};
-
-exports.suspend = function(req, res){
-  var vmName = req.params["name"];
-  // Add validation and intuitive error message
-  if (!vmName) {
-    res.send({error: 1});
-    return;
-  }
-
-  virt.suspend(vmName, function (err, status) {
-    res.json(status);
-  });
-};
-
-exports.shutdown = function (req, res) {
-  var vmName = req.params["name"];
-  // Add validation and intuitive error message
-  if (!vmName) {
-    res.send({error: 1});
-    return;
-  }
-
-  virt.shutdown(vmName, function (err, status) {
-    res.json(status);
-  });
-};
-
-exports.destroy = function (req, res) {
-  var vmName = req.params["name"];
-  // Add validation and intuitive error message
-  if (!vmName) {
-    res.send({error: 1});
-    return;
-  }
-
-  virt.destroy(vmName, function (err, status) {
-    res.json(status);
-  });
-};
-
-exports.save = function (req, res) {
-  var vmName = req.params["name"];
-  // Add validation and intuitive error message
-  if (!vmName) {
-    res.send({error: 1});
-    return;
-  }
-
-  virt.save(vmName, function (err, status) {
-    res.json(status);
-  });
-};
 

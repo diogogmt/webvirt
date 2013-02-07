@@ -65,177 +65,43 @@ Virt.prototype.list = function (cb) {
   }); // END-EXEC
 } // END-FUNCTION
 
-Virt.prototype.status = function (vmInfo, cb) {
-  // Output reference
-  var vmName = vmInfo.name;
-  console.log("\nListing status of ", vmName, ":\n");
 
-  exec("sudo virsh domstate " + vmName, function(err, stdout, stderr) {
-    // Display output from VIRSH 
-    console.log("\nCL Output:");
-    console.log("--------------------");
-    console.log( stdout.trim() );
+Virt.prototype.execVirtcmd = function (cmd, cb) {
+  console.log("execVirtcmd");
 
-    // Check for success and add to JSON object
-    var jState = {
-      state:stderr ? stderr.trim() : stdout.trim()
-    };
-
-    // Display confirmation
-    console.log("\nkey/value pairs:\n--------------------");
-    console.log(jState);
-
-    cb(null, jState);
-
-  }); // END-EXEC
+  exec(cmd, function (err, stdout, stderr) {
+    cb(err, {
+      state: stderr ? stderr.trim() : stdout.trim()
+    });
+  })
 } // END-FUNCTION
 
-Virt.prototype.start = function (vmInfo, cb) {
-  // Output reference
-  var vmName = vmInfo.name;
-  console.log("\nStarting ", vmName, ":\n");
-
-  exec("sudo virsh start " + vmName, function(err, stdout, stderr) {
-    // Display output from VIRSH 
-    console.log("\nCL Output:");
-    console.log("--------------------");
-    console.log( stdout.trim() );
-
-    // Check for success and add to JSON object
-    var jState = {
-      response:stderr ? stderr.trim() : stdout.trim()
-    };
-
-    // "Display" confirmation
-    console.log("\nkey/value pairs:\n--------------------");
-    console.log(jState);
-
-    cb(null, jState);
-
-  }); // END-EXEC
+Virt.prototype.status = function (data, cb) {
+  console.log("Virt Client - status");
+  this.execVirtcmd("sudo virsh domstate " + data.name, cb);
 } // END-FUNCTION
 
-Virt.prototype.resume = function (vmName, cb) {
-  // Output reference
-  console.log("Resuming ", vmName, ":");
-
-  exec("sudo virsh resume " + vmName, function(err, stdout, stderr) {
-    // Display output from VIRSH 
-    console.log("CL Output:");
-    console.log("--------------------");
-    console.log(stdout);
-
-    // Check for success and add to JSON object
-    var jState = {
-      response:stderr ? stderr : stdout
-    };
-
-    // Display confirmation
-    console.log("key/value pairs:\n--------------------");
-    console.log(jState);
-
-    cb(null, jState);
-
-  }); // END-EXEC
+Virt.prototype.start = function (data, cb) {
+  console.log("Virt Client - start");
+  this.execVirtcmd("sudo virsh start " + data.name, cb);
 } // END-FUNCTION
 
-Virt.prototype.suspend = function (vmName, cb) {
-  // Output reference
-  console.log("Suspending ", vmName, ":");
-
-  exec("sudo virsh suspend " + vmName, function(err, stdout, stderr) {
-    // Display output from VIRSH 
-    console.log("CL Output:");
-    console.log("--------------------");
-    console.log(stdout);
-
-    // Check for success and add to JSON object
-    var jState = {
-      response:stderr ? stderr : stdout
-    };
-
-    // Display confirmation
-    console.log("key/value pairs:\n--------------------");
-    console.log(jState);
-
-    cb(null, jState);
-
-  }); // END-EXEC
+Virt.prototype.resume = function (data, cb) {
+  console.log("Virt Client - resume");
+  this.execVirtcmd("sudo virsh resume " + data.name, cb);
 } // END-FUNCTION
 
-Virt.prototype.shutdown = function (vmName, cb) {
-  // Output reference
-  console.log("Shutting down ", vmName, ":");
-
-  exec("sudo virsh shutdown " + vmName, function(err, stdout, stderr) {
-    // Display output from VIRSH 
-    console.log("CL Output:");
-    console.log("--------------------");
-    console.log(stdout);
-
-    // Check for success and add to JSON object
-    var jState = {
-      response:stderr ? stderr : stdout
-    };
-
-    // Display confirmation
-    console.log("key/value pairs:\n--------------------");
-    console.log(jState);
-
-    cb(null, jState);
-
-  }); // END-EXEC
+Virt.prototype.suspend = function (data, cb) {
+  console.log("Virt Client - suspend");
+  this.execVirtcmd("sudo virsh suspend " + data.name, cb); 
 } // END-FUNCTION
 
-Virt.prototype.destroy = function (vmName, cb) {
-  // Output reference
-  console.log("Destroying ", vmName, ":");
-
-  exec("sudo virsh destroy " + vmName, function(err, stdout, stderr) {
-    // Display output from VIRSH 
-    console.log("\nCL Output:");
-    console.log("--------------------");
-    console.log(stdout);
-
-    // Check for success and add to JSON object
-    var jState = {
-      response:stderr ? stderr : stdout
-    };
-
-    // Display confirmation
-    console.log("\nkey/value pairs:\n--------------------");
-    console.log(jState);
-
-    cb(null, jState);
-
-  }); // END-EXEC
+Virt.prototype.shutdown = function (data, cb) {
+  console.log("Virt Client - shutdown");
 } // END-FUNCTION
 
-
-Virt.prototype.save = function(vmName, cb) {
-  // Output reference
-  console.log("Saving ", vmName, ":");
-
-  exec("sudo virsh save "
-        + vmName + " " 
-        + vmName + ".sfile"
-        , function(err, stdout, stderr) {
-    // Display output from VIRSH 
-    console.log("CL Output:");
-    console.log("--------------------");
-    console.log(stdout);
-
-    // Check for success and add to JSON object
-    var jState = {
-      response:stderr ? stderr : stdout
-    };
-
-    // Display confirmation
-    console.log("key/value pairs:\n--------------------");
-    console.log(jState);
-
-    cb(null, jState);
-    
-  }); // END-EXEC
+Virt.prototype.destroy = function (data, cb) {
+  console.log("Virt Client - destroy");
+  this.execVirtcmd("sudo virsh destroy " + data.name, cb);
 } // END-FUNCTION
 

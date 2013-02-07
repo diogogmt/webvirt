@@ -29,13 +29,13 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/list', routes.list);
-app.get('/status/:name', routes.status);
-app.get('/start/:name', routes.start);
-app.get('/resume/:name', routes.resume);
-app.get('/suspend/:name', routes.suspend);
-app.get('/shutdown/:name', routes.shutdown);
-app.get('/destroy/:name', routes.destroy);
-app.get('/save/:name', routes.save);
+app.get('/status/:name', routes.actions);
+app.get('/start/:name', routes.actions);
+app.get('/resume/:name', routes.actions);
+app.get('/suspend/:name', routes.actions);
+app.get('/shutdown/:name', routes.actions);
+app.get('/destroy/:name', routes.actions);
+// app.get('/save/:name', routes.save);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

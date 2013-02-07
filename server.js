@@ -28,17 +28,17 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+app.get('/', routes.actions);
 
 // Virt API
 app.get('/list', routes.list);
-app.get('/status/:ip/:name', routes.status);
-app.get('/start/:ip/:name', routes.start);
-app.get('/resume/:name', routes.resume);
-app.get('/suspend/:name', routes.suspend);
-app.get('/shutdown/:name', routes.shutdown);
-app.get('/destroy/:name', routes.destroy);
-app.get('/save/:name', routes.save);
+app.get('/status/:ip/:name', routes.actions);
+app.get('/start/:ip/:name', routes.actions);
+app.get('/resume/:ip/:name', routes.actions);
+app.get('/suspend/:ip/:name', routes.actions);
+app.get('/shutdown/:ip/:name', routes.actions);
+app.get('/destroy/:ip/:name', routes.actions);
+// app.get('/save/:name', routes.save);
 
 
 // Network Scanner API
