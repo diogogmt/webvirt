@@ -100,7 +100,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Usage**: 
 
-> `/status/ip/name`
+> `/start/ip/name`
 
 **Arguments**:
 
@@ -152,7 +152,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Example Use**:
 
-> http://10.0.0.1:3434/start/10.0.2.233/instance-00000002
+> http://10.0.0.1:3434/resume/10.0.2.233/instance-00000002
 
 *returns*:
 
@@ -188,7 +188,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Example Use**:
 
-> http://10.0.0.1:3434/start/10.0.2.233/instance-00000002
+> http://10.0.0.1:3434/suspend/10.0.2.233/instance-00000002
 
 *returns*:
 
@@ -224,7 +224,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Example Use**:
 
-> http://10.0.0.1:3434/start/10.0.2.233/instance-00000002
+> http://10.0.0.1:3434/shutdown/10.0.2.233/instance-00000002
 
 *returns*:
 
@@ -243,7 +243,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Usage**: 
 
-> `/resume/ip/name`
+> `/destroy/ip/name`
 
 **Arguments**:
 
@@ -260,7 +260,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Example Use**:
 
-> http://10.0.0.1:3434/start/10.0.2.233/instance-00000002
+> http://10.0.0.1:3434/destroy/10.0.2.233/instance-00000002
 
 *returns*:
  
@@ -349,7 +349,7 @@ This RESTful API is used to send commands directly to an instance of the **VNM-D
 
 **Usage**: 
 
-> `/status/name`
+> `/start/name`
 
 **Arguments**:
 
@@ -485,7 +485,7 @@ This RESTful API is used to send commands directly to an instance of the **VNM-D
 
 **Usage**: 
 
-> `/resume/name`
+> `/destroy/name`
 
 **Arguments**:
 
