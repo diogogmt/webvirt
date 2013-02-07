@@ -14,7 +14,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Usage**: 
 
-> `interface-server-ip:portNo/daemonList`
+> `/daemonList`
 
 **Arguments**:
 
@@ -34,7 +34,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Usage**: 
 
-> `interface-server-ip:portNo/vmList`
+> `/vmList`
 
 **Arguments**:
 
@@ -71,7 +71,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Usage**: 
 
-> `interface-server-ip:portNo/status/ip/name`
+> `/status/ip/name`
 
 **Arguments**:
 
@@ -99,7 +99,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Usage**: 
 
-> `interface-server-ip:portNo/status/ip/name`
+> `/status/ip/name`
 
 **Arguments**:
 
@@ -133,7 +133,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Usage**: 
 
-> `interface-server-ip:portNo/resume/ip/name`
+> `/resume/ip/name`
 
 **Arguments**:
 
@@ -168,7 +168,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Usage**: 
 
-> `interface-server-ip:portNo/suspend/ip/name`
+> `/suspend/ip/name`
 
 **Arguments**:
 
@@ -203,7 +203,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Usage**: 
 
-> `interface-server-ip:portNo/shutdown/ip/name`
+> `/shutdown/ip/name`
 
 **Arguments**:
 
@@ -238,7 +238,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Usage**: 
 
-> `interface-server-ip:portNo/resume/ip/name`
+> `/resume/ip/name`
 
 **Arguments**:
 
@@ -278,7 +278,7 @@ This RESTful API is used to send commands directly to an instance of the **VNM-D
 
 **Usage**: 
 
-> `interface-server-ip:portNo/vmList`
+> `/vmList`
 
 **Arguments**:
 
@@ -315,7 +315,7 @@ This RESTful API is used to send commands directly to an instance of the **VNM-D
 
 **Usage**: 
 
-> `interface-server-ip:portNo/status/name`
+> `/status/name`
 
 **Arguments**:
 
@@ -343,7 +343,7 @@ This RESTful API is used to send commands directly to an instance of the **VNM-D
 
 **Usage**: 
 
-> `interface-server-ip:portNo/status/name`
+> `/status/name`
 
 **Arguments**:
 
@@ -377,7 +377,7 @@ This RESTful API is used to send commands directly to an instance of the **VNM-D
 
 **Usage**: 
 
-> `interface-server-ip:portNo/resume/name`
+> `/resume/name`
 
 **Arguments**:
 > name - *Unique identifier of the instance*  
@@ -410,7 +410,7 @@ This RESTful API is used to send commands directly to an instance of the **VNM-D
 
 **Usage**: 
 
-> `interface-server-ip:portNo/suspend/name`
+> `/suspend/name`
 
 **Arguments**:
 
@@ -444,7 +444,7 @@ This RESTful API is used to send commands directly to an instance of the **VNM-D
 
 **Usage**: 
 
-> `interface-server-ip:portNo/shutdown/name`
+> `/shutdown/name`
 
 **Arguments**:
 
@@ -478,7 +478,7 @@ This RESTful API is used to send commands directly to an instance of the **VNM-D
 
 **Usage**: 
 
-> `interface-server-ip:portNo/resume/name`
+> `/resume/name`
 
 **Arguments**:
 
