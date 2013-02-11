@@ -1,29 +1,13 @@
 
-// var type = process.env.APP_TYPE;
-// if (type === "SERVER") {
-//   var Virt = new require("../server-virt.js").Virt;
-// } else if (type === "CLIENT") {
-//   var Virt = new require("../client-virt.js").Virt;
-// }
-// var virt = new Virt();
- 
-/*
- * GET home page.
- */
-
-
 // virt can't be a member of Controller because when the Controller methods are invoked they have a different 'this'
 // a possible reason for this problem is that the Controller methods are being used as express callback for the API routes
 var virt;
-var Controller = function (config) {
-  console.log("Controller constructor");
-  console.log("config: ", config);
-  var Virt = config.type === "server"
-    ? new require("../server-virt.js").Virt
-    : new require("../client-virt.js").Virt;
-
-  virt = new Virt();
-
+var logger;
+var Controller = function (di) {
+  logger.info("Controller");
+  virt = di.config.type === "server"
+    ? require("../server-virt.js").inject(di)
+    : require("../client-virt.js").inject(di);
 }
 
 Controller.prototype.index = function (req, res) {
@@ -31,31 +15,29 @@ Controller.prototype.index = function (req, res) {
 };
 
 Controller.prototype.list = function (req, res) {
-  console.log("list route");
+  logger.info("Controller list");
   virt.list(function (err, list) {
-    console.log("virt.list callback");
-    console.log("err: ", err);
-    console.log("list: ", list);
+    if (err) {
+      logger.error(err, {file: __filename, line: __line});
+    }
     res.json(list);
   });
 };
 
 
 Controller.prototype.actions = function (req,res) {
-  console.log("actions route");
+  console.log("Controller actions");
   var route  = req.originalUrl.split("\/")[1];
-  console.log("route: ", route);
-  console.log("params: ", req.params);
-
+  console.log("req.params: ", req.params);
   var vmInfo = {
-    name: req.params["name"],
+    name: req.params["name"] || null,
     ip: req.params["ip"] || null,
     route: route
   };
  
-  console.log("vmInfo: ", vmInfo);
-  // Add validation and intuitive error message
-  if (!vmInfo.name) {
+  // Validate virtual machine name and/or ip?
+  if (false) {
+    logger.error("Invalid virtual machine information", {file: __filename, line: __line});
     res.send({error: 1});
     return;
   }
@@ -65,7 +47,8 @@ Controller.prototype.actions = function (req,res) {
 }
 
 module.exports.inject = function(di) {
-  console.log("inject");
-  return new Controller(di.config);
+  logger = di.logger;
+  logger.info("Controller inject");
+  return new Controller(di);
 }
 

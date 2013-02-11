@@ -16,10 +16,15 @@ function NetworkScanner () {
 
 
 // Search for active hosts as well compute nodes
-NetworkScanner.prototype.networkScann = function (cb) {
+NetworkScanner.prototype.networkScan = function (cb) {
   console.log("NetworkScanner networkScann");
   var self = this;
-  Step(
+
+  var sendResponse = function (err) {
+    cb(err, null);
+  };
+
+  Step([
     function searchHostsStep () {
       console.log("searchHostsStep");
       self.searchHosts(this);
@@ -27,6 +32,12 @@ NetworkScanner.prototype.networkScann = function (cb) {
 
     function saveHostsStep (error, stdout, stderr) {
       console.log("saveHostsStep");
+      if (error) {
+        logger.error(error, {file: __filename, line: __line});
+        sendResponse(error);
+        this.exitChain();
+        return;
+      }
       self.saveHosts(stdout, this);
     },
 
@@ -37,18 +48,28 @@ NetworkScanner.prototype.networkScann = function (cb) {
 
     function saveDaemonsStep (error, stdout, stderr) {
       console.log("saveDaemonsStep");
-      console.log("stdout: ", stdout);
+      if (error) {
+        logger.error(error, {file: __filename, line: __line});
+        sendResponse(error);
+        this.exitChain();
+        return;
+      }
       self.saveDaemons(stdout, cb);
     }
-  );
+  ], sendResponse, false);
 };
 
 
 // Search for active hosts as well compute nodes
-NetworkScanner.prototype.daemonScann = function (cb) {
+NetworkScanner.prototype.daemonScan = function (cb) {
   console.log("NetworkScanner daemonScann");
   var self = this;
-  Step(
+
+  var sendResponse = function (err) {
+    cb(err, null);
+  };
+
+  Step([
     function serchDaemonsStep () {
       console.log("searchDaemonsStep");
       self.searchDaemons(this);
@@ -56,9 +77,15 @@ NetworkScanner.prototype.daemonScann = function (cb) {
 
     function saveDaemonsStep (error, stdout, stderr) {
       console.log("saveDaemonsStep");
+      if (error) {
+        logger.error(error, {file: __filename, line: __line});
+        sendResponse(error);
+        this.exitChain();
+        return;
+      }
       self.saveDaemons(stdout, cb);
     }
-  );
+  ], sendResponse, false);
 };
 
 
@@ -77,6 +104,9 @@ NetworkScanner.prototype.saveHosts = function (hosts, cb) {
   hosts = hosts.match(this.networkRegex);
 
   var multiCb = function (err, replies) {
+    if (err) {
+      logger.error(err, {file: __filename, line: __line});
+    }
     !--numberHosts && cb();
   };
   var host;
@@ -119,7 +149,12 @@ NetworkScanner.prototype.searchDaemons = function (cb) {
 NetworkScanner.prototype.saveDaemons = function (daemons, cb) {
   console.log("NetworkScanner saveDaemons");
   var self = this;
-  Step(
+
+  var sendResponse = function (err) {
+    cb(err, null);
+  };
+
+  Step([
     function grep () {
       console.log("grep");
       exec("echo \"" +  daemons + "\" | grep closed", this);
@@ -127,15 +162,21 @@ NetworkScanner.prototype.saveDaemons = function (daemons, cb) {
 
     function save (err, stdout, stderr) {
       console.log("save");
+      if (err) {
+        logger.error(err, {file: __filename, line: __line});
+        sendResponse(err);
+        this.exitChain();
+        return;
+      }
 
       var hosts = stdout.match(self.networkRegex);    
-      daemons =  _.difference(daemons.match(self.networkRegex), hosts);
+      daemons   =  _.difference(daemons.match(self.networkRegex), hosts);
       var daemonsLength = daemons.length; // 0 index
       console.log("daemons: ", daemons);
       
       // Add error checking
       var hsetCb = function () {
-        !--daemonsLength && cb(daemons);
+        !--daemonsLength && cb(null, daemons);
       }
 
       daemons.forEach(function (val, index) {
@@ -143,7 +184,7 @@ NetworkScanner.prototype.saveDaemons = function (daemons, cb) {
         client.hset("hosts:" + val, "type", "compute", hsetCb);
       });
     }
-  );
+  ], sendResponse, false);
 
   
 

@@ -8,14 +8,22 @@
 var express = require('express')
   , crawler = require('./routes/crawler-routes.js')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , di = {}
+  , config
+  , logger
+  , routes;
 
-var di = {};
+
+
+
+// Load dependencies
 di.config = config = require('./config.js');
+di.logger = logger = require('./logger.js').inject(di);
 di.config.type = "server";
-var routes = require('./routes').inject(di);
+routes = require('./routes').inject(di);
 
-console.log("config: ", config);  
+logger.info("config: ", config);  
 
 var app = express();
 
@@ -49,11 +57,11 @@ app.get('/destroy/:ip/:name', routes.actions);
 
 
 // Network Scanner API
-app.get("/daemonScann", crawler.daemonScann);
-app.get("/networkScann", crawler.networkScann);
+app.get("/daemonScan", crawler.daemonScan);
+app.get("/networkScan", crawler.networkScan);
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+  logger.info("Express server listening on port " + app.get('port'));
 });
 
 

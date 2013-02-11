@@ -6,8 +6,7 @@
 
 var exec = require('child_process').exec;
 
-exports.Virt = Virt;
-
+var logger;
 
 // Add error checking code 
 function Virt () {
@@ -105,3 +104,8 @@ Virt.prototype.destroy = function (data, cb) {
   this.execVirtcmd("sudo virsh destroy " + data.name, cb);
 } // END-FUNCTION
 
+module.exports.inject = function(di) {
+  logger = di.logger;
+  logger.info("Client Virt inject");
+  return new Virt();
+}

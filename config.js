@@ -5,7 +5,10 @@ var config = {
 	network: {
 		id: "10.0.0.0",
 		cidr: "24"
-	}	
+	},
+	logger: {
+		serverLog: "logs/server.log"
+	}
 };
 
 module.exports = exports = config;

@@ -7,11 +7,16 @@
 var express = require('express')
   , http = require('http')
   , path = require('path')
+  , di = {}
+  , config
+  , logger
+  , routes;
 
-var di = {};
+// Load dependencies
 di.config = config = require('./config.js');
+di.logger = logger = require('./logger.js').inject(di);
 di.config.type = "client";
-var routes = require('./routes').inject(di);
+routes = require('./routes').inject(di);
 
 var app = express();
 
