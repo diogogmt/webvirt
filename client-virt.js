@@ -1,16 +1,12 @@
 
-/**
- * Forward Dec 
- **/
-
-
 var exec = require('child_process').exec;
 
 var logger;
 
 // Add error checking code 
-function Virt () {
-
+function Virt (config) {
+  console.log("Virt client constructor");
+  this.cmdList =  config.virtCmds;
 }
 
 Virt.prototype.list = function (cb) {
@@ -51,7 +47,7 @@ Virt.prototype.list = function (cb) {
         name:tmp[1],
         // Hack - If state is 2 words, will split into 2 elements & 
         //        must be combined:
-        state:tmp[3] ? tmp[2] + " " + tmp[3] : tmp[2]
+        status: tmp[3] ? tmp[2] + " " + tmp[3] : tmp[2]
       });
     } 
 
@@ -70,42 +66,22 @@ Virt.prototype.execVirtcmd = function (cmd, cb) {
 
   exec(cmd, function (err, stdout, stderr) {
     cb(err, {
-      state: stderr ? stderr.trim() : stdout.trim()
+      stderr: stderr.trim(),
+      stdout: stdout.trim()
     });
   })
 } // END-FUNCTION
 
-Virt.prototype.status = function (data, cb) {
-  console.log("Virt Client - status");
-  this.execVirtcmd("sudo virsh domstate " + data.name, cb);
-} // END-FUNCTION
 
-Virt.prototype.start = function (data, cb) {
-  console.log("Virt Client - start");
-  this.execVirtcmd("sudo virsh start " + data.name, cb);
-} // END-FUNCTION
 
-Virt.prototype.resume = function (data, cb) {
-  console.log("Virt Client - resume");
-  this.execVirtcmd("sudo virsh resume " + data.name, cb);
-} // END-FUNCTION
-
-Virt.prototype.suspend = function (data, cb) {
-  console.log("Virt Client - suspend");
-  this.execVirtcmd("sudo virsh suspend " + data.name, cb); 
-} // END-FUNCTION
-
-Virt.prototype.shutdown = function (data, cb) {
-  console.log("Virt Client - shutdown");
-} // END-FUNCTION
-
-Virt.prototype.destroy = function (data, cb) {
-  console.log("Virt Client - destroy");
-  this.execVirtcmd("sudo virsh destroy " + data.name, cb);
-} // END-FUNCTION
+Virt.prototype.actions = function (action, data, cb) {
+  logger.info("Virt Client - " + action, {file: __filename, line: __line});
+  var cmd = this.cmdList[action] + data.name;
+  this.execVirtcmd(cmd, cb);
+}
 
 module.exports.inject = function(di) {
   logger = di.logger;
   logger.info("Client Virt inject");
-  return new Virt();
+  return new Virt(di.config);
 }

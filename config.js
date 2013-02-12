@@ -8,7 +8,15 @@ var config = {
 	},
 	logger: {
 		serverLog: "logs/server.log"
-	}
+	},
+  virtCmds: {
+    status: "sudo virsh domstate ",
+    start: "sudo virsh start ",
+    resume: "sudo virsh resume ",
+    suspend: "sudo virsh suspend ",
+    shutdown: "sudo virsh shutdown ",
+    destroy: "sudo virsh destroy "
+  }
 };
 
 module.exports = exports = config;

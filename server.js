@@ -46,7 +46,8 @@ app.configure('development', function(){
 app.get('/', routes.actions);
 
 // Virt API
-app.get('/list', routes.list);
+app.get('/list/vms', routes.list);
+app.get('/list/daemons', routes.listDaemons);
 app.get('/status/:ip/:name', routes.actions);
 app.get('/start/:ip/:name', routes.actions);
 app.get('/resume/:ip/:name', routes.actions);

@@ -24,6 +24,17 @@ Controller.prototype.list = function (req, res) {
   });
 };
 
+Controller.prototype.listDaemons = function (req, res) {
+  logger.info("Controller listDaemons");
+  console.log("virt: ", virt);
+  virt.listDaemons(function (err, list) {
+    if (err) {
+      logger.error(err, {file: __filename, line: __line});
+    }
+    res.json(list);
+  });
+};
+
 
 Controller.prototype.actions = function (req,res) {
   console.log("Controller actions");
@@ -41,7 +52,8 @@ Controller.prototype.actions = function (req,res) {
     res.send({error: 1});
     return;
   }
-  virt[route](vmInfo, function (err, status) {
+  console.log("virt: ", virt);
+  virt.actions(route, vmInfo, function (err, status) {
     res.json(status);
   });
 }

@@ -1,9 +1,4 @@
 
-/**
- * Forward Dec 
- **/
-
-
 var exec = require('child_process').exec
   , Step = require('step')
   , client = require("./db-conn").client
@@ -87,7 +82,7 @@ Virt.prototype.makeMultipleRequests = function (route, cb) {
           listResponse.push({
             err: err && err.code || null,
             ip: ip,
-            body: body
+            vms: body
           });
           // Once all the requets are parsed fire the callback
          !--argsLength && cb(null, listResponse); 
@@ -129,50 +124,69 @@ Virt.prototype.makeSingleRequest = function (requestInfo, cb) {
         this.exitChain();
         return;
       }
-      var data = {
-        ip: ip,
-        body: body 
-      };
 
-      cb(null, data); 
+      cb(null, body); 
     }
   ], sendResponse, false);
 }
 
 
-// Combine all the API calls into a single function
 Virt.prototype.list = function (cb) {
   logger.info("Virt Server - list", {file: __filename, line: __line});
   this.makeMultipleRequests("list", cb);
 }
 
-Virt.prototype.status = function (data, cb) {
-  logger.info("Virt Server - status", {file: __filename, line: __line});
-  this.makeSingleRequest(data, cb);
+Virt.prototype.listDaemons = function (cb) {
+  logger.info("Virt Server - listDaemons", {file: __filename, line: __line});
+  Step([
+    function getIps () {
+      logger.info("getIps", {file: __filename, line: __line});
+      client.keys("hosts:*", this);
+    },
+
+    function parseIps (err, keys) {
+      logger.info("parseIps", {file: __filename, line: __line});
+      // Log error. Fire callback. Exit Step chain
+      if (err) {
+        logger.error(err, {file: __filename, line: __line});
+        sendResponse(err);
+        this.exitChain();
+        return;
+      }
+      var step = this;
+
+      _.map(keys, function (key) {
+        client.hget(key, "type", step.parallel(key.split(":")[1]));
+      });
+
+    },
+
+    function sendIps () {
+      logger.info("sendIps", {file: __filename, line: __line});
+      var deamonsIps = [];
+      console.log("argumenst.length: ", arguments.length);
+      var length = arguments.length - 1;
+      // Iterate on all the saved hosts
+      _.map(_.rest(arguments), function (host) {
+        var ip    = host[0]
+          , err   = host[1]
+          , type  = host[2];
+        
+        // Type of the host. Default means it is not hosting libvirt.
+        if (type !== "default")  deamonsIps.push(ip);
+       
+
+        console.log("length: ", length);
+        !--length && cb(null, deamonsIps);
+      });  
+    },
+  ]);
 }
 
-Virt.prototype.start = function (data, cb) {
-  logger.info("Virt Server - start", {file: __filename, line: __line});
-  this.makeSingleRequest(data, cb);
-}
 
-Virt.prototype.resume = function (data, cb) {
-  logger.info("Virt Server - resume", {file: __filename, line: __line});
-  this.makeSingleRequest(data, cb);
-}
 
-Virt.prototype.suspend = function (data, cb) {
-  logger.info("Virt Server - suspend", {file: __filename, line: __line});
-  this.makeSingleRequest(data, cb);
-}
-
-Virt.prototype.shutdown = function (data, cb) {
-  logger.info("Virt Server - shutdown", {file: __filename, line: __line});
-  this.makeSingleRequest(data, cb);
-}
-
-Virt.prototype.destroy = function (data, cb) {
-  logger.info("Virt Server - destory", {file: __filename, line: __line});
+Virt.prototype.actions = function (action, data, cb) {
+  logger.info("Virt Server -  actions - " + action, {file: __filename, line: __line});
   this.makeSingleRequest(data, cb);
 }
 
