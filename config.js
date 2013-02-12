@@ -10,12 +10,12 @@ var config = {
 		serverLog: "logs/server.log"
 	},
   virtCmds: {
-    status: "sudo virsh domstate ",
-    start: "sudo virsh start ",
-    resume: "sudo virsh resume ",
-    suspend: "sudo virsh suspend ",
-    shutdown: "sudo virsh shutdown ",
-    destroy: "sudo virsh destroy "
+    status: "virsh domstate ",
+    start: "virsh start ",
+    resume: "virsh resume ",
+    suspend: "virsh suspend ",
+    shutdown: "virsh shutdown ",
+    destroy: "virsh destroy "
   }
 };
 

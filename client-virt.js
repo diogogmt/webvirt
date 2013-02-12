@@ -13,7 +13,7 @@ Virt.prototype.list = function (cb) {
   // Output reference
   console.log("\nListing VMs:\n");
 
-  exec("sudo virsh list --all", function (err, stdout, stderr) {
+  exec("virsh list --all", function (err, stdout, stderr) {
     console.log("args; ", arguments);
     // Display output from VIRSH 
     console.log("\nCL Output:");
