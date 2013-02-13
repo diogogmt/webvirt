@@ -35,15 +35,36 @@ Controller.prototype.listDaemons = function (req, res) {
   });
 };
 
+Controller.prototype.listDaemonDetails = function (req, res) {
+  logger.info("Controller listDaemonDetails");
+  console.log("req.params: ", req.params);
+  var ip = req.params["ip"] || null;
+  var routePieces  = req.originalUrl.split("\/");
+  var route = routePieces[1] + "/" + routePieces[2]; 
+
+  console.log("route: ", route);
+  var vmInfo = {
+    ip: ip,
+    route: route
+  };
+  virt.listDaemonDetails(vmInfo, function (err, list) {
+    if (err) {
+      logger.error(err, {file: __filename, line: __line});
+    }
+    res.json(list);
+  });
+};
+
 
 Controller.prototype.actions = function (req,res) {
   console.log("Controller actions");
   var route  = req.originalUrl.split("\/")[1];
+  var name = req.params["name"];
   console.log("req.params: ", req.params);
   var vmInfo = {
-    name: req.params["name"] || null,
+    name: name,
     ip: req.params["ip"] || null,
-    route: route
+    route: route + "/" + name
   };
  
   // Validate virtual machine name and/or ip?

@@ -38,6 +38,7 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/list', routes.list);
+app.get('/list/daemonDetails', routes.listDaemonDetails);
 app.get('/status/:name', routes.actions);
 app.get('/start/:name', routes.actions);
 app.get('/resume/:name', routes.actions);

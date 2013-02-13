@@ -24,6 +24,7 @@ Virt.prototype.makeMultipleRequests = function (route, cb) {
   var self = this;
 
   var sendResponse = function (err) {
+    logger.error(err, {file: __filename, line: __line});
     cb(err, null);
   };
 
@@ -99,11 +100,12 @@ Virt.prototype.makeSingleRequest = function (requestInfo, cb) {
   var r = requestInfo || {}
     , hosts = []
     , self = this
-    , route = r.route + "/" + r.name
+    , route = r.route
     , ip = r.ip;
 
-
+console.log("route: ", route);
   var sendResponse = function (err) {
+    logger.error(err, {file: __filename, line: __line});
     cb(err, null);
   };
 
@@ -187,6 +189,11 @@ Virt.prototype.listDaemons = function (cb) {
 
 Virt.prototype.actions = function (action, data, cb) {
   logger.info("Virt Server -  actions - " + action, {file: __filename, line: __line});
+  this.makeSingleRequest(data, cb);
+}
+
+Virt.prototype.listDaemonDetails = function (data, cb) {
+  logger.info("Virt Server -  listDaemonDetails", {file: __filename, line: __line});
   this.makeSingleRequest(data, cb);
 }
 
