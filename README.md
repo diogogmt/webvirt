@@ -14,7 +14,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Usage**: 
 
-> `/daemonList`
+> `/list/daemons`
 
 **Arguments**:
 
@@ -34,7 +34,7 @@ This RESTful API is used to send commands to the VirshNode-Manager's interface-s
 
 **Usage**: 
 
-> `/vmList`
+> `/list/vms`
 
 **Arguments**:
 
