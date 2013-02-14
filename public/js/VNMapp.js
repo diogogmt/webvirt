@@ -3,8 +3,9 @@
  * **************************************  */
 $(function() {
 
-  // API Helper Object
+  // Global API Helper Object
   var API = {
+    // AJAX wrapper
     callServer:  function(call, success, error) {
       $.ajax({
         url: "/" + call,
