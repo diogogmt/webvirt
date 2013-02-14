@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>VirtManage - Dashboard</title>
+
+    <!-- Bootstrap -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/custom.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="navbar navbar-fixed-top navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">VirtManager</a>
+          <p class="navbar-text pull-left">
+            <small>A Libvirt Cluster Web Console</small>
+          </p>
+          <p class="navbar-text pull-right">
+            Logout from <a href="#" id="username">Username</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="container">
+      <div class="row">
+
+        <!-- Navigation -->
+        <div class="span2">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Manage</li>
+              <li class="active"><a href="#">Dashboard</a></li>
+              <li><a href="#">Refresh Status</a></li>
+              <li class="nav-header">Admin</li>
+              <li><a href="#">Configuration</a></li>
+              <li><a href="#">Logout</a></li>
+              <li class="divider"></li>
+              <li>
+                <a href="#">Scan Network <abbr title="Scan only previously unused IPs" class="initialism">(Partial)</abbr></a>
+              </li>
+              <li>
+                <a href="#">Scan Network <abbr title="Scan entire network, reinitializing VirtManager's database" class="initialism">(Full)</abbr></a>
+              </li>
+            </ul>
+          </div> <!-- END NAV-LINKS -->
+        </div><!-- END SPAN -->
+
+        <!-- Content -->
+        <div class="span10">
+          <!--<div class="well ">
+            <h1>Libvirt Hosts</h1> <!-- Add breadcrumb instead of header -->
+          <!--</div> -->
+
+          <div class="row">
+            <div class="span10">
+
+
+              <!-- Host Description-->
+              <div class="well-small host-active">
+                <table class="host">
+                  <tr>
+                    <td class="host-btn">
+                      <button type="button" class="btn" data-toggle="collapse" data-target="#hyperv-1">
+                        <i class="icon-chevron-down"></i>
+                      </button>
+                    </td>
+                    <td class="host-ip">
+                      <strong>IP:</strong> <em class="muted">10.0.0.1</em>
+                    </td>
+                    <td class="host-lastactive">
+                      <strong>Last Active: <em class="muted">N/A</em>
+                    </td>
+                  </tr>
+                </table>
+                <div id="hyperv-1" class="collapse out">
+                  <table class="table table-bordered table-condensed host-details">
+
+                    <tr>
+                      <th>Hypervisor</th>
+                      <td>KVM</td>
+                    </tr>
+                    <tr>
+                      <th rowspan="2">CPU</th>
+                      <th>Used</th>
+                      <td>2.0 %</td>
+                    </tr>
+                    <tr>
+                      <th>Idle</th>
+                      <td>98.0 %</td>
+                    </tr>
+                    <tr>
+                      <th rowspan="2">RAM</th>
+                      <th>Used</th>
+                      <td>2.0gb</td>
+                    </tr>
+                    <tr>
+                      <th>Free</th>
+                      <td>14.0gb</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Records -->
+              <div class="well">
+
+                <div class="well-small host-record">
+                  <table class="host">
+                    <tr>
+                      <td class="host-btn">
+                        <button type="button" class="btn" data-toggle="collapse" data-target="#hyperv-2">
+                          <i class="icon-chevron-down"></i>
+                        </button>
+                      </td>
+                      <td class="host-id">
+                        <strong>ID:</strong> <em class="muted">1</em>
+                      </td>
+                      <td class="host-ip">
+                        <strong>IP:</strong> <em class="muted">10.0.0.1</em>
+                      </td>
+                      <td class="host-lastactive">
+                        <strong>Last Active: <em class="muted">N/A</em>
+                      </td>
+                      <td class="host-state">
+                        <strong class="text-success">Connected </strong>
+                      </td>
+                      <td class="host-manage">
+                        <button type="button" class="btn btn-success pull-right" href="#">
+                          <i class="icon-cog"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </table>
+                  <div id="hyperv-2" class="collapse out">
+                    <table class="table table-bordered table-condensed host-details">
+                      <tr>
+                        <th>Hypervisor</th>
+                        <td>KVM</td>
+                      </tr>
+                      <tr>
+                        <th rowspan="2">CPU</th>
+                        <th>Used</th>
+                        <td>2.0 %</td>
+                      </tr>
+                      <tr>
+                        <th>Idle</th>
+                        <td>98.0 %</td>
+                      </tr>
+                      <tr>
+                        <th rowspan="2">RAM</th>
+                        <th>Used</th>
+                        <td>2.0gb</td>
+                      </tr>
+                      <tr>
+                        <th>Free</th>
+                        <td>14.0gb</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+
+              </div><!-- END WELL -->
+            </div><!-- END SPAN -->
+          </div><!-- END ROW -->
+
+          <!-- Pagination -->
+          <div id="pagination" class="pagination pagination-right">
+            <ul>
+              <li class="disabled"><a href="#">Prev</a></li>
+              <li class="active"><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li><a href="#">Next</a></li>
+            </ul>
+          </div>
+
+        </div><!-- END SPAN -->
+      </div><!-- END ROW -->
+
+      <!-- Footer -->
+      <div class="row-fluid">
+        <div class="span12">
+          <footer>
+            <hr>            
+            <p class="muted">
+              Designed and Maintained by <abbr title="Centre for the Development of Open Technology @ Seneca College">CDOT</abbr> | Built on Bootstrap
+            </p>
+          </footer>
+        </div>
+      </div>
+    </div><!-- END CONTAINER -->
+    
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/backbone.js"></script>
+    <script src="js/backbone.localStorage.js"></script>
+    <script src="js/VNMapp.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Templates -->
+
+    <script type="text/template" id="host-page-template">
+    
+    </script> <!-- END Hypervisor-Page-Template -->
+
+    <script type="text/template" id="host-record-template">
+      <div class="well-small host-record">
+        <table class="host">
+          <tr>
+            <td class="host-btn">
+              <button type="button" class="btn" data-toggle="collapse" data-target="#hyperv-1">
+                <i <%= expanded ? 'class="icon-chevron-up"' : 'class="icon-chevron-down"'%> ></i> // "expanded" = bool ? expanded : collapsed
+              </button>
+            </td>
+            <td class="host-ip">
+              <strong>IP:</strong> <em class="muted"><%= ip %></em> // "ip" = ip no
+            </td>
+            <td class="host-lastactive">
+              <strong>Last Active: <em class="muted"><%= lastActive %></em> // "lastActive" = date + time
+            </td>
+            <td class="host-state">
+              <strong class="text-success"><%= active ? 'Connected' : 'Disconnected'%> </strong> // "active" = bool
+            </td>
+            <td class="host-manage">
+              <button type="button" class="btn <%= active ? 'btn-success' : 'btn-danger' %> pull-right" href=""> // Change views
+                <i class="icon-cog"></i>
+              </button>
+            </td>
+          </tr>
+        </table>
+        <div id="hyperv-1" class="collapse <%= expanded ? 'in' : 'out' %>"> // "expanded" = bool ? expanded : collapsed
+          <table class="table table-bordered table-condensed host-details">
+            <tr>
+              <th>Hypervisor</th>
+              <td><%= host %></td>
+            </tr>
+            <tr>
+              <th rowspan="2">CPU</th>
+              <th>Used</th>
+              <td><%= cpuUsed %> %</td>
+            </tr>
+            <tr>
+              <th>Idle</th>
+              <td><%= cpuIdle %> %</td>
+            </tr>
+            <tr>
+              <th rowspan="2">RAM</th>
+              <th>Used</th>
+              <td><%= ramUsed %>gb</td>
+            </tr>
+            <tr>
+              <th>Free</th>
+              <td><%= ramFree %>gb</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </script> <!-- END Hypervisor-Record-Template -->
+
+    <script type="text/template" id="instance-record-template">
+      <div class="well-small host-record">
+        <table class="host">
+          <tr>
+            <td class="host-btn">
+              <button type="button" class="btn" data-toggle="collapse" data-target="#hyperv-1">
+                <i <%= expanded ? 'class="icon-chevron-up"' : 'class="icon-chevron-down"'%> ></i> // "expanded" = bool ? expanded : collapsed
+              </button>
+            </td>
+            <td class="host-ip">
+              <strong>IP:</strong> <em class="muted"><%= ip %></em> // "ip" = ip no
+            </td>
+            <td class="host-lastactive">
+              <strong>Last Active: <em class="muted"><%= lastActive %></em> // "lastActive" = date + time
+            </td>
+            <td class="host-state">
+              <strong class="text-success"><%= active ? 'Connected' : 'Disconnected'%> </strong> // "active" = bool
+            </td>
+            <td class="host-manage">
+              <button type="button" class="btn <%= active ? 'btn-success' : 'btn-danger' %> pull-right" href=""> // Change views
+                <i class="icon-cog"></i>
+              </button>
+            </td>
+          </tr>
+        </table>
+        <div id="hyperv-1" class="collapse <%= expanded ? 'in' : 'out' %>"> // "expanded" = bool ? expanded : collapsed
+          <table class="table table-bordered table-condensed host-details">
+            <tr>
+              <th>Hypervisor</th>
+              <td><%= host %></td>
+            </tr>
+            <tr>
+              <th rowspan="2">CPU</th>
+              <th>Used</th>
+              <td><%= cpuUsed %> %</td>
+            </tr>
+            <tr>
+              <th>Idle</th>
+              <td><%= cpuIdle %> %</td>
+            </tr>
+            <tr>
+              <th rowspan="2">RAM</th>
+              <th>Used</th>
+              <td><%= ramUsed %>gb</td>
+            </tr>
+            <tr>
+              <th>Free</th>
+              <td><%= ramFree %>gb</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </script> <!-- END Instance-Record-Template -->
+
+
+    <script type="text/template" id="instance-page-template">
+      <div class="well-small host-record">
+        <table class="host">
+          <tr>
+            <td class="host-btn">
+              <button type="button" class="btn" data-toggle="collapse" data-target="#hyperv-1">
+                <i <%= expanded ? 'class="icon-chevron-up"' : 'class="icon-chevron-down"'%> ></i> // "expanded" = bool ? expanded : collapsed
+              </button>
+            </td>
+            <td class="host-ip">
+              <strong>IP:</strong> <em class="muted"><%= ip %></em> // "ip" = ip no
+            </td>
+            <td class="host-lastactive">
+              <strong>Last Active: <em class="muted"><%= lastActive %></em> // "lastActive" = date + time
+            </td>
+            <td class="host-state">
+              <strong class="text-success"><%= active ? 'Connected' : 'Disconnected'%> </strong> // "active" = bool
+            </td>
+            <td class="host-manage">
+              <button type="button" class="btn <%= active ? 'btn-success' : 'btn-danger' %> pull-right" href=""> // Change views
+                <i class="icon-cog"></i>
+              </button>
+            </td>
+          </tr>
+        </table>
+        <div id="hyperv-1" class="collapse <%= expanded ? 'in' : 'out' %>"> // "expanded" = bool ? expanded : collapsed
+          <table class="table table-bordered table-condensed host-details">
+            <tr>
+              <th>Hypervisor</th>
+              <td><%= host %></td>
+            </tr>
+            <tr>
+              <th rowspan="2">CPU</th>
+              <th>Used</th>
+              <td><%= cpuUsed %> %</td>
+            </tr>
+            <tr>
+              <th>Idle</th>
+              <td><%= cpuIdle %> %</td>
+            </tr>
+            <tr>
+              <th rowspan="2">RAM</th>
+              <th>Used</th>
+              <td><%= ramUsed %>gb</td>
+            </tr>
+            <tr>
+              <th>Free</th>
+              <td><%= ramFree %>gb</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </script> <!-- END Instance-Page-Template -->
+
+
+    <script type="text/template" id="pagination-template">
+      <div id="pagination" class="pagination pagination-right">
+        <ul>
+          // Create "Prev" link
+          <li <%= prev ? '' : 'class="disabled"' %> ><a href="<%= prevLink %>">Prev</a></li> // "prev" = bool ? exists : disabled
+
+          // Generate regular links
+          <% _.each(pageLinks, function(pageLink) {
+            %> <li <%= pageLink[active] ? 'class="active"' : '' %>> <a href=<%= pageLink[link] %>> <%= pageLink[order] %></a></li>
+          <% }); %> 
+
+          // Create "Next" link
+          <li <%= next ? '' : 'class="disabled"' %> ><a href="<%= nextLink %>">Next</a></li> // "next" = bool ? exists : disabled
+        </ul>
+      </div>
+    </script> <!-- END Pagination-Template -->
+
+
+  </body>
+</html>
