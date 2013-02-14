@@ -28,15 +28,15 @@ var Logger = function (data) {
 }
 
 Logger.prototype.info = function (msg, metadata) {
-  winston.info(msg, metadata);
+  winston.info(msg + "\n", metadata);
 };
 
 Logger.prototype.warn = function (msg, metadata) {
-  winston.warn(msg, metadata);
+  winston.warn(msg + "\n", metadata);
 };
 
 Logger.prototype.error = function (msg, metadata) {
-  winston.error(msg, metadata);
+  winston.error(msg + "\n", metadata);
 };
 
 module.exports.inject = function (di) {

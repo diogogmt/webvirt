@@ -27,6 +27,15 @@ logger.info("config: ", config);
 
 var app = express();
 
+//CORS middleware
+var allowCrossDomain = function(req, res, next) {
+  console.log("allowCrossDomain");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+  next();
+}
+
 app.configure(function () {
   app.set('port', config.interfaceServerPort);
   app.set('views', __dirname + '/views');
@@ -35,6 +44,7 @@ app.configure(function () {
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(allowCrossDomain);
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -43,12 +53,14 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.actions);
+
 
 // Virt API
-app.get('/list/vms', routes.list);
+app.get('/list/vms', routes.listGroup);
+app.get('/list/vms/:ip', routes.listSingle);
 app.get('/list/daemons', routes.listDaemons);
-app.get('/list/daemonDetails/:ip', routes.listDaemonDetails);
+app.get('/version/:ip', routes.version);
+
 app.get('/status/:ip/:name', routes.actions);
 app.get('/start/:ip/:name', routes.actions);
 app.get('/resume/:ip/:name', routes.actions);

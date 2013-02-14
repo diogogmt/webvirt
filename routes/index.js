@@ -14,47 +14,34 @@ Controller.prototype.index = function (req, res) {
   res.render('index', { title: 'Express' });
 };
 
-Controller.prototype.list = function (req, res) {
-  logger.info("Controller list");
-  virt.list(function (err, list) {
-    if (err) {
-      logger.error(err, {file: __filename, line: __line});
-    }
-    res.json(list);
+Controller.prototype.listSingle = function (req, res) {
+  logger.info("Controller list single");
+  var vmInfo = {
+    ips: [req.params["ip"]],
+    route: "list/vms"
+
+  };
+  virt.listSingle(vmInfo, function (list) {
+    return res.json(list);
   });
 };
+
+Controller.prototype.listGroup = function (req, res) {
+  logger.info("Controller group");
+
+  virt.listGroup(function (list) {
+    return res.json(list);
+  });
+};
+
 
 Controller.prototype.listDaemons = function (req, res) {
   logger.info("Controller listDaemons");
   console.log("virt: ", virt);
-  virt.listDaemons(function (err, list) {
-    if (err) {
-      logger.error(err, {file: __filename, line: __line});
-    }
+  virt.listDaemons(function (list) {
     res.json(list);
   });
 };
-
-Controller.prototype.listDaemonDetails = function (req, res) {
-  logger.info("Controller listDaemonDetails");
-  console.log("req.params: ", req.params);
-  var ip = req.params["ip"] || null;
-  var routePieces  = req.originalUrl.split("\/");
-  var route = routePieces[1] + "/" + routePieces[2]; 
-
-  console.log("route: ", route);
-  var vmInfo = {
-    ip: ip,
-    route: route
-  };
-  virt.listDaemonDetails(vmInfo, function (err, list) {
-    if (err) {
-      logger.error(err, {file: __filename, line: __line});
-    }
-    res.json(list);
-  });
-};
-
 
 Controller.prototype.actions = function (req,res) {
   console.log("Controller actions");
@@ -63,7 +50,7 @@ Controller.prototype.actions = function (req,res) {
   console.log("req.params: ", req.params);
   var vmInfo = {
     name: name,
-    ip: req.params["ip"] || null,
+    ips: [req.params["ip"]],
     route: route + "/" + name
   };
  
@@ -74,7 +61,23 @@ Controller.prototype.actions = function (req,res) {
     return;
   }
   console.log("virt: ", virt);
-  virt.actions(route, vmInfo, function (err, status) {
+  virt.actions(route, vmInfo, function (status) {
+    res.json(status);
+  });
+}
+
+Controller.prototype.version = function (req,res) {
+  console.log("Controller version");
+  var route  = req.originalUrl.split("\/")[1];
+  console.log("req.params: ", req.params);
+  var vmInfo = {
+    ips: [req.params["ip"]],
+    route: route
+  };
+ 
+  virt.version(vmInfo, function (status) {
+    console.log("version callback");
+    console.log("status: ", status);
     res.json(status);
   });
 }

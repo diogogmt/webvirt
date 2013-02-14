@@ -36,9 +36,17 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+app.all('/', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+ });
+
 app.get('/', routes.index);
-app.get('/list', routes.list);
-app.get('/list/daemonDetails', routes.listDaemonDetails);
+app.get('/list/vms', routes.listSingle);
+app.get('/version', routes.version);
+// app.get('/stats/cpu', routes.cpuStats);
+// app.get('/stats/mem', routes.memStats);
 app.get('/status/:name', routes.actions);
 app.get('/start/:name', routes.actions);
 app.get('/resume/:name', routes.actions);
