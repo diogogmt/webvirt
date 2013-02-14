@@ -38,55 +38,63 @@ $(function() {
         this.set("ip", 0);
       }
 
+      // Bind an event to log changes to console
+      this.on("change", function() {
+        console.log("---Model: Updated!");
+        console.log("   IP: " + this.get("ip"));
+        console.log("   Hypervisor: " + this.get("hypervisor"));
+      }, this);
+      
       // Set other host data members
       this.updateHost();
 
       // Collect instances
-      this.updateInstanceList;
+      this.updateInstanceList();
+
     }, // END Initialize Method
 
     updateHost: function() {
       var that = this;
 
       // Call "version"
-      API.callServer("list/daemonDetails/" + that.get("ip"), 
+      API.callServer("version/" + that.get("ip"), 
         function(data, textStatus, jqXHR) {
           // Checks for VIRSH + Daemon Errors, exit on true
           if (data.err) { that.errHandle(data.err); return; }  
 
-          that.set("hypervisor", data.version.hypervisor);
+          that.set("hypervisor", data.data.hypervisor);
         },
         function() {
-          console.log("version command errorz");
+          console.log("XX version command errorz XX");
         });
 
       // Call "cpuStats"
-      API.callServer("list/daemonDetails/" + that.get("ip"), 
-        function(data, textStatus, jqXHR) {
-          // Checks for VIRSH + Daemon Errors
-          if (data.err) { that.errHandle(data.err); return; }  
+      // API.callServer("list/daemonDetails/" + that.get("ip"), 
+      //   function(data, textStatus, jqXHR) {
+      //     // Checks for VIRSH + Daemon Errors
+      //     if (data.err) { that.errHandle(data.err); return; }  
 
-          // Set data
-          that.set("cpuIdle", data.cpuStats.idle);
-          that.set("cpuUsed", data.cpuStats.usage);
-        },
-        function() {
-          console.log("cpu command errorz");
-        });
+      //     // Set data
+      //     that.set("cpuIdle", data.cpuStats.idle);
+      //     that.set("cpuUsed", data.cpuStats.usage);
+      //   },
+      //   function() {
+      //     console.log("XX cpu command errorz XX");
+      //   });
 
-      // Call "memStats"
-      API.callServer("list/daemonDetails/" + that.get("ip"), 
-        function(data, textStatus, jqXHR) {
-          // Checks for VIRSH + Daemon Errors
-          if (data.err) { that.errHandle(data.err); return; }  
+      // // Call "memStats"
+      // API.callServer("list/daemonDetails/" + that.get("ip"), 
+      //   function(data, textStatus, jqXHR) {
+      //     // Checks for VIRSH + Daemon Errors
+      //     if (data.err) { that.errHandle(data.err); return; }  
 
-          // Set data
-          that.set("ramFree", data.memStats.free);
-          that.set("ramUsed", (data.memStats.total) - (data.memStats.free)); 
-        },
-        function() {
-          console.log("cpu command errorz");
-        });
+      //     // Set data
+      //     that.set("ramFree", data.memStats.free);
+      //     that.set("ramUsed", (data.memStats.total) - (data.memStats.free)); 
+      //   },
+      //   function() {
+      //     console.log("XX mem command errorz XX");
+      //   });
     }, // END updateHost Method
 
     updateInstanceList: function() {
@@ -108,8 +116,9 @@ $(function() {
           }
 
           // Loop, setting model attributes for each instance + adding to new instance list
-          for (i in data.vms) {
+          for (i in data.data) {
             that.set("vm-" + i.name, {id: i.id, status: i.status});
+            console.log("Bah: ", i);
             newInstances.push("vm-"+i.name);
           }
 
@@ -119,6 +128,7 @@ $(function() {
           for (i in curInstances) {
             that.unset(i, "silent"); // SILENT COULD CAUSE PROBLEMS?? **********************
           }
+
         },
         function() {
           console.log("instance list errorz");
@@ -169,7 +179,7 @@ $(function() {
       this.on("add", function(model) {
         console.log(model);
         var vms = model.getInstanceKeys();
-        var msg = "New Host!\nIP:" + model.ip;
+        var msg = "New Host!\nIP:" + model.get("ip");
         var i;
 
         _.each(vms, function(element, index, list) {
@@ -185,10 +195,9 @@ $(function() {
       API.callServer("list/daemons/",
         function(data, textStatus, jqXHR) {
           // Loop through host list, creating a model for each
-          _.each(data, function(element, index, list) {
-            console.log(that);
+          _.each(data.data, function(element, index, list) {
+            console.log("--Add Model | ip: " + element);
             that.add({ip: element});
-            console.log("--Add ip: " + element);
           });
         },
         function() {
