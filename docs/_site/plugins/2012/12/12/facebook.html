@@ -1,0 +1,111 @@
+<h1 id='facebook'>Facebook</h1>
+
+<h2 id='purpose'>Purpose</h2>
+
+<p>The facebook plugin allows the user to bring popular aspects from facebook and display it to the user between a gien start and end time. Features a like box, a stream of a users friends, comments on a specific post, and many more.</p>
+
+<h2 id='options'>Options</h2>
+
+<ul>
+<li>
+<p>Sets options according to user input or default values</p>
+</li>
+
+<li>
+<p><strong>type</strong> [String] - is the name of the plugin in fbxml format. Options: LIKE (default), LIKE-BOX, ACTIVITY, FACEPILE</p>
+</li>
+
+<li>
+<p><strong>target</strong> [String] - is the id of the document element that the text needs to be attached to. This target element must exist on the DOM</p>
+</li>
+
+<li>
+<p><strong>start</strong> [Number] - is the time that you want this plug-in to execute</p>
+</li>
+
+<li>
+<p><strong>end</strong> [Number] - is the time that you want this plug-in to stop executing</p>
+</li>
+
+<li>
+<p>Other than the mandatory four parameters, there are several optional parameters (Some options are only applicable to certain plugins)</p>
+</li>
+
+<li>
+<p><strong>action</strong> [String] - like button will either &#8220;Like&#8221; or &#8220;Recommend&#8221;. Options: recommend / like(default)</p>
+</li>
+
+<li>
+<p><strong>always_post_to_friends</strong> [Boolean] - live-stream posts will be always be posted on your facebook wall if true. Options: true / false(default)</p>
+</li>
+
+<li>
+<p><strong>border_color</strong> [String] - border color of the activity feed. Names (i.e: &#8220;white&#8221;) and html color codes are valid</p>
+</li>
+
+<li>
+<p><strong>colorscheme</strong> [String] - changes the color of almost all plugins. Options: light(default) / dark</p>
+</li>
+
+<li>
+<p><strong>event_app_id</strong> [String] - an app_id is required for the live-stream plugin</p>
+</li>
+
+<li>
+<p><strong>font</strong> [String] - the font of the text contained in the plugin. Options: arial / segoe ui / tahoma / trebuchet ms / verdana / lucida grande</p>
+</li>
+
+<li>
+<p><strong>header</strong> [Boolean] - displays the title of like-box or activity feed. Options: true / false(default)</p>
+</li>
+
+<li>
+<p><strong>href</strong> [String] - url to apply to the plugin. Default is current page</p>
+</li>
+
+<li>
+<p><strong>layout</strong> [String] - changes the format of the &#8216;like&#8217; count (written in english or a number in a callout). Options: box_count / button_count / standard(default)</p>
+</li>
+
+<li>
+<p><strong>max_rows</strong> [Number] - number of rows to disperse pictures in facepile. Default is 1</p>
+</li>
+
+<li>
+<p><strong>recommendations</strong> [Boolean] - shows recommendations, if any, in the bottom half of activity feed. Options: true / false(default)</p>
+</li>
+
+<li>
+<p><strong>show_faces</strong> [Boolean] - show pictures beside like button and like-box. Options: true / false(default)</p>
+</li>
+
+<li>
+<p><strong>site</strong> [String] - href for activity feed. No idea why it must be &#8220;site&#8221;. Default is current page</p>
+</li>
+
+<li>
+<p><strong>stream</strong> [Boolean] - displays a the latest posts from the specified page&#8217;s wall. Options: true / false(default)</p>
+</li>
+
+<li>
+<p><strong>type</strong> [String] - determines which plugin to create. Case insensitive</p>
+</li>
+
+<li>
+<p><strong>xid</strong> [String] - unique identifier if more than one live-streams are on one page</p>
+</li>
+</ul>
+
+<h2 id='example'>Example</h2>
+<div class='highlight'><pre><code class='js'>    <span class='kd'>var</span> <span class='nx'>pop</span> <span class='o'>=</span> <span class='nx'>Popcorn</span><span class='p'>(</span> <span class='s2'>&quot;#video&quot;</span> <span class='p'>);</span>
+
+    <span class='nx'>pop</span><span class='p'>.</span><span class='nx'>facebook</span><span class='p'>({</span>
+      <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;live-stream&quot;</span><span class='p'>,</span>
+      <span class='nx'>target</span><span class='o'>:</span> <span class='s2'>&quot;activitydiv&quot;</span><span class='p'>,</span>
+      <span class='nx'>start</span><span class='o'>:</span> <span class='mi'>1</span><span class='p'>,</span>
+      <span class='nx'>end</span><span class='o'>:</span> <span class='mi'>10</span><span class='p'>,</span>
+      <span class='c1'>// id is from example http://developers.facebook.com/docs/reference/plugins/live-stream/</span>
+      <span class='nx'>event_app_id</span><span class='o'>:</span> <span class='mi'>174243249296725</span>
+    <span class='p'>});</span>
+</code></pre></div>
+<p><a href='http://jsfiddle.net/popcornjs/UC6Px/'>Live demo of the facebook plugin</a>;</p>

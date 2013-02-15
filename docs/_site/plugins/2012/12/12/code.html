@@ -1,0 +1,35 @@
+<h1 id='code'>Code</h1>
+
+<h2 id='purpose'>Purpose</h2>
+
+<p>Allows for the ability to run arbitrary code ( JavaScript functions ) according to video timing.</p>
+
+<h2 id='options'>Options</h2>
+
+<ul>
+<li><strong>start</strong> [Number] - the time in seconds when the mustache template should be rendere in the target divd</li>
+
+<li><strong>end</strong> [Number] - the time in seconds when the rendered mustache template should be removed from the target div</li>
+
+<li><strong>onStart</strong> [Function] - the function to be run when the start time is reached.</li>
+
+<li><strong>onFrame</strong> [Function] - a function to be run on each paint call (e.g., called ~60 times per second) between the start and end times.</li>
+
+<li><strong>onEnd</strong> [Function] - a function to be run when the end time is reached.</li>
+</ul>
+
+<h2 id='example'>Example</h2>
+<div class='highlight'><pre><code class='js'>    <span class='kd'>var</span> <span class='nx'>pop</span> <span class='o'>=</span> <span class='nx'>Popcorn</span><span class='p'>(</span> <span class='s2'>&quot;#video&quot;</span> <span class='p'>);</span>
+
+    <span class='nx'>pop</span><span class='p'>.</span><span class='nx'>code</span><span class='p'>({</span>
+      <span class='nx'>start</span><span class='o'>:</span> <span class='mi'>1</span><span class='p'>,</span>
+      <span class='nx'>end</span><span class='o'>:</span> <span class='mi'>3</span><span class='p'>,</span>
+      <span class='nx'>onStart</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>options</span> <span class='p'>)</span> <span class='p'>{</span>
+        <span class='nb'>document</span><span class='p'>.</span><span class='nx'>getElementById</span><span class='p'>(</span> <span class='s2'>&quot;test1&quot;</span> <span class='p'>).</span><span class='nx'>innerHTML</span> <span class='o'>=</span> <span class='s2'>&quot;Yes&quot;</span><span class='p'>;</span>
+      <span class='p'>},</span>
+      <span class='nx'>onEnd</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>options</span> <span class='p'>)</span> <span class='p'>{</span>
+        <span class='nb'>document</span><span class='p'>.</span><span class='nx'>getElementById</span><span class='p'>(</span> <span class='s2'>&quot;test1&quot;</span> <span class='p'>).</span><span class='nx'>innerHTML</span> <span class='o'>=</span> <span class='s2'>&quot;No&quot;</span><span class='p'>;</span>
+      <span class='p'>}</span>
+    <span class='p'>});</span>
+</code></pre></div>
+<p><a href='http://jsfiddle.net/popcornjs/Wmskz/'>Live demo of the code plugin</a></p>

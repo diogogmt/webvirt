@@ -1,0 +1,47 @@
+<h1 id='flickr'>Flickr</h1>
+
+<h2 id='purpose'>Purpose</h2>
+
+<p>The Flickr plugin allows the user to hook into the popular picture hosting site and retrieve images based on user, search term, and provided dimensions.</p>
+
+<h2 id='options'>Options</h2>
+
+<ul>
+<li><strong>start</strong> [String] - is the time that you want this plug-in to execute (in seconds)</li>
+
+<li><strong>end</strong> [String] - is the time that you want this plug-in to stop executing (in seconds)</li>
+
+<li><strong>userid</strong> [String] - is the id of who&#8217;s Flickr images you wish to show</li>
+
+<li><strong>tags</strong> [String] - is a mutually exclusive list of image descriptor tags</li>
+
+<li><strong>username</strong> [String] - is the username of who&#8217;s Flickr images you wish to show using both userid and username is redundant. An api_key is required when using username</li>
+
+<li><strong>apikey</strong> [String] - is your own api key provided by Flickr</li>
+
+<li><strong>target</strong> [String] - is the id of the document element that the images are appended to, this target element must exist on the DOM</li>
+
+<li><strong>numberofimages</strong> [Number] - specify the number of images to retreive from flickr, defaults to 4</li>
+
+<li><strong>height</strong> [String] - the height of the image, defaults to &#8216;50px&#8217;</li>
+
+<li><strong>width</strong> [String] - the width of the image, defaults to &#8216;50px&#8217;</li>
+
+<li><strong>padding</strong> [String] - number of pixels between images, defaults to &#8216;5px&#8217;</li>
+
+<li><strong>border</strong> [String] - border size in pixels around images, defaults to &#8216;0px&#8217;</li>
+</ul>
+
+<h2 id='example'>Example</h2>
+<div class='highlight'><pre><code class='js'>    <span class='kd'>var</span> <span class='nx'>pop</span> <span class='o'>=</span> <span class='nx'>Popcorn</span><span class='p'>(</span> <span class='s2'>&quot;#video&quot;</span> <span class='p'>);</span>
+
+    <span class='nx'>pop</span><span class='p'>.</span><span class='nx'>flickr</span><span class='p'>({</span>
+      <span class='nx'>start</span><span class='o'>:</span> <span class='mi'>5</span><span class='p'>,</span>
+      <span class='nx'>end</span><span class='o'>:</span> <span class='mi'>15</span><span class='p'>,</span>
+      <span class='nx'>userid</span><span class='o'>:</span> <span class='s2'>&quot;35034346917@N01&quot;</span><span class='p'>,</span>
+      <span class='nx'>target</span><span class='o'>:</span> <span class='s2'>&quot;flickrdiv&quot;</span>
+    <span class='p'>});</span>
+</code></pre></div>
+<ul>
+<li><a href='http://jsfiddle.net/popcornjs/grMCk/'>Live example of the flickr plugin</a>;</li>
+</ul>

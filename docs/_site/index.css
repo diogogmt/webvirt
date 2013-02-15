@@ -1,0 +1,318 @@
+body {
+	background-color:#F6F4F2;
+	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size:16px;
+}
+
+h1, ul, li {
+	margin:0px;
+	padding:0px;
+}
+
+pre {
+	background-color:rgba(39, 40, 34, .8);
+	padding: 10px;
+	border-radius: 5px;
+}
+
+/* Main header (top) */
+header.main {
+	background-color:#000;
+	background:#000 -webkit-gradient(linear, left top, left bottom, #333, #000);
+	background:-moz-linear-gradient(top , #333, #000);
+	background:-webkit-linear-gradient(top , #333, #000);
+	height:60px;
+	left:0px;
+	position:fixed;
+	top:0px;
+	width:100%;
+	z-index:2;
+	box-shadow: 0 2px 2px #999;
+}
+header.main h1 {
+	margin: 10px
+}
+header.main h1 a {
+	background: url('/popcorn-docs/img/logo.png') no-repeat;
+	text-indent: -3000px;
+	display: block;
+	width: 446px;
+	height: 40px;
+}
+
+
+/* Main navigation (left menu) */
+nav.main {
+	background-color:#D9D9D3;
+	bottom:0px;
+	left:0px;
+	overflow-x:show;
+	padding:100px 0 0;
+	position:fixed;
+	text-align:right;
+	top:0px;
+	width:250px;
+	z-index:1;
+	box-shadow: inset -1px 0 2px #BBB;
+}
+nav.main h1 {
+    font-size: 1em;
+    margin: 0 15px 20px 0
+}
+nav.main h1 a {
+    color: #F06433;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #FFF;
+}
+nav.main h1 a:hover {
+    color: #000;
+}
+nav.main ul {
+    list-style: none;
+    margin: 0
+}
+nav.main ul a {
+    padding: 4px 25px 4px 0;
+    display: block;
+    text-decoration: none;
+    color: #333;
+    text-shadow: 0 1px 0 #EEE;
+    font-size: 0.9em;
+    position: relative;
+    right: -10px;
+}
+nav.main ul a:hover, nav.main ul a.selected {
+    background: url('/popcorn-docs/img/bg-mainmenu.png');
+    text-shadow: 0 1px 0 #80341B;
+    color: white;
+}
+
+div.scrollable {
+	bottom:0px;
+	left:220px;
+	position:fixed;
+	overflow:auto;
+	right:0px;
+	top:64px;
+}
+
+section.content {
+	margin:30px 60px;
+	z-index:0;
+}
+
+section.content header nav ul{
+    float:left;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+section.content header nav li{
+    float:left;
+    width: 33%;
+}
+
+section.content ul li a.lower {
+	color:#F06433;
+	font-size:18px;
+	padding:0px;
+	margin:30px 0px;
+	font-weight:normal;
+	text-shadow:#FFFFFF 0px 1px 0px;
+}
+
+article.home h1 {
+	border-bottom:1px solid #919395;
+	padding-bottom:20px;
+	margin:30px 0px;
+}
+
+article.home h2 {
+	font-weight:normal;
+	margin:0px 0px 10px 0px;
+	padding:0px;
+}
+
+article.home h2:after {
+	content:'';
+}
+
+article.home h2 a {
+	text-shadow:#FFFFFF 0px 1px 1px;
+}
+
+article.home span {
+	color:#8B8078;
+	font-size:14px;
+	text-shadow:#FFFFFF 0px 1px 0px;
+}
+
+article.home ul {
+	float:left;
+	margin:0px;
+	padding:0px;
+}
+
+article.home ul li {
+	float:left;
+	height:120px;
+	list-style:none;
+	margin:0px;
+	padding:0px 20px;
+	width:200px;
+}
+
+#otherbar {
+	display:none;
+}
+
+section.content {
+	font-size:13px;
+	line-height:160%;
+	max-width:750px;
+}
+
+section.content header h1 {
+	font-size:3em;
+	font-weight:normal;
+	margin:1em 0px 1.1em 0px;
+	padding-bottom:0.6em;
+	color: #F06433;
+}
+
+section.content article h1 {
+	font-size:2em;
+	font-weight:normal;
+	margin:2.0em 0px 1.3em 0px;
+	padding-bottom:0.6em;
+	border-bottom: 10px solid #f8e3dd;
+}
+
+section.content article h2 {
+	color:#242220;
+	font-size:1.4em;
+	font-weight:bold;
+	margin:1.3em 0px 0.8em 0px;
+	text-shadow:#FFFFFF 0px 1px 1px;
+}
+
+section.content article h3 {
+	font-size:1em;
+	font-weight:bold;
+	margin:0.8em 0px 0.5em 0px;
+	text-shadow:#FFFFFF 0px 1px 1px;
+}
+
+hr {
+	display:none;
+	border:none;
+	margin:40px 0px;
+	border-top:1px solid #CCCCCC;
+	border-bottom:1px solid #FFFFFF;
+}
+
+p,blockquote,pre,ul {
+	margin:1em 0px;
+}
+
+h2:after,
+h3:after {
+	content: ":";
+}
+
+blockquote {
+	color:#767573;
+	font-style:normal;
+	margin-left:35px;
+	padding-left:20px;
+	position:relative;
+	text-shadow:#FFFFFF 0px 1px 0px;
+}
+blockquote code {
+	font-style: normal;
+}
+blockquote p {
+	padding:10px 0px;
+}
+blockquote::before {
+	font-style: normal;
+	content: '\201C';
+	font-size: 450%;
+	font-family:Georgia, Palatino, 'Times New Roman', Times;;
+	position: absolute;
+	left: -25px;
+	top:0.3em;
+	color: #E0E0E0;
+}
+
+ul {
+	margin-left:40px;
+}
+ul > li {
+	list-style:disc;
+	list-style-position:outside;
+}
+ul ul {
+	margin-bottom:0.5em;
+	margin-top:0.5em;
+}
+
+section.content ul li{
+	list-style: url(img/arrow.png);
+}
+
+
+code {
+	font-family:"DejaVu", "Monaco", "Courier New", "Courier";
+	font-size:90%;
+	padding:2px 4px;
+	white-space:pre-wrap;
+}
+
+a[href] {
+/*  color:inherit;*/
+	color:#F06433;
+	text-decoration:none;
+	text-shadow:#FFF 0px 1px 0px;
+}
+a[href]:hover {
+	color:#d0410f;
+}
+
+a[href].external:after {
+	content: "*";
+	font-style: super;
+	opacity: .5;
+}
+
+#index {
+	-webkit-column-width: 235px;
+	-webkit-column-rule-width: 5px;
+	-moz-column-width: 235px;
+	-moz-column-rule-width: 5px;
+	column-width: 235px;
+	column-rule-width: 5px;
+}
+
+#index h2:after,
+#index h3:after { 
+	content:"";
+}
+
+#index h2 { 
+	margin:0px;
+	padding:0px;
+}
+
+#index {
+	padding: 10px 1px;
+}
+
+#index ul {
+	margin:0px 0px 30px 0px;
+	padding:0;
+}
+
+section.content.index-content ul li {
+	list-style: none;
+}

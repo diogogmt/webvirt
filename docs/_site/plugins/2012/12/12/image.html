@@ -1,0 +1,38 @@
+<h1 id='image'>Image</h1>
+
+<h2 id='purpose'>Purpose</h2>
+
+<p>Show an image inside a given element on the page.</p>
+
+<h2 id='options'>Options</h2>
+
+<ul>
+<li><strong>start</strong> [Number] - is the time that you want this plug-in to execute</li>
+
+<li><strong>end</strong> [Number] - is the time that you want this plug-in to stop executing</li>
+
+<li><strong>href</strong> [String] - is the url of the destination of a link - optional</li>
+
+<li><strong>target</strong> [String] - is the id of the document element that the iframe needs to be attached to, this target element must exist on the DOM</li>
+
+<li><strong>src</strong> [String] - is the url of the image that you want to display</li>
+
+<li><strong>text</strong> [String] - is the overlayed text on the image - optional</li>
+</ul>
+
+<h2 id='example'>Example</h2>
+<div class='highlight'><pre><code class='js'> 
+    <span class='kd'>var</span> <span class='nx'>pop</span> <span class='o'>=</span> <span class='nx'>Popcorn</span><span class='p'>(</span> <span class='s2'>&quot;#video&quot;</span> <span class='p'>);</span>
+
+    <span class='nx'>pop</span><span class='p'>.</span><span class='nx'>image</span><span class='p'>({</span>
+      <span class='c1'>// seconds</span>
+      <span class='nx'>start</span><span class='o'>:</span> <span class='mi'>5</span><span class='p'>,</span>
+      <span class='c1'>// seconds</span>
+      <span class='nx'>end</span><span class='o'>:</span> <span class='mi'>15</span><span class='p'>,</span>
+      <span class='nx'>href</span><span class='o'>:</span> <span class='s2'>&quot;http://www.drumbeat.org/&quot;</span><span class='p'>,</span>
+      <span class='nx'>src</span><span class='o'>:</span> <span class='s2'>&quot;https://www.drumbeat.org/media//images/drumbeat-logo-splash.png&quot;</span><span class='p'>,</span>
+      <span class='nx'>text</span><span class='o'>:</span> <span class='s2'>&quot;DRUMBEAT&quot;</span><span class='p'>,</span>
+      <span class='nx'>target</span><span class='o'>:</span> <span class='s2'>&quot;imagediv&quot;</span>
+    <span class='p'>});</span>
+</code></pre></div>
+<p><a href='http://jsfiddle.net/popcornjs/8ZFzH/1/'>Live demo of the image plugin</a></p>

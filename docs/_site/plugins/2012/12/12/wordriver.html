@@ -1,0 +1,32 @@
+<h1 id='wordriver'>Wordriver</h1>
+
+<h2 id='purpose'>Purpose</h2>
+
+<p>Displays a string of text, fading it in and out while transitioning across the height of the parent container for the duration of the instance (duration = end - start)</p>
+
+<h2 id='options'>Options</h2>
+
+<ul>
+<li><strong>start</strong> [Number] - when to begin the Word River animation</li>
+
+<li><strong>end</strong> [Number] - when to finish the Word River animation</li>
+
+<li><strong>text</strong> [String] - the text you want to be displayed by Word River</li>
+
+<li><strong>target</strong> [String] - the target div to append the text to</li>
+
+<li><strong>color</strong> [String] - the color of the text. (can be Hex value i.e. #FFFFFF )</li>
+</ul>
+
+<h2 id='example'>Example</h2>
+<div class='highlight'><pre><code class='js'>    <span class='kd'>var</span> <span class='nx'>pop</span> <span class='o'>=</span> <span class='nx'>Popcorn</span><span class='p'>(</span> <span class='s2'>&quot;#video&quot;</span> <span class='p'>);</span>
+
+    <span class='nx'>pop</span><span class='p'>.</span><span class='nx'>wordriver</span><span class='p'>({</span>
+      <span class='nx'>start</span><span class='o'>:</span> <span class='mi'>1</span><span class='p'>,</span>
+      <span class='nx'>end</span><span class='o'>:</span> <span class='mi'>3</span><span class='p'>,</span>
+      <span class='nx'>text</span><span class='o'>:</span> <span class='s2'>&quot;hello&quot;</span><span class='p'>,</span>
+      <span class='nx'>target</span><span class='o'>:</span> <span class='s2'>&quot;wordriverdiv&quot;</span><span class='p'>,</span>
+      <span class='nx'>color</span><span class='o'>:</span> <span class='s2'>&quot;red&quot;</span>
+    <span class='p'>});</span>
+</code></pre></div>
+<p><a href='http://jsfiddle.net/popcornjs/VDJ2S/'>Live demo of the wordriver plugin</a></p>

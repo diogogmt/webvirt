@@ -1,0 +1,29 @@
+<h1 id='gml'>GML</h1>
+
+<h2 id='purpose'>Purpose</h2>
+
+<p>Renders a GML tag inside an HTML element</p>
+
+<h2 id='options'>Options</h2>
+
+<ul>
+<li><strong>start</strong> [Number] - is the time that you want this plug-in to execute</li>
+
+<li><strong>end</strong> [Number] - is the time that you want this plug-in to stop executing</li>
+
+<li><strong>target</strong> [String] - is the id of the document element that you wish to render the grafiti in</li>
+
+<li><strong>gmltag</strong> [Number] - is the numerical reference to a gml tag via 000000book.com</li>
+</ul>
+
+<h2 id='example'>Example</h2>
+<div class='highlight'><pre><code class='js'>    <span class='kd'>var</span> <span class='nx'>pop</span> <span class='o'>=</span> <span class='nx'>Popcorn</span><span class='p'>(</span> <span class='s2'>&quot;#video&quot;</span> <span class='p'>);</span>
+
+    <span class='nx'>pop</span><span class='p'>.</span><span class='nx'>gml</span><span class='p'>({</span>
+      <span class='nx'>start</span><span class='o'>:</span> <span class='mi'>0</span><span class='p'>,</span>
+      <span class='nx'>end</span><span class='o'>:</span> <span class='mi'>5</span><span class='p'>,</span>
+      <span class='nx'>gmltag</span><span class='o'>:</span> <span class='s2'>&quot;29582&quot;</span><span class='p'>,</span>
+      <span class='nx'>target</span><span class='o'>:</span> <span class='s2'>&quot;gmldiv&quot;</span>
+    <span class='p'>});</span>
+</code></pre></div>
+<p><a href='http://jsfiddle.net/popcornjs/kzwt8/'>Live demo of the gml plugin</a></p>

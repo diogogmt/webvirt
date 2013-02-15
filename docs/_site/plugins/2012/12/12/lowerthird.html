@@ -1,0 +1,35 @@
+<h1 id='lowerthird'>Lowerthird</h1>
+
+<h2 id='purpose'>Purpose</h2>
+
+<p>Displays information about a speaker over the video, or in the target div</p>
+
+<h2 id='options'>Options</h2>
+
+<ul>
+<li><strong>start</strong> [Number] - is the time that you want this plug-in to execute</li>
+
+<li><strong>end</strong> [Number] - is the time that you want this plug-in to stop executing</li>
+
+<li><strong>target</strong> [String] - is the id of the document element that the content is appended to, this target element must exist on the DOM</li>
+
+<li><strong>salutation</strong> [String] - is the speaker&#8217;s Mr. Ms. Dr. etc.</li>
+
+<li><strong>name</strong> [String] - is the speaker&#8217;s name.</li>
+
+<li><strong>role</strong> [String] - is information about the speaker, example Engineer.</li>
+</ul>
+
+<h2 id='example'>Example</h2>
+<div class='highlight'><pre><code class='js'> 
+    <span class='kd'>var</span> <span class='nx'>pop</span> <span class='o'>=</span> <span class='nx'>Popcorn</span><span class='p'>(</span> <span class='s2'>&quot;#video&quot;</span> <span class='p'>);</span>
+
+    <span class='nx'>pop</span><span class='p'>.</span><span class='nx'>lowerthird</span><span class='p'>({</span>
+      <span class='nx'>start</span><span class='o'>:</span> <span class='mi'>5</span><span class='p'>,</span>
+      <span class='nx'>end</span><span class='o'>:</span> <span class='mi'>15</span><span class='p'>,</span>
+      <span class='nx'>salutation</span><span class='o'>:</span> <span class='s2'>&quot;Mr&quot;</span><span class='p'>,</span>
+      <span class='nx'>name</span><span class='o'>:</span> <span class='s2'>&quot;Hyde&quot;</span><span class='p'>,</span>
+      <span class='nx'>role</span><span class='o'>:</span> <span class='s2'>&quot;Monster&quot;</span>
+    <span class='p'>});</span>
+</code></pre></div>
+<p><a href='http://jsfiddle.net/popcornjs/d5Du8/'>Live demo of the lowerthird plugin</a></p>
