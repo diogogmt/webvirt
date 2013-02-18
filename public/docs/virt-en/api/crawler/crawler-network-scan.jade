@@ -1,0 +1,40 @@
+section
+  h2(id='crawler.network-scan')
+    |POST /scan/network
+
+  p
+    |Scan the network for active hosts and returns a list contain all the active ones.
+
+  h3 Format
+  ul
+    li
+      |JSON
+
+  h3 Authentication Required
+  ul
+    li
+      |YES
+
+  h3 Response Elements
+  ul
+    li err
+      ul
+        li Can have three different values
+          ol
+            li The error message of the command execution
+            li The stderr output of virsh
+            li Null if the command is sucessful
+    li hosts (Array)
+      ul
+        li Contains the IPs of all active hosts in the network
+
+  +js.
+    {
+      err: "Error message example"
+      hosts: [
+        "10.0.0.11",
+        "10.0.0.22",
+        "10.0.0.33",
+        ...
+      ]
+    }

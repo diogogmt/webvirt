@@ -1,0 +1,46 @@
+!!! 5
+html
+  head
+    title Virt Manager - api reference
+    include includes/head
+  body.inner
+    .bar
+    section#content
+      header
+        include includes/logo
+        active = '/docs/virt-api.html'
+        include includes/menu
+
+      include includes/mixins
+      
+      include virt-en/api/menu
+
+      #right
+
+        h2(id='server') Server API
+        include virt-en/api/server/server-listvms-group
+        include virt-en/api/server/server-listvms-single
+        include virt-en/api/server/server-listdaemons
+        include virt-en/api/server/server-version
+        include virt-en/api/server/server-status
+        include virt-en/api/server/server-start
+        include virt-en/api/server/server-shutdown
+        include virt-en/api/server/server-resume
+        include virt-en/api/server/server-suspend
+        include virt-en/api/server/server-destroy
+
+        h2(id='client') Client API
+        include virt-en/api/client/client-listvms-single
+        include virt-en/api/client/client-version
+        include virt-en/api/client/client-status
+        include virt-en/api/client/client-start
+        include virt-en/api/client/client-shutdown
+        include virt-en/api/client/client-resume
+        include virt-en/api/client/client-suspend
+        include virt-en/api/client/client-destroy
+
+        h2(id='crawler') Crawler API
+        include virt-en/api/crawler/crawler-network-scan.jade
+        include virt-en/api/crawler/crawler-daemon-scan.jade
+
+    include includes/footer
