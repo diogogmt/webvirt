@@ -3,7 +3,7 @@
  * **************************************  */
 $(function() {
 
-  // Global API Helper Object
+  // API Helper Object
   var API = {
     // AJAX wrapper
     callServer:  function(call, success, error) {
@@ -57,44 +57,44 @@ $(function() {
       var that = this;
 
       // Call "version"
-      API.callServer("version/" + that.get("ip"), 
+      API.callServer("stats/version/" + that.get("ip"), 
         function(data, textStatus, jqXHR) {
           // Checks for VIRSH + Daemon Errors, exit on true
           if (data.err) { that.errHandle(data.err); return; }  
 
-          that.set("hypervisor", data.data.hypervisor);
+          that.set("hypervisor", data.hypervisor);
         },
         function() {
           console.log("XX version command errorz XX");
         });
 
       // Call "cpuStats"
-      // API.callServer("list/daemonDetails/" + that.get("ip"), 
-      //   function(data, textStatus, jqXHR) {
-      //     // Checks for VIRSH + Daemon Errors
-      //     if (data.err) { that.errHandle(data.err); return; }  
+      API.callServer("stats/cpu/" + that.get("ip"), 
+        function(data, textStatus, jqXHR) {
+          // Checks for VIRSH + Daemon Errors
+          if (data.err) { that.errHandle(data.err); return; }  
 
-      //     // Set data
-      //     that.set("cpuIdle", data.cpuStats.idle);
-      //     that.set("cpuUsed", data.cpuStats.usage);
-      //   },
-      //   function() {
-      //     console.log("XX cpu command errorz XX");
-      //   });
+          // Set data
+          that.set("cpuIdle", data.idle);
+          that.set("cpuUsed", data.usage);
+        },
+        function() {
+          console.log("XX cpu command errorz XX");
+        });
 
-      // // Call "memStats"
-      // API.callServer("list/daemonDetails/" + that.get("ip"), 
-      //   function(data, textStatus, jqXHR) {
-      //     // Checks for VIRSH + Daemon Errors
-      //     if (data.err) { that.errHandle(data.err); return; }  
+      // Call "memStats"
+      API.callServer("stats/mem/" + that.get("ip"), 
+        function(data, textStatus, jqXHR) {
+          // Checks for VIRSH + Daemon Errors
+          if (data.err) { that.errHandle(data.err); return; }  
 
-      //     // Set data
-      //     that.set("ramFree", data.memStats.free);
-      //     that.set("ramUsed", (data.memStats.total) - (data.memStats.free)); 
-      //   },
-      //   function() {
-      //     console.log("XX mem command errorz XX");
-      //   });
+          // Set data
+          that.set("ramFree", data.free);
+          that.set("ramUsed", (data.total) - (data.free)); 
+        },
+        function() {
+          console.log("XX mem command errorz XX");
+        });
     }, // END updateHost Method
 
     updateInstanceList: function() {
@@ -177,7 +177,6 @@ $(function() {
     initialize: function() {
       // Set to fire a console log for each model
       this.on("add", function(model) {
-        console.log(model);
         var vms = model.getInstanceKeys();
         var msg = "New Host!\nIP:" + model.get("ip");
         var i;
