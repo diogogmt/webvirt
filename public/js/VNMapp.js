@@ -43,6 +43,11 @@ $(function() {
         console.log("---Model: Updated!");
         console.log("   IP: " + this.get("ip"));
         console.log("   Hypervisor: " + this.get("hypervisor"));
+        console.log("   Cpu idle: " + this.get("cpuIdle"));
+        console.log("   Cpu used: " + this.get("cpuUsed"));
+        console.log("   Memory free: " + this.get("memFree"));
+        console.log("   Memory used: " + this.get("memUsed"));
+
       }, this);
       
       // Set other host data members
@@ -63,6 +68,7 @@ $(function() {
           if (data.err) { that.errHandle(data.err); return; }  
 
           that.set("hypervisor", data.hypervisor);
+          console.log("dummy check, hypervisor set to: " + that.get("hypervisor"));
         },
         function() {
           console.log("XX version command errorz XX");
@@ -89,8 +95,8 @@ $(function() {
           if (data.err) { that.errHandle(data.err); return; }  
 
           // Set data
-          that.set("ramFree", data.free);
-          that.set("ramUsed", (data.total) - (data.free)); 
+          that.set("memFree", data.free);
+          that.set("memUsed", (data.total) - (data.free)); 
         },
         function() {
           console.log("XX mem command errorz XX");

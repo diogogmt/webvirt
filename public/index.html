@@ -209,58 +209,40 @@
     </script> <!-- END Host-Record-Template -->
 
     <script type="text/template" id="instance-record-template">
-      <div class="well-small host-record">
-        <table class="host">
+      <div class="well-small instance-record">
+        <table class="instance">
           <tr>
-            <td class="host-btn">
-              <button type="button" class="btn" data-toggle="collapse" data-target="#hyperv-1">
-                <i <%= expanded ? 'class="icon-chevron-up"' : 'class="icon-chevron-down"'%> ></i> // "expanded" = bool ? expanded : collapsed
-              </button>
+            <td class="instance-id">
+              <strong>ID:</strong> <em class="muted"><%= id %></em>
             </td>
-            <td class="host-ip">
-              <strong>IP:</strong> <em class="muted"><%= ip %></em> // "ip" = ip no
+            <td class="instance-name">
+              <strong>Name:</strong> <em class="muted"><%= name %></em>
             </td>
-            <td class="host-lastactive">
-              <strong>Last Active: <em class="muted"><%= lastActive %></em> // "lastActive" = date + time
+            <td class="instance-state">
+              <strong class="text-success"><% status %></strong>
             </td>
-            <td class="host-state">
-              <strong class="text-success"><%= active ? 'Connected' : 'Disconnected'%> </strong> // "active" = bool
-            </td>
-            <td class="host-manage">
-              <button type="button" class="btn <%= active ? 'btn-success' : 'btn-danger' %> pull-right" href=""> // Change views
-                <i class="icon-cog"></i>
-              </button>
+            <td class="instance-manage">
+              <div class="btn-group">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                  Actions
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a tabindex="-1" href="#">Refresh Status</a></li>
+                  <li class="divider"></li>
+                  <li><a tabindex="-1" href="#">Start</a></li>
+                  <li><a tabindex="-1" href="#">Shutdown</a></li>
+                  <li><a tabindex="-1" href="#">Resume</a></li>
+                  <li><a tabindex="-1" href="#">Suspend</a></li>
+                  <li><a tabindex="-1" href="#">Destroy</a></li>
+                </ul>
+              </div>
             </td>
           </tr>
         </table>
-        <div id="hyperv-1" class="collapse <%= expanded ? 'in' : 'out' %>"> // "expanded" = bool ? expanded : collapsed
-          <table class="table table-bordered table-condensed host-details">
-            <tr>
-              <th>Hypervisor</th>
-              <td><%= host %></td>
-            </tr>
-            <tr>
-              <th rowspan="2">CPU</th>
-              <th>Used</th>
-              <td><%= cpuUsed %> %</td>
-            </tr>
-            <tr>
-              <th>Idle</th>
-              <td><%= cpuIdle %> %</td>
-            </tr>
-            <tr>
-              <th rowspan="2">RAM</th>
-              <th>Used</th>
-              <td><%= ramUsed %>gb</td>
-            </tr>
-            <tr>
-              <th>Free</th>
-              <td><%= ramFree %>gb</td>
-            </tr>
-          </table>
-        </div>
       </div>
     </script> <!-- END Host-Record-Template -->
+
 
     <!-- Scaffolding Templates -->
 
