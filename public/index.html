@@ -24,6 +24,7 @@
           <p class="navbar-text pull-left">
             <small>A Libvirt Cluster Web Console</small>
           </p>
+          <!-- Username View -->
           <p class="navbar-text pull-right">
             Logout from <a href="#" id="username">Username</a>
           </p>
@@ -58,116 +59,51 @@
 
         <!-- Content -->
         <div class="span10">
-          <!--<div class="well ">
-            <h1>Libvirt Hosts</h1> <!-- Add breadcrumb instead of header -->
-          <!--</div> -->
+
+            <ul class="breadcrumb">
+              <li><a href="#">X</a> <span class="divider">/</span></li>
+              <li><a href="#">Y</a> <span class="divider">/</span></li>
+              <li class="active">Z</li>
+            </ul>
 
           <div class="row">
             <div class="span10">
 
 
-              <!-- Host Description-->
-              <div class="well-small host-active">
-                <table class="host">
-                  <tr>
-                    <td class="host-btn">
-                      <button type="button" class="btn" data-toggle="collapse" data-target="#hyperv-1">
-                        <i class="icon-chevron-down"></i>
-                      </button>
-                    </td>
-                    <td class="host-ip">
-                      <strong>IP:</strong> <em class="muted">10.0.0.1</em>
-                    </td>
-                    <td class="host-lastactive">
-                      <strong>Last Active: <em class="muted">N/A</em>
-                    </td>
-                  </tr>
-                </table>
-                <div id="hyperv-1" class="collapse out">
-                  <table class="table table-bordered table-condensed host-details">
-
-                    <tr>
-                      <th>Hypervisor</th>
-                      <td>KVM</td>
-                    </tr>
-                    <tr>
-                      <th rowspan="2">CPU</th>
-                      <th>Used</th>
-                      <td>2.0 %</td>
-                    </tr>
-                    <tr>
-                      <th>Idle</th>
-                      <td>98.0 %</td>
-                    </tr>
-                    <tr>
-                      <th rowspan="2">RAM</th>
-                      <th>Used</th>
-                      <td>2.0gb</td>
-                    </tr>
-                    <tr>
-                      <th>Free</th>
-                      <td>14.0gb</td>
-                    </tr>
-                  </table>
+              <!-- Host Description -->
+                <div class="well-small host-blank">
+                  <span class="muted">Select an instance</span>
                 </div>
-              </div>
-
               <!-- Records -->
               <div class="well">
 
-                <div class="well-small host-record">
-                  <table class="host">
+                <div class="well-small instance-record">
+                  <table class="instance">
                     <tr>
-                      <td class="host-btn">
-                        <button type="button" class="btn" data-toggle="collapse" data-target="#hyperv-2">
-                          <i class="icon-chevron-down"></i>
-                        </button>
-                      </td>
-                      <td class="host-id">
+                      <td class="instance-id">
                         <strong>ID:</strong> <em class="muted">1</em>
                       </td>
-                      <td class="host-ip">
-                        <strong>IP:</strong> <em class="muted">10.0.0.1</em>
+                      <td class="instance-name">
+                        <strong>Name:</strong> <em class="muted">Blah blah blah blah blah blah blah</em>
                       </td>
-                      <td class="host-lastactive">
-                        <strong>Last Active: <em class="muted">N/A</em>
+                      <td class="instance-state">
+                        <strong class="text-success">Running </strong>
                       </td>
-                      <td class="host-state">
-                        <strong class="text-success">Connected </strong>
-                      </td>
-                      <td class="host-manage">
-                        <button type="button" class="btn btn-success pull-right" href="#">
-                          <i class="icon-cog"></i>
-                        </button>
+                      <td class="instance-manage">
+                        <div class="btn-group">
+                          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                            Actions
+                            <span class="caret"></span>
+                          </a>
+                          <ul class="dropdown-menu">
+                            <li><a tabindex="-1" href="#">Stop</a></li>
+                            <li class="divider"></li>
+                            <li><a tabindex="-1" href="#">Start</a></li>
+                          </ul>
+                        </div>
                       </td>
                     </tr>
                   </table>
-                  <div id="hyperv-2" class="collapse out">
-                    <table class="table table-bordered table-condensed host-details">
-                      <tr>
-                        <th>Hypervisor</th>
-                        <td>KVM</td>
-                      </tr>
-                      <tr>
-                        <th rowspan="2">CPU</th>
-                        <th>Used</th>
-                        <td>2.0 %</td>
-                      </tr>
-                      <tr>
-                        <th>Idle</th>
-                        <td>98.0 %</td>
-                      </tr>
-                      <tr>
-                        <th rowspan="2">RAM</th>
-                        <th>Used</th>
-                        <td>2.0gb</td>
-                      </tr>
-                      <tr>
-                        <th>Free</th>
-                        <td>14.0gb</td>
-                      </tr>
-                    </table>
-                  </div>
                 </div>
 
               </div><!-- END WELL -->
@@ -210,11 +146,13 @@
     <script src="js/VNMapp.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
-    <!-- Templates -->
+    <!-- Content Templates -->
 
-    <script type="text/template" id="host-page-template">
-    
-    </script> <!-- END Hypervisor-Page-Template -->
+    <script type="text/template" id="host-blank-template">
+      <div class="well-small host-blank">
+        <span class="muted">Select an instance</span>
+      </div>
+    </script> <!-- END Host-Blank-Template -->
 
     <script type="text/template" id="host-record-template">
       <div class="well-small host-record">
@@ -268,7 +206,7 @@
           </table>
         </div>
       </div>
-    </script> <!-- END Hypervisor-Record-Template -->
+    </script> <!-- END Host-Record-Template -->
 
     <script type="text/template" id="instance-record-template">
       <div class="well-small host-record">
@@ -322,63 +260,15 @@
           </table>
         </div>
       </div>
-    </script> <!-- END Instance-Record-Template -->
+    </script> <!-- END Host-Record-Template -->
 
+    <!-- Scaffolding Templates -->
 
-    <script type="text/template" id="instance-page-template">
-      <div class="well-small host-record">
-        <table class="host">
-          <tr>
-            <td class="host-btn">
-              <button type="button" class="btn" data-toggle="collapse" data-target="#hyperv-1">
-                <i <%= expanded ? 'class="icon-chevron-up"' : 'class="icon-chevron-down"'%> ></i> // "expanded" = bool ? expanded : collapsed
-              </button>
-            </td>
-            <td class="host-ip">
-              <strong>IP:</strong> <em class="muted"><%= ip %></em> // "ip" = ip no
-            </td>
-            <td class="host-lastactive">
-              <strong>Last Active: <em class="muted"><%= lastActive %></em> // "lastActive" = date + time
-            </td>
-            <td class="host-state">
-              <strong class="text-success"><%= active ? 'Connected' : 'Disconnected'%> </strong> // "active" = bool
-            </td>
-            <td class="host-manage">
-              <button type="button" class="btn <%= active ? 'btn-success' : 'btn-danger' %> pull-right" href=""> // Change views
-                <i class="icon-cog"></i>
-              </button>
-            </td>
-          </tr>
-        </table>
-        <div id="hyperv-1" class="collapse <%= expanded ? 'in' : 'out' %>"> // "expanded" = bool ? expanded : collapsed
-          <table class="table table-bordered table-condensed host-details">
-            <tr>
-              <th>Hypervisor</th>
-              <td><%= host %></td>
-            </tr>
-            <tr>
-              <th rowspan="2">CPU</th>
-              <th>Used</th>
-              <td><%= cpuUsed %> %</td>
-            </tr>
-            <tr>
-              <th>Idle</th>
-              <td><%= cpuIdle %> %</td>
-            </tr>
-            <tr>
-              <th rowspan="2">RAM</th>
-              <th>Used</th>
-              <td><%= ramUsed %>gb</td>
-            </tr>
-            <tr>
-              <th>Free</th>
-              <td><%= ramFree %>gb</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </script> <!-- END Instance-Page-Template -->
-
+    <script type="text/template" id="logout-template">
+      <p class="navbar-text pull-right">
+        Logout from <a href="#" id="username"><%= username =></a>
+      </p>
+    </script> <!-- END Pagination-Template -->
 
     <script type="text/template" id="pagination-template">
       <div id="pagination" class="pagination pagination-right">
@@ -397,6 +287,17 @@
       </div>
     </script> <!-- END Pagination-Template -->
 
+    <script type="text/template" id="breadcrumb-template">
+      <ul>
+        // Generate previous links
+        <% _.each(routes, function(route) {
+          %> <li><a href=<%= route[path] %>><%= route[name] %></a> <span class="divider">/</span></li>
+        <% }); %> 
+
+        // Current page
+        <li class="active"><%= curPage %></li>
+      </ul> 
+    </script> <!-- END Breadcrumb-Template -->
 
   </body>
 </html>
