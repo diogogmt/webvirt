@@ -69,11 +69,10 @@ Controller.prototype.actions = function (req,res) {
 
 Controller.prototype.version = function (req,res) {
   console.log("Controller version");
-  var route  = req.originalUrl.split("\/")[1];
-  console.log("req.params: ", req.params);
+  var routePieces  = req.originalUrl.split("\/");
   var vmInfo = {
     ips: [req.params["ip"]],
-    route: route
+    route: routePieces[1] + "\/" + routePieces[2]
   };
  
   virt.version(vmInfo, function (status) {
@@ -86,9 +85,6 @@ Controller.prototype.version = function (req,res) {
 Controller.prototype.cpuStats = function (req,res) {
   console.log("Controller cpuStats");
   var routePieces  = req.originalUrl.split("\/");
-  console.log("req.params: ", req.params);
-  console.log("req.originalUrl: ", req.originalUrl);
-  console.log("routePieces: ", routePieces);
   var vmInfo = {
     ips: [req.params["ip"]],
     route: routePieces[1] + "\/" + routePieces[2]

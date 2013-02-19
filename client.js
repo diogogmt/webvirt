@@ -46,7 +46,7 @@ app.get('/', routes.index);
 
 app.get('/list/vms', routes.listSingle);
 
-app.get('/version', routes.version);
+app.get('/stats/version', routes.version);
 
 app.get('/stats/cpu', routes.cpuStats);
 app.get('/stats/mem', routes.memStats);

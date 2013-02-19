@@ -9,7 +9,7 @@ exports.networkScan = function (req, res) {
     if (err) {
       logger.error(err, {file: __filename, line: __line});
     }
-    res.json({daemons: daemons});
+    res.json({hosts: daemons});
   });
 };
 

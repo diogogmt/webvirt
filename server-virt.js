@@ -162,7 +162,7 @@ Virt.prototype.listDaemons = function (cb) {
   helper.getDaemonsIp(function (err, ips) {
     console.log("getDaemonsIp callback");
     console.log("ips: ", ips);
-    cb({err: null, data: ips});
+    cb({err: null, daemons: ips});
   });
 }
 

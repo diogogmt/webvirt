@@ -1,0 +1,48 @@
+section
+  h2(id='server.memstats')
+    |GET /stats/mem/&lt;libvirt-host-ip&gt;
+
+  p
+    |Returns the gigabyte (GB) values indicating the Memory usage of a libvirt host
+
+  h3 Format
+  ul
+    li
+      |JSON
+
+  h3 Authentication Required
+  ul
+    li
+      |YES
+
+  h3 Response Elements
+  ul
+    li err
+      ul
+        li Can have three different values
+          ol
+            li The error message of the command execution
+            li The stderr output of virsh
+            li Null if the command is sucessful
+    li cached
+      ul
+        li *copy definition from virsh manpage
+    li buffers
+      ul
+        li *copy definition from virsh manpage
+    li free
+      ul
+        li *copy definition from virsh manpage
+    li total
+      ul
+        li *copy definition from virsh manpage
+    
+  +js.
+    {
+      err: "Error message example",
+      "iowait": "0.0",
+      "idle": "99.5",
+      "system": "0.1",
+      "user": "0.4",
+      "usage": "0.5"
+    }
