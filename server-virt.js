@@ -45,8 +45,9 @@ var helper = {
      function queryIps () {
       var step = this;
       logger.info("queryIps", {file: __filename, line: __line});
+      console.log("args: ", arguments);
       // Iterate on all the saved hosts
-      var hosts =  _.without(_.map(_.rest(arguments), function (host) {
+      var hosts =  _.without(_.map(arguments, function (host) {
         var ip    = host[0]
           , err   = host[1]
           , type  = host[2];
@@ -54,6 +55,8 @@ var helper = {
         // Type of the host. Default means it is not hosting libvirt.
         if (type !== "default") return host[0] ;
       }), undefined);
+
+      console.log("hosts: ", hosts);
 
       cb(null, hosts); 
     },
@@ -81,9 +84,9 @@ Virt.prototype.callDaemons = function (requestInfo, cb) {
     , route = r.route
     , daemons = r.ips;
 
-console.log("r: ", r);
-console.log("route: ", route);
-console.log("daemons: ", daemons);
+  console.log("r: ", r);
+  console.log("route: ", route);
+  console.log("daemons: ", daemons);
   var sendResponse = function (err) {
     logger.error(err, {file: __filename, line: __line});
     cb(err, null);
@@ -118,7 +121,7 @@ console.log("daemons: ", daemons);
           body.err = err.toString();
           body.data = null;
         }
-        body.ip = ip;
+        // body.ip = ip;
         console.log("body: ", body);
         return body;
       });
@@ -172,6 +175,16 @@ Virt.prototype.actions = function (action, data, cb) {
 
 Virt.prototype.version = function (data, cb) {
   logger.info("Virt Server -  version", {file: __filename, line: __line});
+  this.callDaemons(data, cb);
+}
+
+Virt.prototype.cpuStats = function (data, cb) {
+  logger.info("Virt Server -  cpuStats", {file: __filename, line: __line});
+  this.callDaemons(data, cb);
+}
+
+Virt.prototype.memStats = function (data, cb) {
+  logger.info("Virt Server -  memStats", {file: __filename, line: __line});
   this.callDaemons(data, cb);
 }
 

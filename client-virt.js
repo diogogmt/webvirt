@@ -31,7 +31,7 @@ Virt.prototype.listSingle = function (info, cb) {
       });
     } 
 
-    cb({err: err, data: list});
+    cb({err: err, instances: list});
 
   });
 }
@@ -47,7 +47,7 @@ Virt.prototype.execVirtcmd = function (cmd, cb) {
     }
     cb({err: error, data: stdout || null});
   })
-} // END-FUNCTION
+}
 
 
 Virt.prototype.actions = function (action, data, cb) {
@@ -91,6 +91,90 @@ Virt.prototype.version = function (data, cb) {
   ], sendResponse, false);
 
 };
+
+Virt.prototype.cpuStats = function (data, cb) {
+  logger.info("Virt Client - cpuStats", {file: __filename, line: __line});
+
+  var sendResponse = function (err) {
+    logger.error(err, {file: __filename, line: __line});
+    cb(err, null);
+  };
+
+  Step([
+    function getStats () {
+      logger.info("getStats", {file: __filename, line: __line});
+      exec("virsh nodecpustats --percent", this);
+
+    },
+
+    function finish (err, stdout, stderr) {
+      logger.info("finish", {file: __filename, line: __line});
+
+      var error = err || stderr || null;
+      if (error) {
+        logger.error(err, {file: __filename, line: __line});
+      }
+
+      var stats = {err: null};
+      var values = stdout.match(/\s+[0-9.]+/gi);
+
+      var keys = ["usage", "user", "system", "idle", "iowait"];
+      var length = keys.length;
+      while (length--) {
+        stats[keys[length]] = values[length].trim();
+      }
+      console.log("stats: ", stats);
+      stats.err = error;
+      cb(stats);
+    }
+  ], sendResponse, false);
+
+};
+
+Virt.prototype.memStats = function (data, cb) {
+  logger.info("Virt Client - memStats", {file: __filename, line: __line});
+
+  var sendResponse = function (err) {
+    logger.error(err, {file: __filename, line: __line});
+    cb(err, null);
+  };
+
+  Step([
+    function getStats () {
+      logger.info("getStats", {file: __filename, line: __line});
+      exec("virsh nodememstats", this);
+
+    },
+
+    function finish (err, stdout, stderr) {
+      logger.info("finish", {file: __filename, line: __line});
+
+      var error = err || stderr || null;
+      if (error) {
+        logger.error(err, {file: __filename, line: __line});
+      }
+
+      var stats = {err: null};
+      var values = stdout.match(/\s+\d+/gi);
+      console.log("values: ", values);
+      values = _.map(values, function (val) {
+        console.log("val: ", val);
+        return ((val / 1024) / 1024).toFixed(2);
+      })
+      console.log("values: ", values);
+      var keys = ["total", "free", "buffers", "cached"];
+      var length = keys.length;
+      while (length--) {
+        stats[keys[length]] = values[length];
+      }
+      stats.err = error;
+      cb(stats);
+    }
+  ], sendResponse, false);
+
+};
+
+
 
 Virt.prototype.listDaemonDetails = function (data, cb) {
   logger.info("Virt Client - daemonDetails", {file: __filename, line: __line});

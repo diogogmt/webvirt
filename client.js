@@ -43,10 +43,14 @@ app.all('/', function(req, res, next) {
  });
 
 app.get('/', routes.index);
+
 app.get('/list/vms', routes.listSingle);
+
 app.get('/version', routes.version);
-// app.get('/stats/cpu', routes.cpuStats);
-// app.get('/stats/mem', routes.memStats);
+
+app.get('/stats/cpu', routes.cpuStats);
+app.get('/stats/mem', routes.memStats);
+
 app.get('/status/:name', routes.actions);
 app.get('/start/:name', routes.actions);
 app.get('/resume/:name', routes.actions);
