@@ -15,6 +15,9 @@ Virt.prototype.listGroup = function (info, cb) {
 }
 
 Virt.prototype.listSingle = function (info, cb) {
+  console.log("listSingle");
+  console.log("info; ", info);
+  var ip = info.ips[0];
   exec("virsh list --all", function (err, stdout, stderr) {
     var err = err || stderr
       , rawList = stdout.match(/^ [0-9-]+ +[a-zA-Z0-9-]+ +[a-z A-Z]+/mg)
@@ -27,7 +30,8 @@ Virt.prototype.listSingle = function (info, cb) {
       list.push({
         id:tmp[0],
         name:tmp[1],
-        status: tmp[3] ? tmp[2] + " " + tmp[3] : tmp[2]
+        status: tmp[3] ? tmp[2] + " " + tmp[3] : tmp[2],
+        ip: ip
       });
     } 
 

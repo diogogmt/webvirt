@@ -16,8 +16,9 @@ Controller.prototype.index = function (req, res) {
 
 Controller.prototype.listSingle = function (req, res) {
   logger.info("Controller list single");
+  var ip = req.params["ip"] || req.headers.host.split(":")[0];
   var vmInfo = {
-    ips: [req.params["ip"]],
+    ips: [ip],
     route: "list/vms"
 
   };
