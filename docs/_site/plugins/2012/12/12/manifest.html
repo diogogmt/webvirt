@@ -1,0 +1,80 @@
+<h1 id='manifest'>Manifest</h1>
+
+<h2 id='purpose'>Purpose</h2>
+
+<p>Manifests are used by our authoring tool <a href='http://mozillapopcorn.org/popcorn-maker/'>Popcorn-Maker</a> to create meaningful editors.</p>
+
+<p>Manifests are simply objects that contain data about who wrote the plugin, each option the plugin exposes ( start, end, target, ect ), as well as defining what type of element is best used to represent the specified option in the editor ( input, select, dropdown ) and the corresponding data for each of those elements ( an array of data for select and dropdown, text for input ).</p>
+
+<h2 id='options'>Options</h2>
+
+<ul>
+<li><strong>about</strong> [Object] - an object that defines who wrote this plugin</li>
+
+<li><strong>options</strong> [Object] - an object containing various other objects for each option that is passed on to the user</li>
+</ul>
+
+<h2 id='use_case'>Use Case</h2>
+
+<p>You want your plugin to be used in butter</p>
+
+<h2 id='examples'>Examples</h2>
+
+<p>The following example shows what a manifest might look like ( the googlemaps manifest in this example )</p>
+<div class='highlight'><pre><code class='js'> 
+    <span class='p'>{</span>
+      <span class='nx'>about</span><span class='o'>:</span> <span class='p'>{</span>
+        <span class='nx'>name</span><span class='o'>:</span> <span class='s2'>&quot;Popcorn Google Map Plugin&quot;</span><span class='p'>,</span>
+        <span class='nx'>version</span><span class='o'>:</span> <span class='s2'>&quot;0.1&quot;</span><span class='p'>,</span>
+        <span class='nx'>author</span><span class='o'>:</span> <span class='s2'>&quot;@annasob&quot;</span><span class='p'>,</span>
+        <span class='nx'>website</span><span class='o'>:</span> <span class='s2'>&quot;annasob.wordpress.com&quot;</span>
+      <span class='p'>},</span>
+      <span class='nx'>options</span><span class='o'>:</span> <span class='p'>{</span>
+        <span class='nx'>start</span><span class='o'>:</span> <span class='p'>{</span>
+          <span class='nx'>elem</span><span class='o'>:</span> <span class='s2'>&quot;input&quot;</span><span class='p'>,</span>
+          <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;text&quot;</span><span class='p'>,</span>
+          <span class='nx'>label</span><span class='o'>:</span> <span class='s2'>&quot;In&quot;</span>
+        <span class='p'>},</span>
+        <span class='nx'>end</span><span class='o'>:</span> <span class='p'>{</span>
+          <span class='nx'>elem</span><span class='o'>:</span> <span class='s2'>&quot;input&quot;</span><span class='p'>,</span>
+          <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;text&quot;</span><span class='p'>,</span>
+          <span class='nx'>label</span><span class='o'>:</span> <span class='s2'>&quot;Out&quot;</span>
+        <span class='p'>},</span>
+        <span class='nx'>target</span><span class='o'>:</span> <span class='s2'>&quot;map-container&quot;</span><span class='p'>,</span>
+        <span class='nx'>type</span><span class='o'>:</span> <span class='p'>{</span>
+          <span class='nx'>elem</span><span class='o'>:</span> <span class='s2'>&quot;select&quot;</span><span class='p'>,</span>
+          <span class='nx'>options</span><span class='o'>:</span> <span class='p'>[</span> <span class='s2'>&quot;ROADMAP&quot;</span><span class='p'>,</span> <span class='s2'>&quot;SATELLITE&quot;</span><span class='p'>,</span> <span class='s2'>&quot;STREETVIEW&quot;</span><span class='p'>,</span> <span class='s2'>&quot;HYBRID&quot;</span><span class='p'>,</span> <span class='s2'>&quot;TERRAIN&quot;</span> <span class='p'>],</span>
+          <span class='nx'>label</span><span class='o'>:</span> <span class='s2'>&quot;Type&quot;</span>
+        <span class='p'>},</span>
+        <span class='nx'>zoom</span><span class='o'>:</span> <span class='p'>{</span>
+          <span class='nx'>elem</span><span class='o'>:</span> <span class='s2'>&quot;input&quot;</span><span class='p'>,</span>
+          <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;text&quot;</span><span class='p'>,</span>
+          <span class='nx'>label</span><span class='o'>:</span> <span class='s2'>&quot;Zoom&quot;</span>
+        <span class='p'>},</span>
+        <span class='nx'>lat</span><span class='o'>:</span> <span class='p'>{</span>
+          <span class='nx'>elem</span><span class='o'>:</span> <span class='s2'>&quot;input&quot;</span><span class='p'>,</span>
+          <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;text&quot;</span><span class='p'>,</span>
+          <span class='nx'>label</span><span class='o'>:</span> <span class='s2'>&quot;Lat&quot;</span>
+        <span class='p'>},</span>
+        <span class='nx'>lng</span><span class='o'>:</span> <span class='p'>{</span>
+          <span class='nx'>elem</span><span class='o'>:</span> <span class='s2'>&quot;input&quot;</span><span class='p'>,</span>
+          <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;text&quot;</span><span class='p'>,</span>
+          <span class='nx'>label</span><span class='o'>:</span> <span class='s2'>&quot;Lng&quot;</span>
+        <span class='p'>},</span>
+        <span class='nx'>location</span><span class='o'>:</span> <span class='p'>{</span>
+          <span class='nx'>elem</span><span class='o'>:</span> <span class='s2'>&quot;input&quot;</span><span class='p'>,</span>
+          <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;text&quot;</span><span class='p'>,</span>
+          <span class='nx'>label</span><span class='o'>:</span> <span class='s2'>&quot;Location&quot;</span>
+        <span class='p'>},</span>
+        <span class='nx'>heading</span><span class='o'>:</span> <span class='p'>{</span>
+          <span class='nx'>elem</span><span class='o'>:</span> <span class='s2'>&quot;input&quot;</span><span class='p'>,</span>
+          <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;text&quot;</span><span class='p'>,</span>
+          <span class='nx'>label</span><span class='o'>:</span> <span class='s2'>&quot;Heading&quot;</span>
+        <span class='p'>},</span>
+        <span class='nx'>pitch</span><span class='o'>:</span> <span class='p'>{</span>
+          <span class='nx'>elem</span><span class='o'>:</span> <span class='s2'>&quot;input&quot;</span><span class='p'>,</span>
+          <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;text&quot;</span><span class='p'>,</span>
+          <span class='nx'>label</span><span class='o'>:</span> <span class='s2'>&quot;Pitch&quot;</span>
+        <span class='p'>}</span>
+      <span class='p'>}</span>
+</code></pre></div>

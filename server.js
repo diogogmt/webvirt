@@ -29,7 +29,7 @@ var app = express();
 
 //CORS middleware
 var allowCrossDomain = function(req, res, next) {
-  console.log("allowCrossDomain");
+  // console.log("allowCrossDomain");
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
@@ -59,7 +59,10 @@ app.configure('development', function(){
 app.get('/list/vms', routes.listGroup);
 app.get('/list/vms/:ip', routes.listSingle);
 app.get('/list/daemons', routes.listDaemons);
+
 app.get('/version/:ip', routes.version);
+app.get('/stats/cpu/:ip', routes.cpuStats);
+app.get('/stats/mem/:ip', routes.memStats);
 
 app.get('/status/:ip/:name', routes.actions);
 app.get('/start/:ip/:name', routes.actions);

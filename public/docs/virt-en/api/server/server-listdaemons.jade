@@ -1,0 +1,40 @@
+section
+  h2(id='server.listdaemons')
+    |GET /list/daemons
+
+  p
+    |Returns a list with the IPs of all daemons in the cluster
+
+  h3 Format
+  ul
+    li
+      |JSON
+
+  h3 Authentication Required
+  ul
+    li
+      |YES
+
+  h3 Response Elements
+  ul
+    li err
+      ul
+        li Can have three different values
+          ol
+            li The error message of the command execution
+            li The stderr output of virsh
+            li Null if the command is sucessful
+    li daemons (Array)
+      ul
+        li Contains the IPs of all daemons in the cluster
+
+  +js.
+    {
+      err: "Error message example"
+      daemons: [
+        "10.0.0.1",
+        "10.0.0.2",
+        "10.0.0.3",
+        ...
+      ]
+    }

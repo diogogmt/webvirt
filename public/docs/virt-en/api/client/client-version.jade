@@ -1,0 +1,43 @@
+section
+  h2(id='client.version')
+    |POST /version
+
+  p
+    |Returns the version number of the library, api and hypervisor software running on the libvirthost
+
+  h3 Format
+  ul
+    li
+      |JSON
+
+  h3 Authentication Required
+  ul
+    li
+      |YES
+
+  h3 Response Elements
+  ul
+    li err
+      ul
+        li Can have three different values
+          ol
+            li The error message of the command execution
+            li The stderr output of virsh
+            li Null if the command is sucessful
+    li library
+      ul
+        li The version number of the library active on the libvirthost
+    li api
+      ul
+        li The api version of libvirt
+    li hypervisor
+      ul
+        li The type and version of the hypervisor technology running on the libvirthost
+
+  +js.
+    {
+      err: "Error message example",
+      library: "message",
+      api: "message",
+      hypevisor: "message"
+    }

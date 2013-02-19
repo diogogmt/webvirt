@@ -1,0 +1,55 @@
+<h1 id='mustache'>Mustache</h1>
+
+<h2 id='purpose'>Purpose</h2>
+
+<p>Adds the ability to render JSON using templates via the Mustache templating library.</p>
+
+<h2 id='options'>Options</h2>
+
+<ul>
+<li><strong>start</strong> [Number] - the time in seconds when the mustache template should be rendered in the target div.</li>
+
+<li><strong>end</strong> [Number] - the time in seconds when the rendered mustache template should be removed from the target div.</li>
+
+<li><strong>target</strong> [String] - a String &#8211; the target div&#8217;s id.</li>
+
+<li><strong>template</strong> [String | Function] - the mustache template for the plugin to use when rendering. This can be a String containing the template, or a Function that returns the template&#8217;s String.</li>
+
+<li><strong>data</strong> [String | Object | Function] - the data to be rendered using the mustache template. This can be a JSON String, a JavaScript Object literal, or a Function returning a String or Literal.</li>
+
+<li><strong>dynamic</strong> [Boolean] - an optional argument indicating that the template and json data are dynamic and need to be loaded dynamically on every use. Defaults to True.</li>
+</ul>
+
+<h2 id='example'>Example</h2>
+<div class='highlight'><pre><code class='js'>    <span class='kd'>var</span> <span class='nx'>pop</span> <span class='o'>=</span> <span class='nx'>Popcorn</span><span class='p'>(</span> <span class='s2'>&quot;#video&quot;</span> <span class='p'>);</span>
+
+    <span class='nx'>pop</span><span class='p'>.</span><span class='nx'>mustache</span><span class='p'>({</span>
+      <span class='nx'>start</span><span class='o'>:</span> <span class='mi'>5</span><span class='p'>,</span>  <span class='c1'>// seconds</span>
+      <span class='nx'>end</span><span class='o'>:</span>  <span class='mi'>10</span><span class='p'>,</span>  <span class='c1'>// seconds</span>
+      <span class='nx'>target</span><span class='o'>:</span> <span class='s1'>&#39;mustache-div&#39;</span><span class='p'>,</span>
+      <span class='nx'>template</span><span class='o'>:</span> <span class='s1'>&#39;&lt;h1&gt;&lt;/h1&gt;&#39;</span>                              <span class='o'>+</span>
+        <span class='s1'>&#39;&#39;</span>                                               <span class='o'>+</span>
+        <span class='s1'>&#39;  &#39;</span>                                             <span class='o'>+</span>
+        <span class='s1'>&#39;    &lt;li&gt;&lt;strong&gt;&lt;/strong&gt;&lt;/li&gt;&#39;</span>                   <span class='o'>+</span>
+        <span class='s1'>&#39;  &#39;</span>                                             <span class='o'>+</span>
+        <span class='s1'>&#39;  &#39;</span>                                              <span class='o'>+</span>
+        <span class='s1'>&#39;    &lt;li&gt;&lt;a href=&quot;&quot;&gt;&lt;/a&gt;&lt;/li&gt;&#39;</span>              <span class='o'>+</span>
+        <span class='s1'>&#39;  &#39;</span>                                              <span class='o'>+</span>
+        <span class='s1'>&#39;&#39;</span>                                               <span class='o'>+</span>
+        <span class='s1'>&#39;&#39;</span>                                                         <span class='o'>+</span>
+        <span class='s1'>&#39;&#39;</span>                                               <span class='o'>+</span>
+        <span class='s1'>&#39;  &lt;p&gt;The list is empty.&lt;/p&gt;&#39;</span>                              <span class='o'>+</span>
+        <span class='s1'>&#39;&#39;</span>                                               <span class='p'>,</span>
+      <span class='nx'>data</span><span class='o'>:</span>     <span class='s1'>&#39;{&#39;</span>                                                <span class='o'>+</span>
+        <span class='s1'>&#39;  &quot;header&quot;: &quot;Test 1&quot;, &#39;</span>                                   <span class='o'>+</span>
+        <span class='s1'>&#39;  &quot;items&quot;: [ &#39;</span>                                            <span class='o'>+</span>
+        <span class='s1'>&#39;      {&quot;name&quot;: &quot;red&quot;, &quot;first&quot;: true, &quot;url&quot;: &quot;#Red&quot;}, &#39;</span>    <span class='o'>+</span>
+        <span class='s1'>&#39;      {&quot;name&quot;: &quot;green&quot;, &quot;link&quot;: true, &quot;url&quot;: &quot;#Green&quot;}, &#39;</span> <span class='o'>+</span>
+        <span class='s1'>&#39;      {&quot;name&quot;: &quot;blue&quot;, &quot;link&quot;: true, &quot;url&quot;: &quot;#Blue&quot;} &#39;</span>    <span class='o'>+</span>
+        <span class='s1'>&#39;  ],&#39;</span>                                                     <span class='o'>+</span>
+        <span class='s1'>&#39;  &quot;empty&quot;: false&#39;</span>                                         <span class='o'>+</span>
+        <span class='s1'>&#39;}&#39;</span><span class='p'>,</span>
+      <span class='kr'>static</span><span class='o'>:</span> <span class='kc'>true</span> <span class='cm'>/* The json is not going to change, load it early. */</span>
+    <span class='p'>});</span>
+</code></pre></div>
+<p><a href='http://jsfiddle.net/popcornjs/DmupJ/'>Live demo of the mustache plugin</a></p>

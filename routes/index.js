@@ -8,7 +8,7 @@ var Controller = function (di) {
   virt = di.config.type === "server"
     ? require("../server-virt.js").inject(di)
     : require("../client-virt.js").inject(di);
-}
+};
 
 Controller.prototype.index = function (req, res) {
   res.render('index', { title: 'Express' });
@@ -16,8 +16,9 @@ Controller.prototype.index = function (req, res) {
 
 Controller.prototype.listSingle = function (req, res) {
   logger.info("Controller list single");
+  var ip = req.params["ip"] || req.headers.host.split(":")[0];
   var vmInfo = {
-    ips: [req.params["ip"]],
+    ips: [ip],
     route: "list/vms"
 
   };
@@ -64,7 +65,7 @@ Controller.prototype.actions = function (req,res) {
   virt.actions(route, vmInfo, function (status) {
     res.json(status);
   });
-}
+};
 
 Controller.prototype.version = function (req,res) {
   console.log("Controller version");
@@ -80,7 +81,43 @@ Controller.prototype.version = function (req,res) {
     console.log("status: ", status);
     res.json(status);
   });
-}
+};
+
+Controller.prototype.cpuStats = function (req,res) {
+  console.log("Controller cpuStats");
+  var routePieces  = req.originalUrl.split("\/");
+  console.log("req.params: ", req.params);
+  console.log("req.originalUrl: ", req.originalUrl);
+  console.log("routePieces: ", routePieces);
+  var vmInfo = {
+    ips: [req.params["ip"]],
+    route: routePieces[1] + "\/" + routePieces[2]
+  };
+ 
+  virt.cpuStats(vmInfo, function (status) {
+    console.log("cpuStats callback callback");
+    console.log("status: ", status);
+    res.json(status);
+  });
+};
+
+Controller.prototype.memStats = function (req,res) {
+  console.log("Controller memStats");
+  var routePieces  = req.originalUrl.split("\/");
+  console.log("req.params: ", req.params);
+  console.log("req.originalUrl: ", req.originalUrl);
+  console.log("routePieces: ", routePieces);
+  var vmInfo = {
+    ips: [req.params["ip"]],
+    route: routePieces[1] + "\/" + routePieces[2]
+  };
+ 
+  virt.memStats(vmInfo, function (status) {
+    console.log("memStats callback callback");
+    console.log("status: ", status);
+    res.json(status);
+  });
+};
 
 module.exports.inject = function(di) {
   logger = di.logger;

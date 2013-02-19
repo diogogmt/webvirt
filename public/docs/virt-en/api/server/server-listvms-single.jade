@@ -1,0 +1,61 @@
+section
+  h2(id='server.listvms-single')
+    |GET /list/vms/&lt;libvirt-host-ip&gt;
+
+  p
+    |Returns a list with the information of all instances being managed by a single libvirt host
+
+  h3 Format
+  ul
+    li
+      |JSON
+
+  h3 Authentication Required
+  ul
+    li
+      |YES
+
+  h3 Response Elements
+  ul
+    li err
+      ul
+        li Can have three different values
+          ol
+            li The error message of the command execution
+            li The stderr output of virsh
+            li Null if the command is sucessful
+    li instances (Array of objects)
+      ul
+        li id
+          ul
+            li Unique Identifier of the virtual machine instance
+        li name
+          ul
+            li The name of the virtual machine instance, which is also a uniquely identifier
+        li status
+          ul
+            li The current status of the instance, possible options:
+              ul
+                li Status 1
+                li Status 2
+                li Status ...
+
+
+  +js.
+    {
+      err: "Error message example"
+      instances: [
+        {
+          id: "Instance ID",
+          name: "Instance Name",
+          status: "Instance Status"
+        },
+        
+        {
+          id: "Instance ID",
+          name: "Instance Name",
+          status: "Instance Status"
+        },
+        ...
+      ]
+    }

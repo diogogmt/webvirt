@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width">
+
+    <title>Popcorn.js Documentation</title>
+        
+    <link rel="stylesheet" type="text/css" href="/popcorn-docs/index.css">
+    <link rel="stylesheet" type="text/css" href="/popcorn-docs/syntax.css">
+    <link rel="stylesheet" type="text/css" href="/popcorn-docs/mobile.css" media="only screen and (max-device-width: 1024px)">
+    <link rel="stylesheet" type="text/css" href="/popcorn-docs/prettify/prettify.css">
+
+  </head>
+  <body>
+    <header class="main">
+      <h1><a href="http://popcornjs.org/">Popcorn.js Documentation</a></h1>
+    </header>
+
+    <nav class="main">
+  <h1><a href="/popcorn-docs/index.html">API Reference</a></h1>
+
+  <ul>
+    <li><a class="selected" href="/popcorn-docs/getting-started">Getting Started</a></li>
+		<li><a href="/popcorn-docs/addon-development">Addon Development</a></li>
+    <li><a href="/popcorn-docs/popcorn-constructor">Popcorn Constructor</a></li>
+    <li><a href="/popcorn-docs/media-methods">Media Methods</a></li>
+    <li><a href="/popcorn-docs/media-properties">Media Properties</a></li>
+    <li><a href="/popcorn-docs/utility-methods">Utility Methods</a></li>
+    <li><a href="/popcorn-docs/events">Events</a></li>
+    <li><a href="/popcorn-docs/plugins">Plugins</a></li>
+    <li><a href="/popcorn-docs/players">Players</a></li>
+    <li><a href="/popcorn-docs/parsers">Parsers</a></li>
+    <li><a href="/popcorn-docs/modules">Modules</a></li>
+    <li><a href="/popcorn-docs/effects">Effects</a></li>
+  </ul>
+</nav>
+
+<div class="scrollable">
+  <section class="content">
+
+    <header>
+      <h1 id="getting-started">Getting started</h1>
+
+      <p> If this is your first time using Popcorn.js this is place to start.  Here you can find information on how to create your first instance, add some extra data to your media with a plugin, and understand how to write some simple Popcorn.js code.</p>
+    
+      <nav>
+        <ul>
+        
+          <li><a class="lower" href="#First time using Popcorn.js">First time using Popcorn.js</a></li>
+        
+        </ul>
+      </nav>
+    </header>
+
+    
+    <article id="First time using Popcorn.js">
+      <h1 id='first_time_using_popcornjs'>First time using Popcorn.js</h1>
+
+<h2 id='what_is_popcornjs'>What is Popcorn.js?</h2>
+
+<p>Popcorn.js is a JavaScript library that allows video, audio and other media to control and be controlled by arbitrary elements of a webpage. Combining open source web technologies, authors can let their media be the “conductor” of interactive and immersive experiences.</p>
+
+<p>While no prior HTML or JavaScript experience and knowledge is necessary &#8212; it is helpful and will make the process of creating your first Popcorn experience easier.</p>
+
+<p>To get started, you&#8217;ll first include the Popcorn.js script in a basic HTML file &#8212; you may use just the core or the fully loaded Popcorn.js (includes modules, effects, plugins, players, parsers, etc). Alternatively, you can create your own Popcorn.js script using <a href='http://mozillapopcorn.org/build-tool/'>build tool</a>.</p>
+
+<p>Including the script is simple, take a look:</p>
+<div class='highlight'><pre><code class='html'>  <span class='nt'>&lt;html&gt;</span>
+    <span class='nt'>&lt;head&gt;</span>
+      <span class='nt'>&lt;script </span><span class='na'>src=</span><span class='s'>&quot;http://popcornjs.org/code/dist/popcorn-complete.js&quot;</span><span class='nt'>&gt;&lt;/script&gt;</span>
+    <span class='nt'>&lt;/head&gt;</span>
+    <span class='nt'>&lt;body&gt;</span>
+    <span class='nt'>&lt;/body&gt;</span>
+  <span class='nt'>&lt;/html&gt;</span>
+</code></pre></div>
+<p>Note: All Popcorn.js code is available in both production (minified) and development (source) form, these can be found on the <a href='http://mozillapopcorn.org/popcornjs/'>downloads page</a>.</p>
+
+<p>Next, you&#8217;ll add a video (or audio) to your page - this example will use an HTML5 video (Popcorn.js also works with YouTube and Vimeo). Building on the previous example, add your video markup as shown below:</p>
+<div class='highlight'><pre><code class='html'>  <span class='nt'>&lt;html&gt;</span>
+    <span class='nt'>&lt;head&gt;</span>
+      <span class='nt'>&lt;script </span><span class='na'>src=</span><span class='s'>&quot;http://popcornjs.org/code/dist/popcorn-complete.min.js&quot;</span><span class='nt'>&gt;&lt;/script&gt;</span>
+    <span class='nt'>&lt;/head&gt;</span>
+    <span class='nt'>&lt;body&gt;</span>
+      <span class='nt'>&lt;video</span> <span class='na'>height=</span><span class='s'>&quot;180&quot;</span> <span class='na'>width=</span><span class='s'>&quot;300&quot;</span> <span class='na'>id=</span><span class='s'>&quot;ourvideo&quot;</span><span class='nt'>&gt;</span>
+        <span class='nt'>&lt;source</span> <span class='na'>src=</span><span class='s'>&quot;http://videos.mozilla.org/serv/webmademovies/popcornplug.mp4&quot;</span><span class='nt'>&gt;</span>
+        <span class='nt'>&lt;source</span> <span class='na'>src=</span><span class='s'>&quot;http://videos.mozilla.org/serv/webmademovies/popcornplug.ogv&quot;</span><span class='nt'>&gt;</span>
+        <span class='nt'>&lt;source</span> <span class='na'>src=</span><span class='s'>&quot;http://videos.mozilla.org/serv/webmademovies/popcornplug.webm&quot;</span><span class='nt'>&gt;</span>
+      <span class='nt'>&lt;/video&gt;</span>
+      <span class='nt'>&lt;div</span> <span class='na'>id=</span><span class='s'>&quot;footnote&quot;</span><span class='nt'>&gt;&lt;/div&gt;</span>
+    <span class='nt'>&lt;/body&gt;</span>
+  <span class='nt'>&lt;/html&gt;</span>
+</code></pre></div>
+<p>This will create a video player element with an ID of &#8220;ourvideo&#8221;, the ID will be used to tell Popcorn which video to control.</p>
+
+<p>The example shows 3 video source elements: .mp4, .ogv, and .webm &#8212; this is done to ensure that the video will play across all major modern browsers. Keep in mind that the .mp4 version needs to be included first if the video is going to work in Safari. These sources can be local or remote video sources, so feel free to use your own!</p>
+
+<p>In addition to the video element, there is a div with the ID of &#8220;footnote&#8221; &#8211; you will use this later to display some text that is synchronized to the video&#8217;s playback.</p>
+
+<p>Next, you will need to write a few lines of JavaScript to create your Popcorn instance and do something with it. The code will simply show some text at the 2 second point in the video. Building on the previous example, add the following code:</p>
+<div class='highlight'><pre><code class='html'>  <span class='nt'>&lt;html&gt;</span>
+    <span class='nt'>&lt;head&gt;</span>
+      <span class='nt'>&lt;script </span><span class='na'>src=</span><span class='s'>&quot;http://popcornjs.org/code/dist/popcorn-complete.js&quot;</span><span class='nt'>&gt;&lt;/script&gt;</span>
+      <span class='nt'>&lt;script&gt;</span>
+        <span class='nb'>document</span><span class='p'>.</span><span class='nx'>addEventListener</span><span class='p'>(</span> <span class='s2'>&quot;DOMContentLoaded&quot;</span><span class='p'>,</span> <span class='kd'>function</span><span class='p'>()</span> <span class='p'>{</span>
+
+          <span class='kd'>var</span> <span class='nx'>popcorn</span> <span class='o'>=</span> <span class='nx'>Popcorn</span><span class='p'>(</span> <span class='s2'>&quot;#ourvideo&quot;</span> <span class='p'>);</span>
+
+          <span class='nx'>popcorn</span><span class='p'>.</span><span class='nx'>footnote</span><span class='p'>({</span>
+            <span class='nx'>start</span><span class='o'>:</span> <span class='mi'>2</span><span class='p'>,</span>
+            <span class='nx'>end</span><span class='o'>:</span> <span class='mi'>5</span><span class='p'>,</span>
+            <span class='nx'>target</span><span class='o'>:</span> <span class='s2'>&quot;footnote&quot;</span><span class='p'>,</span>
+            <span class='nx'>text</span><span class='o'>:</span> <span class='s2'>&quot;Pop!&quot;</span>
+          <span class='p'>});</span>
+
+        <span class='p'>},</span> <span class='kc'>false</span> <span class='p'>);</span>
+      <span class='nt'>&lt;/script&gt;</span>
+    <span class='nt'>&lt;/head&gt;</span>
+    <span class='nt'>&lt;body&gt;</span>
+      <span class='nt'>&lt;video</span> <span class='na'>height=</span><span class='s'>&quot;180&quot;</span> <span class='na'>width=</span><span class='s'>&quot;300&quot;</span> <span class='na'>id=</span><span class='s'>&quot;ourvideo&quot;</span><span class='nt'>&gt;</span>
+        <span class='nt'>&lt;source</span> <span class='na'>src=</span><span class='s'>&quot;http://videos.mozilla.org/serv/webmademovies/popcornplug.mp4&quot;</span><span class='nt'>&gt;</span>
+        <span class='nt'>&lt;source</span> <span class='na'>src=</span><span class='s'>&quot;http://videos.mozilla.org/serv/webmademovies/popcornplug.ogv&quot;</span><span class='nt'>&gt;</span>
+        <span class='nt'>&lt;source</span> <span class='na'>src=</span><span class='s'>&quot;http://videos.mozilla.org/serv/webmademovies/popcornplug.webm&quot;</span><span class='nt'>&gt;</span>
+      <span class='nt'>&lt;/video&gt;</span>
+      <span class='nt'>&lt;div</span> <span class='na'>id=</span><span class='s'>&quot;footnote&quot;</span><span class='nt'>&gt;&lt;/div&gt;</span>
+    <span class='nt'>&lt;/body&gt;</span>
+  <span class='nt'>&lt;/html&gt;</span>
+</code></pre></div>
+<p>Inside your script block, you&#8217;ll start by adding an event listener to the document that will execute the code within when it is ready to do so. Next, you&#8217;ll create a variable called <code>popcorn</code> whose value is a new Popcorn instance. The Popcorn constructor requires at least one argument, which in this case is the ID &#8220;#ourvideo&#8221;. This lets Popcorn know what video it will control or be controlled by. Once the <code>popcorn</code> instance is created, you&#8217;ll use the &#8220;footnote&#8221; plugin to add some text to an area on the page. The footnote plugin is the simplest of all Popcorn plugins &#8212; all it does is display text on the page at specified times, synchronized to the video. In this example, the plugin will display &#8220;Pop!&#8221; from the 2 second mark to the 5 second mark in the target ID specified (&#8220;footnote&#8221;).</p>
+
+<p>That&#8217;s it! You&#8217;ve created your first Popcorn.js project! For a live example of this work <a href='/popcorndocs/index.html'>take a look here</a>. We also have introduction videos for <a href='/popcorndocs/youtube.html'>YouTube</a>, <a href='/popcorndocs/vimeo.html'>Vimeo</a>, and how to use the <a href='/popcorndocs/googlemaps.html'>GoogleMaps plugin</a>. Keep in mind, both YouTube and Vimeo need to be run from a web server.</p>
+
+<p>As you can see, creating Popcorn projects is a painless experience, requiring about 7 lines of JavaScript to get it done. For those of you who are not comfortable with HTML and JavaScript, our visual authoring tool for Popcorn, called <a href='http://mozillapopcorn.org/popcorn-maker/'>Popcorn-Maker</a>, may be great alternative to check out.</p>
+    </article>
+    
+  </section>
+</div>
+
+
+    <!-- Functionality and Syntax Highlighting -->
+    <script type="text/javascript" src="/popcorn-docs/prettify/prettify.js"></script>
+  </body>
+</html>

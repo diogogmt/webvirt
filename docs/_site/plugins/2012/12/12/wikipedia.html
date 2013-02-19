@@ -1,0 +1,36 @@
+<h1 id='wikipedia'>Wikipedia</h1>
+
+<h2 id='purpose'>Purpose</h2>
+
+<p>Displays a wikipedia aricle in the target specified by the user by using new DOM element instead overwriting them</p>
+
+<h2 id='options'>Options</h2>
+
+<ul>
+<li><strong>start</strong> [Number] - is the time that you want this plug-in to execute</li>
+
+<li><strong>end</strong> [Number] - is the time that you want this plug-in to stop executing</li>
+
+<li><strong>target</strong> [String] - is the id of the document element that the text from the article needs to be to, this target element must exist on the DOM</li>
+
+<li><strong>lang</strong> [String] - (optional, defaults to english) is the language in which the article is in.</li>
+
+<li><strong>src</strong> [String] - is the url of the article</li>
+
+<li><strong>title</strong> [String] - (optional) is the title of the article</li>
+
+<li><strong>numberofwords</strong> [Number] - (optional, defaults to 200) is the number of words you want displaid.</li>
+</ul>
+
+<h2 id='example'>Example</h2>
+<div class='highlight'><pre><code class='js'>    <span class='kd'>var</span> <span class='nx'>pop</span> <span class='o'>=</span> <span class='nx'>Popcorn</span><span class='p'>(</span> <span class='s2'>&quot;#video&quot;</span> <span class='p'>);</span>
+
+    <span class='nx'>pop</span><span class='p'>.</span><span class='nx'>wikipedia</span><span class='p'>({</span>
+      <span class='nx'>start</span><span class='o'>:</span> <span class='mi'>0</span><span class='p'>,</span>
+      <span class='nx'>end</span><span class='o'>:</span> <span class='mi'>10</span><span class='p'>,</span>
+      <span class='nx'>src</span><span class='o'>:</span> <span class='s2'>&quot;http://en.wikipedia.org/wiki/Cape_Town&quot;</span><span class='p'>,</span>
+      <span class='nx'>title</span><span class='o'>:</span> <span class='s2'>&quot;this is an article&quot;</span><span class='p'>,</span>
+      <span class='nx'>target</span><span class='o'>:</span> <span class='s2'>&quot;wikidiv&quot;</span>
+    <span class='p'>});</span>
+</code></pre></div>
+<p><a href='http://jsfiddle.net/popcornjs/5q7QS/'>Live demo of the wikipedia plugin</a></p>

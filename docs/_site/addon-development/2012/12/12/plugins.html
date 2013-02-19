@@ -1,0 +1,292 @@
+<h1 id='plugins'>Plugins</h1>
+
+<p>Popcorn offers a plugin factory that allows user to create their own plugins to synchronize with the playable media timeline.</p>
+
+<h2 id='document_and_directory_setup'>Document and Directory Setup</h2>
+
+<ol>
+<li>
+<p>Create a folder popcorn-js/plugins/pluginname</p>
+</li>
+
+<li>
+<p>Create 4 files:</p>
+
+<ul>
+<li><strong>popcorn.pluginname.html</strong> – The demo file, contains html to run plugin</li>
+
+<li><strong>popcorn.pluginname.js</strong> – The code file, contains plugin</li>
+
+<li><strong>popcorn.pluginname.unit.html</strong> – The demo test file, contains html test framework</li>
+
+<li><strong>popcorn.pluginname.unit.js</strong> – The code test file, contains unit tests</li>
+</ul>
+</li>
+</ol>
+
+<h2 id='making_the_plugin'>Making the plugin</h2>
+
+<p>Choose a pattern from the Popcorn Plugin API section below.</p>
+
+<p>Be sure to eliminate dependencies. A plugin should not require jQuery to run. We have also written a <a href='https://docs.google.com/document/pub?id=17f6iSpXM_pZ8Wj6rirHpLnt2fpCtTnpQxzvVoibOJio&amp;pli=1'>best practices</a> guide for plugin development.</p>
+
+<h2 id='making_unit_tests'>Making unit tests</h2>
+
+<p>qunit is used for unit tests. The unit test files are only necessary if you wish to make your plugin an official popcorn.js plugin and get it reviewed.</p>
+
+<h2 id='popcorn_plugin_api'>Popcorn Plugin API</h2>
+
+<p>Popcorn also offers a plugin factory. Popcorn plugins are a way for developers to wrap functionality that responds to a point in a video. Pattern 1 below lets you manage time updating by your self, where as patterns 2 and 3 offer a structure to manage your video events for you.</p>
+<div class='highlight'><pre><code class='js'>    <span class='c1'>// Pattern 1</span>
+    <span class='c1'>// Provide a function that returns an object</span>
+    <span class='p'>(</span><span class='kd'>function</span><span class='p'>(</span> <span class='nx'>Popcorn</span> <span class='p'>)</span> <span class='p'>{</span>
+      <span class='nx'>Popcorn</span><span class='p'>.</span><span class='nx'>plugin</span><span class='p'>(</span> <span class='s2'>&quot;pluginName&quot;</span> <span class='p'>,</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>options</span> <span class='p'>)</span> <span class='p'>{</span>
+        <span class='c1'>// do stuff</span>
+        <span class='c1'>// this refers to the popcorn object</span>
+
+        <span class='c1'>// You are required to return an object</span>
+        <span class='c1'>// with a start and end property</span>
+        <span class='k'>return</span> <span class='p'>{</span>
+          <span class='nx'>_setup</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+            <span class='c1'>// setup code, fire on initialization</span>
+
+            <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+            <span class='c1'>// into the plugin on init</span>
+
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>},</span>
+          <span class='nx'>_update</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+            <span class='c1'>// update code, fire on update/modification of a plugin created track event.</span>
+
+            <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+            <span class='c1'>// into the plugin on init</span>
+
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>},</span>
+          <span class='nx'>_teardown</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+            <span class='c1'>// teardown code, fire on removal of plugin or destruction of instance</span>
+
+            <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+            <span class='c1'>// into the plugin on init</span>
+
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>},</span>
+          <span class='nx'>start</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>event</span><span class='p'>,</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+            <span class='c1'>// fire on track.start</span>
+
+            <span class='c1'>// |event| refers to the event object</span>
+
+            <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+            <span class='c1'>// into the plugin on init</span>
+
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>},</span>
+          <span class='nx'>end</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>event</span><span class='p'>,</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+            <span class='c1'>// fire on track.end</span>
+
+            <span class='c1'>// |event| refers to the event object</span>
+
+            <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+            <span class='c1'>// into the plugin on init</span>
+
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>},</span>
+          <span class='nx'>frame</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>event</span><span class='p'>,</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+            <span class='c1'>// when frameAnimation is enabled, fire on every frame between start and end</span>
+
+            <span class='c1'>// |event| refers to the event object</span>
+
+            <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+            <span class='c1'>// into the plugin on init</span>
+
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>},</span>
+          <span class='nx'>toString</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>()</span> <span class='p'>{</span>
+            <span class='c1'>// provide a custom toString method for each plugin</span>
+            <span class='c1'>// defaults to return start, end, id, and target</span>
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>}</span>
+        <span class='p'>};</span>
+      <span class='p'>});</span>
+    <span class='p'>})(</span><span class='nx'>Popcorn</span><span class='p'>);</span>
+
+
+    <span class='c1'>// Pattern 2</span>
+    <span class='c1'>// Provide an object</span>
+    <span class='c1'>// Popcorn will manage the events</span>
+    <span class='p'>(</span><span class='kd'>function</span><span class='p'>(</span> <span class='nx'>Popcorn</span> <span class='p'>)</span> <span class='p'>{</span>
+      <span class='nx'>Popcorn</span><span class='p'>.</span><span class='nx'>plugin</span><span class='p'>(</span> <span class='s2'>&quot;pluginName&quot;</span> <span class='p'>,</span> <span class='p'>{</span>
+        <span class='nx'>_setup</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+          <span class='c1'>// setup code, fire on initialization</span>
+
+          <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+          <span class='c1'>// into the plugin on init</span>
+
+          <span class='c1'>// this refers to the popcorn object</span>
+        <span class='p'>},</span>
+        <span class='nx'>_update</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+          <span class='c1'>// update code, fire on update/modification of a plugin created track event.</span>
+
+          <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+          <span class='c1'>// into the plugin on init</span>
+
+          <span class='c1'>// this refers to the popcorn object</span>
+        <span class='p'>},</span>
+        <span class='nx'>_teardown</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+          <span class='c1'>// teardown code, fire on removal of plugin or destruction of instance</span>
+
+          <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+          <span class='c1'>// into the plugin on init</span>
+
+          <span class='c1'>// this refers to the popcorn object</span>
+        <span class='p'>},</span>
+        <span class='nx'>start</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>event</span><span class='p'>,</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+          <span class='c1'>// fire on track.start</span>
+
+          <span class='c1'>// |event| refers to the event object</span>
+
+          <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+          <span class='c1'>// into the plugin on init</span>
+
+          <span class='c1'>// this refers to the popcorn object</span>
+        <span class='p'>},</span>
+        <span class='nx'>end</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>event</span><span class='p'>,</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+          <span class='c1'>// fire on track.end</span>
+
+          <span class='c1'>// |event| refers to the event object</span>
+
+          <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+          <span class='c1'>// into the plugin on init</span>
+
+          <span class='c1'>// this refers to the popcorn object</span>
+        <span class='p'>},</span>
+        <span class='nx'>frame</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>event</span><span class='p'>,</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+          <span class='c1'>// when frameAnimation is enabled, fire on every frame between start and end</span>
+
+          <span class='c1'>// |event| refers to the event object</span>
+
+          <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+          <span class='c1'>// into the plugin on init</span>
+
+          <span class='c1'>// this refers to the popcorn object</span>
+        <span class='p'>},</span>
+        <span class='nx'>toString</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>()</span> <span class='p'>{</span>
+          <span class='c1'>// provide a custom toString method for each plugin</span>
+          <span class='c1'>// defaults to return start, end, id, and target</span>
+          <span class='c1'>// this refers to the popcorn object</span>
+        <span class='p'>}</span>
+      <span class='p'>});</span>
+    <span class='p'>})(</span><span class='nx'>Popcorn</span><span class='p'>);</span>
+
+
+    <span class='c1'>// Pattern 3</span>
+    <span class='c1'>// Provide an object with a plugin wide name space</span>
+    <span class='c1'>// Popcorn will manage the events</span>
+    <span class='p'>(</span><span class='kd'>function</span><span class='p'>(</span> <span class='nx'>Popcorn</span> <span class='p'>)</span> <span class='p'>{</span>
+      <span class='nx'>Popcorn</span><span class='p'>.</span><span class='nx'>plugin</span><span class='p'>(</span> <span class='s2'>&quot;pluginName&quot;</span><span class='p'>,</span> <span class='p'>(</span><span class='kd'>function</span><span class='p'>()</span> <span class='p'>{</span>
+
+        <span class='c1'>// Define plugin wide variables out here</span>
+
+        <span class='k'>return</span> <span class='p'>{</span>
+          <span class='nx'>_setup</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+            <span class='c1'>// setup code, fire on initialization</span>
+
+            <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+            <span class='c1'>// into the plugin on init</span>
+
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>},</span>
+          <span class='nx'>_update</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+            <span class='c1'>// update code, fire on update/modification of a plugin created track event.</span>
+
+            <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+            <span class='c1'>// into the plugin on init</span>
+
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>},</span>
+          <span class='nx'>_teardown</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+            <span class='c1'>// teardown code, fire on removal of plugin or destruction of instance</span>
+
+            <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+            <span class='c1'>// into the plugin on init</span>
+
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>},</span>
+          <span class='nx'>start</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>event</span><span class='p'>,</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+            <span class='c1'>// fire on track.start</span>
+
+            <span class='c1'>// |event| refers to the event object</span>
+
+            <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+            <span class='c1'>// into the plugin on init</span>
+
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>},</span>
+          <span class='nx'>end</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>event</span><span class='p'>,</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+            <span class='c1'>// fire on track.end</span>
+
+            <span class='c1'>// |event| refers to the event object</span>
+
+            <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+            <span class='c1'>// into the plugin on init</span>
+
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>},</span>
+          <span class='nx'>frame</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>event</span><span class='p'>,</span> <span class='nx'>track</span> <span class='p'>)</span> <span class='p'>{</span>
+            <span class='c1'>// when frameAnimation is enabled, fire on every frame between start and end</span>
+
+            <span class='c1'>// |event| refers to the event object</span>
+
+            <span class='c1'>// |track| refers to the TrackEvent created by the options passed</span>
+            <span class='c1'>// into the plugin on init</span>
+
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>},</span>
+          <span class='nx'>toString</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>()</span> <span class='p'>{</span>
+            <span class='c1'>// provide a custom toString method for each plugin</span>
+            <span class='c1'>// defaults to return start, end, id, and target</span>
+            <span class='c1'>// this refers to the popcorn object</span>
+          <span class='p'>}</span>
+        <span class='p'>};</span>
+      <span class='p'>})();</span>
+    <span class='p'>})(</span><span class='nx'>Popcorn</span><span class='p'>);</span>
+</code></pre></div>
+<h2 id='plugin_manifest_interface_for_butter'>Plugin Manifest Interface for <a href='http://mozillapopcorn.org/popcorn-maker/'>Butter</a></h2>
+
+<p>Butter, popcorn’s point and click authoring tool offers plugin authors a turnkey interface to it’s UI through plugin manifests as demonstrated below:</p>
+<div class='highlight'><pre><code class='js'>    <span class='c1'>// Pattern 3</span>
+    <span class='c1'>// Provide a plugin manifest with your plugin</span>
+    <span class='c1'>// This allows for butter to register your plugin</span>
+    <span class='p'>(</span><span class='kd'>function</span><span class='p'>(</span> <span class='nx'>Popcorn</span> <span class='p'>)</span> <span class='p'>{</span>
+      <span class='nx'>Popcorn</span><span class='p'>.</span><span class='nx'>plugin</span><span class='p'>(</span> <span class='s2'>&quot;pluginName&quot;</span><span class='p'>,</span> <span class='p'>(</span><span class='kd'>function</span><span class='p'>()</span> <span class='p'>{</span>
+
+        <span class='c1'>// Define plugin wide variables out here</span>
+
+        <span class='k'>return</span> <span class='p'>{</span>
+          <span class='c1'>// Define a manifest for the butter authoring tool to use</span>
+          <span class='nx'>manifest</span><span class='o'>:</span> <span class='p'>{</span>
+            <span class='c1'>// Plugin meta data</span>
+            <span class='c1'>// will be used in the butter ui</span>
+            <span class='nx'>about</span><span class='o'>:</span> <span class='p'>{</span>
+              <span class='nx'>name</span><span class='o'>:</span> <span class='s2'>&quot;name of plugin&quot;</span><span class='p'>,</span>
+              <span class='nx'>version</span><span class='o'>:</span> <span class='s2'>&quot;semantic version&quot;</span><span class='p'>,</span>
+              <span class='nx'>author</span><span class='o'>:</span> <span class='s2'>&quot;author name&quot;</span><span class='p'>,</span>
+              <span class='nx'>website</span><span class='o'>:</span> <span class='s2'>&quot;author url&quot;</span>
+            <span class='p'>},</span>
+            <span class='c1'>// Object representation of the plugin options</span>
+            <span class='c1'>// a form will be constructed against this object</span>
+            <span class='nx'>options</span><span class='o'>:</span> <span class='p'>{</span>
+              <span class='nx'>start</span><span class='o'>:</span> <span class='p'>{</span> <span class='nx'>elem</span><span class='o'>:</span> <span class='s2'>&quot;input&quot;</span><span class='p'>,</span> <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;text&quot;</span><span class='p'>,</span> <span class='nx'>label</span><span class='o'>:</span> <span class='s2'>&quot;In&quot;</span> <span class='p'>},</span>
+              <span class='nx'>end</span><span class='o'>:</span> <span class='p'>{</span> <span class='nx'>elem</span><span class='o'>:</span> <span class='s2'>&quot;input&quot;</span><span class='p'>,</span> <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;text&quot;</span><span class='p'>,</span> <span class='nx'>label</span><span class='o'>:</span> <span class='s2'>&quot;Out&quot;</span> <span class='p'>},</span>
+              <span class='nx'>target</span><span class='o'>:</span> <span class='s2'>&quot;id-selector&quot;</span><span class='p'>,</span>
+              <span class='nx'>text</span><span class='o'>:</span> <span class='p'>{</span> <span class='nx'>elem</span><span class='o'>:</span> <span class='s2'>&quot;input&quot;</span><span class='p'>,</span> <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;text&quot;</span><span class='p'>,</span> <span class='nx'>label</span><span class='o'>:</span> <span class='s2'>&quot;Text&quot;</span> <span class='p'>}</span>
+            <span class='p'>}</span>
+          <span class='p'>},</span>
+          <span class='nx'>_setup</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>options</span> <span class='p'>){...},</span>
+          <span class='nx'>start</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>options</span> <span class='p'>){...},</span>
+          <span class='nx'>end</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>options</span> <span class='p'>){...},</span>
+          <span class='nx'>frame</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>options</span> <span class='p'>){...},</span>
+          <span class='nx'>toString</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span> <span class='nx'>options</span> <span class='p'>){...}</span>
+      <span class='p'>})());</span>
+    <span class='p'>})(</span><span class='nx'>Popcorn</span><span class='p'>);</span>
+</code></pre></div>

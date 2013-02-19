@@ -1,0 +1,58 @@
+<h1 id='tumblr'>Tumblr</h1>
+
+<h2 id='purpose'>Purpose</h2>
+
+<p>The tumblr plugin allows the user to bring in blog posts of various types, a blog avatar or a blog info and display its information at a given start and end time. All blog post types are supported ( text, audio, video, photo, chat, answer, quote, link ).</p>
+
+<h2 id='options'>Options</h2>
+
+<p>The following options are required by all plugin types:</p>
+
+<ul>
+<li><strong>requestType</strong> [String] - is the name of the type of tumblr plugin request being made. Options: INFO, AVATAR, BLOGPOST.</li>
+
+<li><strong>target</strong> [String] - is the id of the document element that the text needs to be attached to. This target element must exist on the DOM.</li>
+
+<li><strong>start</strong> [Number] - is the time that you want this plug-in to execute.</li>
+
+<li><strong>end</strong> [Number] - is the time that you want this plug-in to stop executing.</li>
+</ul>
+
+<p>The following option is required by BLOGPOST and INFO requests:</p>
+
+<ul>
+<li><strong>api_key</strong> [String] - is the API key registered with Tumblr for use with their API.</li>
+</ul>
+
+<p>The following option is required for BLOGPOST requests:</p>
+
+<ul>
+<li><strong>blogId</strong> [Number] - is the id that identifies a unique blog post. This is used for the user to specify the specific post they want to be displayed.</li>
+</ul>
+
+<p>The following option is optional for AVATAR requests:</p>
+
+<ul>
+<li><strong>size</strong> [Number] - is the width in pixels that the returned image will be.</li>
+</ul>
+
+<p>The following options is optional for BLOGPOST requests:</p>
+
+<ul>
+<li><strong>width</strong> [Number] - is the width of the video or photo being returned. Defaults to 250 pixels for photo blog posts and 400 for video blog posts.</li>
+</ul>
+
+<h2 id='example'>Example</h2>
+<div class='highlight'><pre><code class='js'>    <span class='kd'>var</span> <span class='nx'>pop</span> <span class='o'>=</span> <span class='nx'>Popcorn</span><span class='p'>(</span><span class='s2'>&quot;#video&quot;</span><span class='p'>);</span>
+    
+    <span class='nx'>pop</span><span class='p'>.</span><span class='nx'>tumblr</span><span class='p'>(</span> <span class='p'>{</span>
+      <span class='nx'>start</span><span class='o'>:</span> <span class='mi'>1</span><span class='p'>,</span> 
+      <span class='nx'>end</span><span class='o'>:</span> <span class='mi'>4</span><span class='p'>,</span>
+      <span class='nx'>requestType</span><span class='o'>:</span> <span class='s1'>&#39;blogpost&#39;</span><span class='p'>,</span>
+      <span class='nx'>target</span><span class='o'>:</span> <span class='s1'>&#39;tumblrBlogInfodiv&#39;</span><span class='p'>,</span>
+      <span class='nx'>base_hostname</span><span class='o'>:</span> <span class='s2'>&quot;john.io&quot;</span><span class='p'>,</span>
+      <span class='nx'>blogId</span><span class='o'>:</span> <span class='mi'>10596794348</span><span class='p'>,</span>
+      <span class='nx'>api_key</span><span class='o'>:</span> <span class='s2'>&quot;7lQpV9mMr2PiYjd20FavZcmReq8cWU0oHTS6d3YIB8rLUQvvcg&quot;</span> 
+    <span class='p'>}</span> <span class='p'>);</span>
+</code></pre></div>
+<p><a href='http://jsfiddle.net/UC6Px/15/'>Live Demo of the Tumblr Plugin</a></p>

@@ -1,0 +1,45 @@
+<h1 id='linkedin'>Linkedin</h1>
+
+<h2 id='purpose'>Purpose</h2>
+
+<p>Places a LinkedIn plugin inside a div ( http://developers.facebook.com/docs/plugins/ )</p>
+
+<h2 id='options'>Options</h2>
+
+<ul>
+<li><strong>start</strong> [Number] - is the time that you want this plug-in to execute</li>
+
+<li><strong>end</strong> [Number] - is the time that you want this plug-in to stop executing</li>
+
+<li><strong>target</strong> [String] - is the id of the document element that the plugin needs to be attached to, this target element must exist on the DOM</li>
+
+<li><strong>type</strong> [String] - is the name of the plugin, options are share, memberprofile, companyinsider, companyprofile, or recommendproduct</li>
+
+<li><strong>apikey</strong> [String] - is your own api key from obtained from https://www.linkedin.com/secure/developer</li>
+
+<li><strong>url</strong> [String] - is the desired url to share via LinkedIn. Defaults to the current page if no url is specified</li>
+
+<li><strong>counter</strong> [String] - is the position where the counter will be positioned. This is used if the type is &#8220;share&#8221; or &#8220;recommendproduct&#8221;. The options are right and top (don&#8217;t include this option if you do not want a counter)</li>
+
+<li><strong>format</strong> [String] - is the data format of the member and company profile plugins. The options are inlined, hover, and click. Defaults to inline</li>
+
+<li><strong>companyid</strong> [String] - must be specified if the type is &#8220;companyprofile,&#8221; &#8220;companyinsider,&#8221; or &#8220;recommendproduct&#8221;</li>
+
+<li><strong>productid</strong> [String] - must be specified if the type is &#8220;recommendproduct&#8221;</li>
+</ul>
+
+<h2 id='example'>Example</h2>
+<div class='highlight'><pre><code class='js'> 
+    <span class='kd'>var</span> <span class='nx'>pop</span> <span class='o'>=</span> <span class='nx'>Popcorn</span><span class='p'>(</span> <span class='s2'>&quot;#video&quot;</span> <span class='p'>);</span>
+
+    <span class='nx'>pop</span><span class='p'>.</span><span class='nx'>linkedin</span><span class='p'>({</span>
+      <span class='nx'>type</span><span class='o'>:</span> <span class='s2'>&quot;share&quot;</span><span class='p'>,</span>
+      <span class='nx'>counter</span><span class='o'>:</span> <span class='s2'>&quot;right&quot;</span><span class='p'>,</span>
+      <span class='nx'>url</span><span class='o'>:</span> <span class='s2'>&quot;http://www.google.ca&quot;</span><span class='p'>,</span>
+      <span class='nx'>target</span><span class='o'>:</span> <span class='s2'>&quot;sharediv&quot;</span><span class='p'>,</span>
+      <span class='nx'>apikey</span><span class='o'>:</span> <span class='s2'>&quot;ZOLRI2rzQS_oaXELpPF0aksxwFFEvoxAFZRLfHjaAhcGPfOX0Ds4snkJpWwKs8gk&quot;</span><span class='p'>,</span>
+      <span class='nx'>start</span><span class='o'>:</span> <span class='mi'>1</span><span class='p'>,</span>
+      <span class='nx'>end</span><span class='o'>:</span> <span class='mi'>4</span>
+    <span class='p'>});</span>
+</code></pre></div>
+<p><a href='http://jsfiddle.net/popcornjs/xCZUB/'>Live demo of the linkedin plugin</a></p>
