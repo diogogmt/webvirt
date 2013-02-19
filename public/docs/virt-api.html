@@ -1,0 +1,123 @@
+<!DOCTYPE html><html><head><title>Virt Manager - api reference</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin,latin-ext"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script><script src="app.js"></script><script src="retina.js"></script></head><body class="inner"><div class="bar"></div><section id="content"><header><section id="logo"><span class="express">Virt Manager</span><span class="description"> 
+web interface manager for libvirt</span></section><nav class="clearfix"><a href="/docs/index.html" class=""> Home</a><a href="/docs/virt-api.html" class="active"> API Reference</a></nav></header><ul id="menu"><li id="server-api"> <a href="#server">Server</a><ul id="server-menu"><li><a href="#server.listvms-group">List All</a></li><li><a href="#server.listvms-single">List One</a></li><li><a href="#server.listdaemons">List Daemons</a></li><li><a href="#server.version">Version</a></li><li><a href="#server.status">Status</a></li><li><a href="#server.start">Start</a></li><li><a href="#server.shutdown">Shutdown</a></li><li><a href="#server.resume">Resume</a></li><li><a href="#server.suspend">Suspend</a></li><li><a href="#server.destroy">Destroy</a></li></ul></li><li id="client-api"> <a href="#client">Client</a><ul id="client-menu"><li><a href="#client.listvms-group">List</a></li><li><a href="#client.version">Version</a></li><li><a href="#client.status">Status</a></li><li><a href="#client.start">Start</a></li><li><a href="#client.shutdown">Shutdown</a></li><li><a href="#client.resume">Resume</a></li><li><a href="#client.suspend">Suspend</a></li><li><a href="#client.destroy">Destroy</a></li></ul></li><li id="crawler-api"> <a href="#crawler">Crawler</a><ul id="crawler-menu"><li><a href="#crawler.network-scan">Network Scan</a></li><li><a href="#crawler.daemon-scan">Daemon Scan</a></li></ul></li></ul><div id="right"><h2 id="server">Server API</h2><section><h2 id="server.listvms-group">GET /list/vms</h2><p>Returns a list with the information of all instances being managed by all libvirt hosts</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>instances (Array of objects)<ul><li>id<ul><li>Unique Identifier of the virtual machine instance</li></ul></li><li>name<ul><li>The name of the virtual machine instance, which is also a uniquely identifier</li></ul></li><li>status<ul><li>The current status of the instance, possible options:<ul><li>Status 1</li><li>Status 2</li><li>Status ...</li></ul></li></ul></li><li>ip<ul><li>Ip of the libvirt host that is managing the virtual machine instance</li></ul></li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  instances: [
+    {
+      id: "Instance ID",
+      name: "Instance Name",
+      status: "Instance Status",
+      ip: "10.0.0.0"
+    },
+    
+    {
+      id: "Instance ID",
+      name: "Instance Name",
+      status: "Instance Status",
+      ip: "10.0.0.0"
+    },
+    ...
+  ]
+}</code></pre></section><section><h2 id="server.listvms-single">GET /list/vms/&lt;libvirt-host-ip&gt;</h2><p>Returns a list with the information of all instances being managed by a single libvirt host</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>instances (Array of objects)<ul><li>id<ul><li>Unique Identifier of the virtual machine instance</li></ul></li><li>name<ul><li>The name of the virtual machine instance, which is also a uniquely identifier</li></ul></li><li>status<ul><li>The current status of the instance, possible options:<ul><li>Status 1</li><li>Status 2</li><li>Status ...</li></ul></li></ul></li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  instances: [
+    {
+      id: "Instance ID",
+      name: "Instance Name",
+      status: "Instance Status"
+    },
+    
+    {
+      id: "Instance ID",
+      name: "Instance Name",
+      status: "Instance Status"
+    },
+    ...
+  ]
+}</code></pre></section><section><h2 id="server.listdaemons">GET /list/daemons</h2><p>Returns a list with the IPs of all daemons in the cluster</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>daemons (Array)<ul><li>Contains the IPs of all daemons in the cluster</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  daemons: [
+    "10.0.0.1",
+    "10.0.0.2",
+    "10.0.0.3",
+    ...
+  ]
+}</code></pre></section><section><h2 id="server.version">POST /version/&lt;libvirt-host-ip&gt;</h2><p>Returns the version number of the library, api and hypervisor software running on the libvirthost</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>library<ul><li>The version number of the library active on the libvirthost</li></ul></li><li>api<ul><li>The api version of libvirt</li></ul></li><li>hypervisor<ul><li>The type and version of the hypervisor technology running on the libvirthost</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example",
+  library: "message",
+  api: "message",
+  hypevisor: "message"
+}</code></pre></section><section><h2 id="server.status">POST /status/&lt;libvirt-host-ip&gt;/&lt;instance-name&gt;</h2><p>Returns the confirmatiom status of the <code>virsh domstate &lt;instance-name&gt;</code> command</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>data<ul><li>Contains the stdout of the virsh command</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  data: "Data message example"
+}</code></pre></section><section><h2 id="server.start">POST /start/&lt;libvirt-host-ip&gt;/&lt;instance-name&gt;</h2><p>Returns the confirmatiom status of the <code>virsh start &lt;instance-name&gt;</code> command</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>data<ul><li>Contains the stdout of the virsh command</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  data: "Data message example"
+}</code></pre></section><section><h2 id="server.shutdown">POST /shutdown/&lt;libvirt-host-ip&gt;/&lt;instance-name&gt;</h2><p>Returns the confirmatiom status of the <code>virsh shutdown &lt;instance-name&gt;</code> command</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>data<ul><li>Contains the stdout of the virsh command</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  data: "Data message example"
+}</code></pre></section><section><h2 id="server.resume">POST /resume/&lt;libvirt-host-ip&gt;/&lt;instance-name&gt;</h2><p>Returns the confirmatiom status of the <code>virsh resume &lt;instance-name&gt;</code> command</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>data<ul><li>Contains the stdout of the virsh command</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  data: "Data message example"
+}</code></pre></section><section><h2 id="server.suspend">POST /suspend/&lt;libvirt-host-ip&gt;/&lt;instance-name&gt;</h2><p>Returns the confirmatiom status of the <code>virsh suspend &lt;instance-name&gt;</code> command</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>data<ul><li>Contains the stdout of the virsh command</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  data: "Data message example"
+}</code></pre></section><section><h2 id="server.destory">POST /destory/&lt;libvirt-host-ip&gt;/&lt;instance-name&gt;</h2><p>Returns the confirmatiom status of the <code>virsh destroy &lt;instance-name&gt;</code> command</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>data<ul><li>Contains the stdout of the virsh command</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  data: "Data message example"
+}</code></pre></section><h2 id="client">Client API</h2><section><h2 id="client.listvms-single">GET /list/vms</h2><p>Returns a list with the information of all instances being managed by a single libvirt host</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>instances (Array of objects)<ul><li>id<ul><li>Unique Identifier of the virtual machine instance</li></ul></li><li>name<ul><li>The name of the virtual machine instance, which is also a uniquely identifier</li></ul></li><li>status<ul><li>The current status of the instance, possible options:<ul><li>Status 1</li><li>Status 2</li><li>Status ...</li></ul></li></ul></li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  instances: [
+    {
+      id: "Instance ID",
+      name: "Instance Name",
+      status: "Instance Status"
+    },
+    
+    {
+      id: "Instance ID",
+      name: "Instance Name",
+      status: "Instance Status"
+    },
+    ...
+  ]
+}</code></pre></section><section><h2 id="client.version">POST /version</h2><p>Returns the version number of the library, api and hypervisor software running on the libvirthost</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>library<ul><li>The version number of the library active on the libvirthost</li></ul></li><li>api<ul><li>The api version of libvirt</li></ul></li><li>hypervisor<ul><li>The type and version of the hypervisor technology running on the libvirthost</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example",
+  library: "message",
+  api: "message",
+  hypevisor: "message"
+}</code></pre></section><section><h2 id="client.status">POST /status/&lt;instance-name&gt;</h2><p>Returns the confirmatiom status of the <code>virsh domstate &lt;instance-name&gt;</code> command</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>data<ul><li>Contains the stdout of the virsh command</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  data: "Data message example"
+}</code></pre></section><section><h2 id="client.start">POST /start/&lt;instance-name&gt;</h2><p>Returns the confirmatiom status of the <code>virsh start &lt;instance-name&gt;</code> command</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>data<ul><li>Contains the stdout of the virsh command</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  data: "Data message example"
+}</code></pre></section><section><h2 id="client.shutdown">POST /shutdown/&lt;instance-name&gt;</h2><p>Returns the confirmatiom status of the <code>virsh shutdown &lt;instance-name&gt;</code> command</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>data<ul><li>Contains the stdout of the virsh command</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  data: "Data message example"
+}</code></pre></section><section><h2 id="client.resume">POST /resume/&lt;instance-name&gt;</h2><p>Returns the confirmatiom status of the <code>virsh resume &lt;instance-name&gt;</code> command</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>data<ul><li>Contains the stdout of the virsh command</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  data: "Data message example"
+}</code></pre></section><section><h2 id="client.suspend">POST /suspend/&lt;instance-name&gt;</h2><p>Returns the confirmatiom status of the <code>virsh suspend &lt;instance-name&gt;</code> command</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>data<ul><li>Contains the stdout of the virsh command</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  data: "Data message example"
+}</code></pre></section><section><h2 id="client.destory">POST /destory/&lt;instance-name&gt;</h2><p>Returns the confirmatiom status of the <code>virsh destroy &lt;instance-name&gt;</code> command</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>data<ul><li>Contains the stdout of the virsh command</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  data: "Data message example"
+}</code></pre></section><h2 id="crawler">Crawler API</h2><section><h2 id="crawler.network-scan">POST /scan/network</h2><p>Scan the network for active hosts and returns a list contain all the active ones.</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>hosts (Array)<ul><li>Contains the IPs of all active hosts in the network</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  hosts: [
+    "10.0.0.11",
+    "10.0.0.22",
+    "10.0.0.33",
+    ...
+  ]
+}</code></pre></section><section><h2 id="crawler.daemon-scan">POST /scan/daemons</h2><p>Scan the network for active daemons and returns a list contain all the active ones.</p><h3>Format</h3><ul><li>JSON</li></ul><h3>Authentication Required</h3><ul><li>YES</li></ul><h3>Response Elements</h3><ul><li>err<ul><li>Can have three different values<ol><li>The error message of the command execution</li><li>The stderr output of virsh</li><li>Null if the command is sucessful</li></ol></li></ul></li><li>daemons (Array)<ul><li>Contains the IPs of all daemons in the cluster</li></ul></li></ul><pre class="js"><code>{
+  err: "Error message example"
+  daemons: [
+    "10.0.0.1",
+    "10.0.0.2",
+    "10.0.0.3",
+    ...
+  ]
+}</code></pre></section></div></section><script>// Google analytics
+</script><a id="top" href="#"><img src="images/arrow.png"></a><footer><div id="footer-content">Some text</div></footer></body></html>
