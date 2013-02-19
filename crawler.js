@@ -185,13 +185,7 @@ NetworkScanner.prototype.saveDaemons = function (daemons, cb) {
       });
     }
   ], sendResponse, false);
-
-  
-
 };
-
-
-
 
 // Check if compute nodes are still online
 var checkComputeCodes = function () {};

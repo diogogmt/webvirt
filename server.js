@@ -60,7 +60,7 @@ app.get('/list/vms', routes.listGroup);
 app.get('/list/vms/:ip', routes.listSingle);
 app.get('/list/daemons', routes.listDaemons);
 
-app.get('/version/:ip', routes.version);
+app.get('/stats/version/:ip', routes.version);
 app.get('/stats/cpu/:ip', routes.cpuStats);
 app.get('/stats/mem/:ip', routes.memStats);
 
@@ -74,8 +74,8 @@ app.get('/destroy/:ip/:name', routes.actions);
 
 
 // Network Scanner API
-app.get("/daemonScan", crawler.daemonScan);
-app.get("/networkScan", crawler.networkScan);
+app.get("/scan/network", crawler.networkScan);
+app.get("/scan/daemons", crawler.daemonScan);
 
 http.createServer(app).listen(app.get('port'), function(){
   logger.info("Express server listening on port " + app.get('port'));

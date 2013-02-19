@@ -1,0 +1,49 @@
+section
+  h2(id='client.cpustats')
+    |GET /stats/cpu
+  p
+    |Returns the percentage values for the CPU usage of a libvirt host
+
+  h3 Format
+  ul
+    li
+      |JSON
+
+  h3 Authentication Required
+  ul
+    li
+      |YES
+
+  h3 Response Elements
+  ul
+    li err
+      ul
+        li Can have three different values
+          ol
+            li The error message of the command execution
+            li The stderr output of virsh
+            li Null if the command is sucessful
+    li iowait
+      ul
+        li *copy definition from virsh manpage
+    li idle
+      ul
+        li *copy definition from virsh manpage
+    li system
+      ul
+        li *copy definition from virsh manpage
+    li user
+      ul
+        li *copy definition from virsh manpage
+    li usage
+      ul
+        li *copy definition from virsh manpage
+  +js.
+    {
+      err: "Error message example",
+      "iowait": "0.0",
+      "idle": "99.5",
+      "system": "0.1",
+      "user": "0.4",
+      "usage": "0.5"
+    }

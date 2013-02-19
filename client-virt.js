@@ -45,11 +45,11 @@ Virt.prototype.execVirtcmd = function (cmd, cb) {
   console.log("execVirtcmd");
   console.log("cmd: ", cmd);
   exec(cmd, function (err, stdout, stderr) {    
-    var error = err || stderr || null;
+    var error = stderr || err || null;
     if (error) {
       logger.error(err, {file: __filename, line: __line});
     }
-    cb({err: error, data: stdout || null});
+    cb({err: error, data: stdout.replace(new RegExp("\n","gm"),"") || null});
   })
 }
 
@@ -82,7 +82,7 @@ Virt.prototype.version = function (data, cb) {
         logger.error(err, {file: __filename, line: __line});
       }
 
-      var version = {};
+      var version = {err: error};
       var values = stdout.match(/\w+\s\d+.\d+.\d+./gi);
       var keys = ["library", "api", "hypervisor"];
       var length = keys.length;
@@ -90,7 +90,7 @@ Virt.prototype.version = function (data, cb) {
         version[keys[length]] = values[length].trim();
       }
       console.log("version: ", version);
-      cb({err: error, data: version});
+      cb(version);
     }
   ], sendResponse, false);
 
@@ -119,7 +119,7 @@ Virt.prototype.cpuStats = function (data, cb) {
         logger.error(err, {file: __filename, line: __line});
       }
 
-      var stats = {err: null};
+      var stats = {err: error};
       var values = stdout.match(/\s+[0-9.]+/gi);
 
       var keys = ["usage", "user", "system", "idle", "iowait"];
@@ -128,7 +128,6 @@ Virt.prototype.cpuStats = function (data, cb) {
         stats[keys[length]] = values[length].trim();
       }
       console.log("stats: ", stats);
-      stats.err = error;
       cb(stats);
     }
   ], sendResponse, false);
