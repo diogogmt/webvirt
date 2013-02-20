@@ -3,6 +3,9 @@
  * **************************************  */
 $(function() {
 
+///////////////////////////////////////////////
+//////// GLOBALS //////////////////////////////
+  
   // API Helper Object
   var API = {
     // AJAX wrapper
@@ -30,6 +33,9 @@ $(function() {
       }); // End ajax call
     }, // END callServer function
   } 
+
+///////////////////////////////////////////////
+//////// MODELS & COLLECTIONS /////////////////
 
   var Host = Backbone.Model.extend({
     initialize: function() {
@@ -170,6 +176,10 @@ $(function() {
       }
 
       return curInstances;
+    },
+
+    errHandle: function(err) {
+      console.log("WE HAVE AN ERROR IN THE MODEL: " + err);
     }
   }); // END Model: Host
 
@@ -179,6 +189,8 @@ $(function() {
     localStorage: new Backbone.LocalStorage("hosts-backbone"),
 
     url: "/hosts",
+
+    totalHosts: 0,
 
     initialize: function() {
       // Set to fire a console log for each model
@@ -200,55 +212,264 @@ $(function() {
       API.callServer("list/daemons/",
         function(data, textStatus, jqXHR) {
           // Loop through host list, creating a model for each
-          _.each(data.data, function(element, index, list) {
+          _.each(data.daemons, function(element, index, list) {
             console.log("--Add Model | ip: " + element);
             that.add({ip: element});
+            // Increment host counter
+            that.totalHosts = that.totalHosts + 1;
           });
         },
         function() {
           console.log("XX Cannot find daemon-hosts! XX");
         });
-    } // End Initialize
+    }, // End Initialize
+
   }); // END Collection: HostList
 
-  // Create global collection of Hosts
+  var User = Backbone.Model.extend({
+    initialize: function() {
+      if (!this.get("username")) this.set("username", "username");
+    }
+  }); // END Model: Host
+
+
+  // Create host collection
   console.log("[creating hosts]");
   var Hosts = new HostList();
 
 
-  // var TestView = Backbone.View.extend({
-  //   tagName: "p",
+///////////////////////////////////////////////
+//////// VIEWS ////////////////////////////////
 
-  //   template: _.template($('#testTemplate').html()),
+  /*  Content  */
 
+  // var RecordView = Backbone.View.extend({
+  //   /* Initialization */
+  //   el: "div",
+  //   id: "record-area",
+
+  //   initialize: function (){
+  //     // Check for type, 
+  //     if (!this.options.type) { this.options.type = "host"; }
+
+  //     // Bind model change event
+  //     this.listenTo(this.model, "change", this.render);
+  //   },
+
+  //   /* Templates */
+  //   HostTemplate: _.template($('#host-record-template').html()),
+  //   InstanceTemplate: _.template($('#instance-record-template').html()),
+
+  //   /* Events */
   //   events: {
-  //     "click a.refresh"   : "refresh",
-  //     "click a.alert"     : "displayInfo"
+  // //    "DOMContentLoaded": render,
+  //   },
+  // }); // END View: RecordView
+
+  var HostDescriptionView = Backbone.View.extend({
+    /* Initialization */
+
+    // Bind Element to container div
+    el: $("#description-area"),
+
+    initialize: function (){
+
+      // Bind model change event
+      if (this.options.type !== "blank") { this.listenTo(this.model, "change", this.render); }
+
+      console.log("HostDescriptionView created.");
+    },
+
+    /* Templates */
+    stdTemplate: _.template($('#host-record-template').html()),
+    blankTemplate: _.template($('#host-blank-template').html()),
+
+    /* Events */
+    // events: {
+    //   "DOMContentLoaded": render,
+
+    // },
+
+    /* Render */
+    render: function() {
+      if (this.options.type !== "blank") {
+         
+      }
+      else {
+        this.$el.html( this.blankTemplate() );
+      
+        console.log("Blank template rendered");
+
+      }
+
+      return this;
+    }
+  }); // END View: HostDescriptionView
+
+  /*  Scaffolding  */
+
+  // var LogoutView = Backbone.View.extend({
+  //   /* Initialization */
+  //   el: "div",
+  //   id: "logout",
+  //   model: User,
+
+  //   initialize: function (){
+  //     // Bind model change event
+  //     this.listenTo(this.model, "change", this.render);
   //   },
 
-  //   initialize: function() {
-  //     this.listenTo(this.model, 'change', this.render);
-  //     this.listenTo(this.model, 'destroy', this.remove);
-  //   },
+  //   /* Templates */
+  //   template: _.template($('#logout-template').html()),
+    
 
-  //   render: function() {
-  //     this.$el.html(this.template(this.model.toJSON()));
-  //     return this;
-  //   },
+  //   /* Events */
+  //   // events: {
+  //   //   "DOMContentLoaded": render,
 
-  //   refresh: function() {
-  //     Hosts.
-  //   }
-  // })
-
-
-  // var HostRecordView = Backbone.View.extend({
-  //   tagName: "div",
-
-  //   template: _.template($('#host-record-template').html()),
-
-  //   },
-
+  //   // },
   // }); // END View: HostView
+
+  // var PaginationView = Backbone.View.extend({
+  //   /* Initialization */
+  //   el: "div",
+  //   id: "pagination",
+
+  //   initialize: function (){
+  //     // Bind model change event
+  //     this.listenTo(this.model, "change", this.render);
+
+  //     // Compute max pages
+  //   },
+
+  //   /* Templates */
+  //   template: _.template($('#pagination-template').html()),
+    
+  //   /* Events */
+  //   // events: {
+  //   //   "DOMContentLoaded": render,
+
+  //   // },
+  // }); // END View: HostView
+
+  var BreadcrumbsView = Backbone.View.extend({
+    /* Initialization */
+    el: $("#breadcrumbs"),
+
+    initialize: function (){
+      // Bind model change event
+      // this.listenTo(this.model, "change", this.render);
+    },
+
+    /* Templates */
+    template: _.template($('#breadcrumbs-template').html()),
+    
+    /* Events */
+    // events: {
+    //   "DOMContentLoaded": render,
+
+    // },
+
+    /* Render */
+    render: function() {
+      // Breadcrumb generator logic here
+      var data = {
+        curPage: "Current Page",
+        routes: [{path:"#", sequence: "Route 1"}, {path:"#", sequence: "Route 2"}, {path:"#", sequence: "Route 3"}]
+      };
+
+      // Populate breadcrumb template
+      console.log("Breadcrumbs rendering");
+
+      this.$el.html( this.template(data) );
+    
+      
+
+      return this;
+    }
+
+  }); // END View: HostView
+
+  /*  Application  */
+
+  var AppView = Backbone.View.extend({
+    // Bind Element to container div
+    el: $("#virshmanagerapp"),
+
+    events: {
+      // "DOMContentLoaded": render,
+      // "click .hostRecord" : "" // ??
+    },
+
+    initialize: function() {
+      // // Create breadcrumb
+      this.makeBreadcrumbs();
+
+      // Set host-detail-view to default
+      this.clearDetails();
+
+      // // Create pagination view
+      // this.paginate();
+
+      // // Collect and display records
+      // this.displayHosts();
+
+      console.log("AppView instance created");
+    },
+
+    // paginate: function() {
+    //   // Create view
+    //   var pagination = new PaginationView();  
+
+    //   console.log("Attempting render: Pagination");
+
+    //   // Render pagination
+    //   this.$("#pagination").empty();
+    //   this.$("#pagination").append(pagination.render().el);
+    // },
+
+    clearDetails: function() {
+      // Create blank description view
+      var blankDetail = new HostDescriptionView({type: "blank"});
+
+      console.log("Attempting render: Blank Details");
+      // blankDetail.render().el;
+      // Render view
+      blankDetail.$el.empty();
+      blankDetail.render().el;
+    },
+
+    makeBreadcrumbs: function() {
+      console.log("Attempting render: Breadcrumbs");
+
+      // Create breadcrumbs view
+      var breadcrumbs = new BreadcrumbsView();
+
+      // Render view
+      breadcrumbs.$el.empty();
+      breadcrumbs.render().el;
+    },
+
+    // displayHosts: function() {
+    //   Hosts.each(this.displayHost, this);
+    // },
+
+    // displayHost: function(host) {
+    //   console.log("Attempting render: Host record");
+
+    //   // Create view
+    //   var view = new RecordView({model: host, type: "host"});
+
+    //   // Render view
+    //   this.$("#record-area").append(view.render().el);
+    // }
+  }); // END View: AppView
+
+///////////////////////////////////////////////
+//////// APP LOGIC ////////////////////////////
+
+  console.log("[creating app]");
+
+  var App = new AppView();
 
 }) // END Application

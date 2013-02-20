@@ -16,127 +16,93 @@
 
   </head>
   <body>
-    <!-- Header -->
-    <div class="navbar navbar-fixed-top navbar-inverse">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="#">VirtManager</a>
-          <p class="navbar-text pull-left">
-            <small>A Libvirt Cluster Web Console</small>
-          </p>
-          <!-- Username View -->
-          <p class="navbar-text pull-right">
-            Logout from <a href="#" id="username">Username</a>
-          </p>
-        </div>
-      </div>
-    </div>
+    <div id="virshmanagerapp">
+      <!-- Header -->
+      <header>
+        <div class="navbar navbar-fixed-top navbar-inverse">
+          <div class="navbar-inner">
+            <div class="container">
+              <a class="brand" href="#">VirtManager</a>
+              <p class="navbar-text pull-left">
+                <small>A Libvirt Cluster Web Console</small>
+              </p>
+              <!-- Username View -->
+              <div id="logout">
 
-    <!-- Main -->
-    <div class="container">
-      <div class="row">
-
-        <!-- Navigation -->
-        <div class="span2">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Manage</li>
-              <li class="active"><a href="#">Dashboard</a></li>
-              <li><a href="#">Refresh Status</a></li>
-              <li class="nav-header">Admin</li>
-              <li><a href="#">Configuration</a></li>
-              <li><a href="#">Logout</a></li>
-              <li class="divider"></li>
-              <li>
-                <a href="#">Scan Network <abbr title="Scan only previously unused IPs" class="initialism">(Partial)</abbr></a>
-              </li>
-              <li>
-                <a href="#">Scan Network <abbr title="Scan entire network, reinitializing VirtManager's database" class="initialism">(Full)</abbr></a>
-              </li>
-            </ul>
-          </div> <!-- END NAV-LINKS -->
-        </div><!-- END SPAN -->
-
-        <!-- Content -->
-        <div class="span10">
-
-            <ul class="breadcrumb">
-              <li><a href="#">X</a> <span class="divider">/</span></li>
-              <li><a href="#">Y</a> <span class="divider">/</span></li>
-              <li class="active">Z</li>
-            </ul>
-
-          <div class="row">
-            <div class="span10">
-
-
-              <!-- Host Description -->
-                <div class="well-small host-blank">
-                  <span class="muted">Select an instance</span>
-                </div>
-              <!-- Records -->
-              <div class="well">
-
-                <div class="well-small instance-record">
-                  <table class="instance">
-                    <tr>
-                      <td class="instance-id">
-                        <strong>ID:</strong> <em class="muted">1</em>
-                      </td>
-                      <td class="instance-name">
-                        <strong>Name:</strong> <em class="muted">Blah blah blah blah blah blah blah</em>
-                      </td>
-                      <td class="instance-state">
-                        <strong class="text-success">Running </strong>
-                      </td>
-                      <td class="instance-manage">
-                        <div class="btn-group">
-                          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                            Actions
-                            <span class="caret"></span>
-                          </a>
-                          <ul class="dropdown-menu">
-                            <li><a tabindex="-1" href="#">Stop</a></li>
-                            <li class="divider"></li>
-                            <li><a tabindex="-1" href="#">Start</a></li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-
-              </div><!-- END WELL -->
-            </div><!-- END SPAN -->
-          </div><!-- END ROW -->
-
-          <!-- Pagination -->
-          <div id="pagination" class="pagination pagination-right">
-            <ul>
-              <li class="disabled"><a href="#">Prev</a></li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">Next</a></li>
-            </ul>
+              </div>
+            </div>
           </div>
-
-        </div><!-- END SPAN -->
-      </div><!-- END ROW -->
-
-      <!-- Footer -->
-      <div class="row-fluid">
-        <div class="span12">
-          <footer>
-            <hr>            
-            <p class="muted">
-              Designed and Maintained by <abbr title="Centre for the Development of Open Technology @ Seneca College">CDOT</abbr> | Built on Bootstrap
-            </p>
-          </footer>
         </div>
-      </div>
-    </div><!-- END CONTAINER -->
+      </header>
+
+      <!-- Main -->
+      <div class="container" id="main">
+        <div class="row">
+
+          <!-- Navigation -->
+          <div class="span2">
+            <div class="well sidebar-nav">
+              <ul class="nav nav-list">
+                <li class="nav-header">Manage</li>
+                <li class="active"><a href="#">Dashboard</a></li>
+                <li><a href="#">Refresh Status</a></li>
+                <li class="nav-header">Admin</li>
+                <li><a href="#">Configuration</a></li>
+                <li><a href="#">Logout</a></li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">Scan Network <abbr title="Scan only previously unused IPs" class="initialism">(Partial)</abbr></a>
+                </li>
+                <li>
+                  <a href="#">Scan Network <abbr title="Scan entire network, reinitializing VirtManager's database" class="initialism">(Full)</abbr></a>
+                </li>
+              </ul>
+            </div> <!-- END NAV-LINKS -->
+          </div><!-- END SPAN -->
+
+          <!-- Content -->
+          <div class="span10">
+
+            <!-- Breadcrumbs View -->
+            <div id="breadcrumbs">
+            </div>
+
+            <div class="row">
+              <div class="span10">
+
+
+                <!-- Host Description View -->
+                <div id="description-area">
+                </div>
+
+                <!-- Records View -->
+                <div class="well" id="record-area">
+                </div><!-- END WELL -->
+              </div><!-- END SPAN -->
+            </div><!-- END ROW -->
+
+            <!-- Pagination View -->
+            <div id="pagination" class="pagination pagination-right">
+            </div>
+
+          </div><!-- END SPAN -->
+        </div><!-- END ROW -->
+
+        <!-- Footer -->
+        <footer>
+          <div class="row-fluid">
+            <div class="span12">
+              <footer>
+                <hr>            
+                <p class="muted">
+                  Designed and Maintained by <abbr title="Centre for the Development of Open Technology @ Seneca College">CDOT</abbr> | Built on Bootstrap
+                </p>
+              </footer>
+            </div>
+          </div>
+        </footer>
+      </div><!-- END CONTAINER -->
+    </div><!-- END APP -->
     
 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -250,10 +216,9 @@
       <p class="navbar-text pull-right">
         Logout from <a href="#" id="username"><%= username =></a>
       </p>
-    </script> <!-- END Pagination-Template -->
+    </script> <!-- END Logout-Template -->
 
     <script type="text/template" id="pagination-template">
-      <div id="pagination" class="pagination pagination-right">
         <ul>
           // Create "Prev" link
           <li <%= prev ? '' : 'class="disabled"' %> ><a href="<%= prevLink %>">Prev</a></li> // "prev" = bool ? exists : disabled
@@ -266,17 +231,16 @@
           // Create "Next" link
           <li <%= next ? '' : 'class="disabled"' %> ><a href="<%= nextLink %>">Next</a></li> // "next" = bool ? exists : disabled
         </ul>
-      </div>
     </script> <!-- END Pagination-Template -->
 
-    <script type="text/template" id="breadcrumb-template">
-      <ul>
-        // Generate previous links
+    <script type="text/template" id="breadcrumbs-template">
+      <ul class="breadcrumb">
+        <!-- Generate previous links -->
         <% _.each(routes, function(route) {
-          %> <li><a href=<%= route[path] %>><%= route[name] %></a> <span class="divider">/</span></li>
+          %> <li><a href=<%= route.path %>><%= route.sequence %></a> <span class="divider">/</span></li>
         <% }); %> 
 
-        // Current page
+        <!-- Current page -->
         <li class="active"><%= curPage %></li>
       </ul> 
     </script> <!-- END Breadcrumb-Template -->
