@@ -36,6 +36,8 @@ var allowCrossDomain = function(req, res, next) {
   next();
 }
 
+
+
 app.configure(function () {
   app.set('port', config.interfaceServerPort);
   app.set('views', __dirname + '/views');
@@ -44,6 +46,8 @@ app.configure(function () {
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(express.cookieParser('test'));
+  app.use(express.session());
   app.use(allowCrossDomain);
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
@@ -53,6 +57,16 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+app.get('/test', function (req, res) {
+  console.log("test");
+  console.log("req.headers: ", req.headers);
+  console.log("req.session: ", req.session);
+  if (!req.session.auth) {
+    req.session.auth = true;
+  }
+  
+  res.json({test: "test"});
+});
 
 
 // Virt API
@@ -76,6 +90,193 @@ app.get('/destroy/:ip/:name', routes.actions);
 // Network Scanner API
 app.get("/scan/network", crawler.networkScan);
 app.get("/scan/daemons", crawler.daemonScan);
+
+
+
+var client = require("./db-conn").client;
+
+var Step = require('step');
+
+
+var bcrypt = require('bcrypt-nodejs');
+var crypto = require('crypto');
+
+
+
+app.get('/create/:username/:password', function (req, res) {
+  console.log("route /create/:username/:password");
+  var username = req.params['username'];
+  var password = req.params['password'];
+  console.log("username: ", username);
+  console.log("password: ", password);
+  
+  var hashKey = "users:" + username;
+
+  Step([
+    function checkUsername () {
+      console.log("Step checkUsername");
+      client.hlen(hashKey, this);
+    },
+
+    function createUser (err, len) {
+      console.log("Step createUser");
+      console.log("err: ", err);
+      console.log("len: ", len);
+
+      var step = this;
+
+      if (len) {
+        this.exitChain();
+        return;
+      }
+
+      var salt = bcrypt.genSalt(100, function (err, salt) {
+        console.log("salt: ", salt);
+        // var shasum = crypto.createHash('sha512');
+        // var newHash = shasum.update(hash).digest("hex");
+        var scrypt = require("scrypt");
+        var maxtime = 0.1;
+        var maxmem = 0, maxmemfrac = 0.5;
+
+        var saltLength = salt.length;
+        var saltedPass = salt.slice(0,saltLength / 2) + password + salt.slice(saltLength / 2, saltLength);
+        console.log("saltLength: ", saltLength); 
+        console.log("saltedPass: ", saltedPass); 
+
+        scrypt.passwordHash(saltedPass, maxtime, maxmem, maxmemfrac, function(err, scryptHash) {
+          console.log("err: ", err);
+          console.log("scryptHash: ", scryptHash);
+          client.multi()
+            .hset(hashKey, "password", scryptHash)
+            .hset(hashKey, "salt", salt)
+            .exec(step);
+
+    });
+      });
+
+    },
+
+    function confirmCreation (err, status) {
+      console.log("confirmCreation");
+      console.log("args: ", arguments);
+      console.log("err: ", err);
+      console.log("status: ", status);
+    }
+
+  ]);
+
+
+
+
+  res.json(null);
+  
+});
+
+app.get('/auth/:username/:password', function (req, res) {
+  console.log("route /auth/:username/:password");
+  var username = req.params['username'];
+  var password = req.params['password'];
+  console.log("username: ", username);
+  console.log("password: ", password);
+
+  var hashKey = "users:" + username;
+
+  Step([
+    function getUserInfo () {
+      console.log("Step checkUsername");
+      var step = this;
+      // client.multi()
+      //   .hmget(hashKey, "salt")
+      //   .hmget(hashKey, "password")
+      //   .exec(step);
+      client.hgetall(hashKey, this);
+    },
+
+    function authsUser (err, data) {
+      console.log("Step createUser");
+      console.log("args: ", arguments);
+      var salt = data.salt;
+      var savedPassword = data.password;
+      console.log("err: ", err);
+      console.log("salt: ", salt);
+      console.log("savedPassword: ", savedPassword);
+      console.log("password: ", password);
+
+      var step = this;
+
+      if (err || !salt || ! password) {
+        this.exitChain();
+        return;
+      }
+
+      var scrypt = require("scrypt");
+      var maxtime = 0.1;
+      var maxmem = 0, maxmemfrac = 0.5;
+
+      var saltLength = salt.length;
+      var saltedPass = salt.slice(0,saltLength / 2) + password + salt.slice(saltLength / 2, saltLength);
+      console.log("saltLength: ", saltLength); 
+      console.log("saltedPass: ", saltedPass); 
+
+      scrypt.verifyHash(savedPassword, saltedPass, this); 
+
+    },
+
+    function checkResults (err, result) {
+      console.log("err: ", err);
+      console.log("result: ", result);
+      res.json({result: result});
+    }
+
+  ]);
+  
+
+  // var scrypt = require("scrypt");
+  // var maxtime = 0.1;
+  // var maxmem = 0, maxmemfrac = 0.5;
+
+
+
+  // var pass = "abc";
+  // scrypt.passwordHash(pass, maxtime, maxmem, maxmemfrac, function(err, scryptHash) {
+  //   console.log("err: ", err);
+  //   console.log("scryptHash: ", scryptHash);
+
+  //   scrypt.verifyHash(scryptHash, pass, function(err, result) {
+  //     console.log("err: ", err);
+  //     console.log("result: ", result);
+  //   });
+  // });
+
+  // scrypt.passwordHash(pass, maxtime, maxmem, maxmemfrac, function(err, scryptHash) {
+  //   console.log("err: ", err);
+  //   console.log("scryptHash: ", scryptHash);
+  
+  //   scrypt.verifyHash(scryptHash, pass, function(err, result) {
+  //     console.log("err: ", err);
+  //     console.log("result: ", result);
+  //   });
+  // });
+
+  // scrypt.passwordHash(pass, maxtime, maxmem, maxmemfrac, function(err, scryptHash) {
+  //   console.log("err: ", err);
+  //   console.log("scryptHash: ", scryptHash);
+  //   scrypt.passwordHash(pass, maxtime, maxmem, maxmemfrac, function(err, newHash) {
+  //     console.log("err: ", err);
+  //     console.log("newHash: ", newHash);
+  //     if (scryptHash === newHash) {
+  //         console.log("PASSWORDS MATCH!");
+  //       } else {
+  //         console.log("PASSWORDS DO NOT MATCH!");
+  //       }
+  //   });
+  // });
+
+
+  // res.json(null);
+
+});
+
 
 http.createServer(app).listen(app.get('port'), function(){
   logger.info("Express server listening on port " + app.get('port'));
