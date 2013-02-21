@@ -22,7 +22,7 @@ $(function() {
             case "timeout":
             case "error":
             case "abort":
-            case "parsererror":
+            case "parsererror": 
             default:
               console.log("XX On: " + this.url + " XX");
               console.log("XX Error, connection to interface-server refused XX");
@@ -45,7 +45,7 @@ $(function() {
       }
 
       // Bind an event to log changes to console
-      this.on("change", function() {
+      this.on("complete", function() {
         console.log("---Model: Updated!");
         console.log("   IP: " + this.get("ip"));
         console.log("   Hypervisor: " + this.get("hypervisor"));
@@ -53,7 +53,6 @@ $(function() {
         console.log("   Cpu used: " + this.get("cpuUsed"));
         console.log("   Memory free: " + this.get("memFree"));
         console.log("   Memory used: " + this.get("memUsed"));
-
       }, this);
       
       // Set other host data members
@@ -75,38 +74,45 @@ $(function() {
 
           that.set("hypervisor", data.hypervisor);
           console.log("dummy check, hypervisor set to: " + that.get("hypervisor"));
+
+          // Call "cpuStats"
+          API.callServer("stats/cpu/" + that.get("ip"), 
+            function(data, textStatus, jqXHR) {
+              // Checks for VIRSH + Daemon Errors
+              if (data.err) { that.errHandle(data.err); return; }  
+
+              // Set data
+              that.set("cpuIdle", data.idle);
+              that.set("cpuUsed", data.usage);
+
+              // Call "memStats"
+              API.callServer("stats/mem/" + that.get("ip"), 
+                function(data, textStatus, jqXHR) {
+                  // Checks for VIRSH + Daemon Errors
+                  if (data.err) { that.errHandle(data.err); return; }  
+
+                  // Set data
+                  that.set("memFree", data.free);
+                  that.set("memUsed", (data.total) - (data.free)); 
+
+                  // Trigger completion of model initialization
+                  that.trigger("complete");
+                  App.trigger("complete");
+                },
+                function() {
+                  console.log("XX mem command errorz XX");
+                });
+            },
+            function() {
+              console.log("XX cpu command errorz XX");
+            });          
         },
         function() {
           console.log("XX version command errorz XX");
         });
 
-      // Call "cpuStats"
-      API.callServer("stats/cpu/" + that.get("ip"), 
-        function(data, textStatus, jqXHR) {
-          // Checks for VIRSH + Daemon Errors
-          if (data.err) { that.errHandle(data.err); return; }  
 
-          // Set data
-          that.set("cpuIdle", data.idle);
-          that.set("cpuUsed", data.usage);
-        },
-        function() {
-          console.log("XX cpu command errorz XX");
-        });
 
-      // Call "memStats"
-      API.callServer("stats/mem/" + that.get("ip"), 
-        function(data, textStatus, jqXHR) {
-          // Checks for VIRSH + Daemon Errors
-          if (data.err) { that.errHandle(data.err); return; }  
-
-          // Set data
-          that.set("memFree", data.free);
-          that.set("memUsed", (data.total) - (data.free)); 
-        },
-        function() {
-          console.log("XX mem command errorz XX");
-        });
     }, // END updateHost Method
 
     updateInstanceList: function() {
@@ -179,7 +185,7 @@ $(function() {
     },
 
     errHandle: function(err) {
-      console.log("WE HAVE AN ERROR IN THE MODEL: " + err);
+      console.log("XX Error connecting to daemon: " + err + " XX");
     }
   }); // END Model: Host
 
@@ -218,6 +224,7 @@ $(function() {
             // Increment host counter
             that.totalHosts = that.totalHosts + 1;
           });
+
         },
         function() {
           console.log("XX Cannot find daemon-hosts! XX");
@@ -242,29 +249,6 @@ $(function() {
 //////// VIEWS ////////////////////////////////
 
   /*  Content  */
-
-  // var RecordView = Backbone.View.extend({
-  //   /* Initialization */
-  //   el: "div",
-  //   id: "record-area",
-
-  //   initialize: function (){
-  //     // Check for type, 
-  //     if (!this.options.type) { this.options.type = "host"; }
-
-  //     // Bind model change event
-  //     this.listenTo(this.model, "change", this.render);
-  //   },
-
-  //   /* Templates */
-  //   HostTemplate: _.template($('#host-record-template').html()),
-  //   InstanceTemplate: _.template($('#instance-record-template').html()),
-
-  //   /* Events */
-  //   events: {
-  // //    "DOMContentLoaded": render,
-  //   },
-  // }); // END View: RecordView
 
   var HostDescriptionView = Backbone.View.extend({
     /* Initialization */
@@ -306,51 +290,91 @@ $(function() {
     }
   }); // END View: HostDescriptionView
 
+  var RecordView = Backbone.View.extend({
+    /* Initialization */
+    el: $("#record-area"),
+
+    initialize: function (){
+      // Check for type, 
+      if (!this.options.type) { this.options.type = "host"; }
+
+      // Bind model change event
+      // this.listenTo(this.model, "complete", this.render);
+    },
+
+    /* Templates */
+    HostTemplate: _.template($('#host-record-template').html()),
+    InstanceTemplate: _.template($('#instance-record-template').html()),
+
+    /* Render */
+    render: function() {
+      // Populate template template
+      console.log("Record rendering");
+      console.log("to JSON:");
+
+      if (this.options.type === "host"){
+        console.log("Model: ");
+        console.log(this.model.toJSON());
+
+        var q = this.model.toJSON();
+
+        q.expanded = false;
+        q.lastActive = "N/A";
+        q.active = true;
+        console.log("Appended: ");
+
+
+        this.$el.html( this.HostTemplate(q) );
+      }
+      else {
+        console.log(this.model.toJSON());
+
+        this.$el.html( this.model.toJSON() );
+      }
+
+      return this;
+    }
+  }); // END View: RecordView
+
+
   /*  Scaffolding  */
 
-  // var LogoutView = Backbone.View.extend({
-  //   /* Initialization */
-  //   el: "div",
-  //   id: "logout",
-  //   model: User,
+  var LogoutView = Backbone.View.extend({
+    /* Initialization */
 
-  //   initialize: function (){
-  //     // Bind model change event
-  //     this.listenTo(this.model, "change", this.render);
-  //   },
+    // Bind to HTML elemenl
+    el: $("#logout"),
 
-  //   /* Templates */
-  //   template: _.template($('#logout-template').html()),
+    // model: User, <-- No model yet
+
+    initialize: function (){
+      // Bind model change event
+      // this.listenTo(this.model, "change", this.render);
+    },
+
+    /* Templates */
+    template: _.template($('#logout-template').html()),
     
 
-  //   /* Events */
-  //   // events: {
-  //   //   "DOMContentLoaded": render,
+    /* Events */
+    // events: {
+    //   "DOMContentLoaded": render,
 
-  //   // },
-  // }); // END View: HostView
+    // },
 
-  // var PaginationView = Backbone.View.extend({
-  //   /* Initialization */
-  //   el: "div",
-  //   id: "pagination",
+    /* Render */
 
-  //   initialize: function (){
-  //     // Bind model change event
-  //     this.listenTo(this.model, "change", this.render);
+    render: function() {
+      // User generator logic here
+      var data = {username: "Username"};
+      // Populate logout template
+      console.log("Logout rendering");
 
-  //     // Compute max pages
-  //   },
+      this.$el.html( this.template(data) );
 
-  //   /* Templates */
-  //   template: _.template($('#pagination-template').html()),
-    
-  //   /* Events */
-  //   // events: {
-  //   //   "DOMContentLoaded": render,
-
-  //   // },
-  // }); // END View: HostView
+      return this;
+    }
+  }); // END View: LogoutView
 
   var BreadcrumbsView = Backbone.View.extend({
     /* Initialization */
@@ -383,12 +407,55 @@ $(function() {
 
       this.$el.html( this.template(data) );
     
-      
-
+    
       return this;
     }
 
-  }); // END View: HostView
+  }); // END View: BreadcrumbsView
+
+  var PaginationView = Backbone.View.extend({
+    /* Initialization */
+    el: $("#pagination"),
+
+    initialize: function (){
+      // Bind model change event
+      // this.listenTo(this.model, "change", this.render);
+
+      // Compute max pages
+    },
+
+    /* Templates */
+    template: _.template($('#pagination-template').html()),
+    
+    /* Events */
+    // events: {
+    //   "DOMContentLoaded": render,
+
+    // },
+
+    render: function() {
+      // Pagination generator logic here
+      var data = {
+        prev: false, 
+        prevLink: "#",
+        pageLinks: [
+          {
+            active: true,
+            link: "#",
+            order: 1
+          }
+        ],
+        next: false,
+        nextLink: "#"
+      };
+      // Populate pagination template
+      console.log("Pagination rendering");
+
+      this.$el.html( this.template(data) );
+
+      return this;
+    }
+  }); // END View: PaginationView
 
   /*  Application  */
 
@@ -396,47 +463,42 @@ $(function() {
     // Bind Element to container div
     el: $("#virshmanagerapp"),
 
+    collection: Hosts,
+
     events: {
       // "DOMContentLoaded": render,
       // "click .hostRecord" : "" // ??
     },
 
     initialize: function() {
-      // // Create breadcrumb
+
+      // Set user
+      this.setUser();
+
+      // Create breadcrumb
       this.makeBreadcrumbs();
 
       // Set host-detail-view to default
       this.clearDetails();
 
-      // // Create pagination view
-      // this.paginate();
+      // Create pagination view
+      this.paginate();
 
-      // // Collect and display records
-      // this.displayHosts();
+      // Collect and display records
+      this.on("complete", this.displayHosts);
 
       console.log("AppView instance created");
     },
 
-    // paginate: function() {
-    //   // Create view
-    //   var pagination = new PaginationView();  
-
-    //   console.log("Attempting render: Pagination");
-
-    //   // Render pagination
-    //   this.$("#pagination").empty();
-    //   this.$("#pagination").append(pagination.render().el);
-    // },
-
-    clearDetails: function() {
+    setUser: function() {
       // Create blank description view
-      var blankDetail = new HostDescriptionView({type: "blank"});
+      var logoutView = new LogoutView();
 
-      console.log("Attempting render: Blank Details");
+      console.log("Attempting render: Logout");
       // blankDetail.render().el;
       // Render view
-      blankDetail.$el.empty();
-      blankDetail.render().el;
+      logoutView.$el.empty();
+      logoutView.render().el;
     },
 
     makeBreadcrumbs: function() {
@@ -450,19 +512,44 @@ $(function() {
       breadcrumbs.render().el;
     },
 
-    // displayHosts: function() {
-    //   Hosts.each(this.displayHost, this);
-    // },
 
-    // displayHost: function(host) {
-    //   console.log("Attempting render: Host record");
+    paginate: function() {
+      // Create view
+      var pagination = new PaginationView();  
 
-    //   // Create view
-    //   var view = new RecordView({model: host, type: "host"});
+      console.log("Attempting render: Pagination");
 
-    //   // Render view
-    //   this.$("#record-area").append(view.render().el);
-    // }
+      // Render pagination
+      pagination.$el.empty();
+      pagination.render().el;
+    },
+
+    clearDetails: function() {
+      // Create blank description view
+      var blankDetail = new HostDescriptionView({type: "blank"});
+
+      console.log("Attempting render: Blank Details");
+      // blankDetail.render().el;
+      // Render view
+      blankDetail.$el.empty();
+      blankDetail.render().el;
+    },
+
+
+    displayHosts: function() {
+      console.log("ALERRTTTT!!!");
+      Hosts.each(this.displayHost, this);
+    },
+
+    displayHost: function(host) {
+      console.log("Attempting render: Host record");
+
+      // Create view
+      var view = new RecordView({model: host, type: "host"});
+
+      // Render view
+      view.$el.append(view.render().el);
+    }
   }); // END View: AppView
 
 ///////////////////////////////////////////////
@@ -470,6 +557,6 @@ $(function() {
 
   console.log("[creating app]");
 
-  var App = new AppView();
+  var App = new AppView({});
 
 }) // END Application
