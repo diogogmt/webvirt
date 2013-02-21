@@ -41,19 +41,19 @@ var helper = {
 UserManagement.prototype.loginGet = function (req, res) {
   console.log("login route");
 
-  res.render('login', {});
+  res.render('user-management/login/login-index', {});
 };
 
 UserManagement.prototype.createGet = function (req, res) {
-  console.log("login route");
+  console.log("create user route");
 
-  res.render('create-user', {});
+  res.render('user-management/create-user/create-user-index.jade', {});
 };
 
 UserManagement.prototype.changePasswordGet = function (req, res) {
   console.log("changePassword route");
 
-  res.render('change-password', {});
+  res.render('user-management/change-password/change-password-index.jade', {});
 };
 
 

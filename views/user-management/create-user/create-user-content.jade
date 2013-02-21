@@ -1,0 +1,22 @@
+#main.container
+  .row
+    .span6.offset3
+      .well
+        // Form Start 
+        form.form-horizontal
+          legend
+            | Create New User
+          .control-group
+            label.control-label(for='inputEmail') User
+            .controls
+              // Username 
+              input#username(type='text', placeholder='User')
+          .control-group
+            label.control-label(for='inputPassword') Password
+            .controls
+              // Password 
+              input#password(type='password', placeholder='Password')
+          .control-group
+            .controls
+              // Submit 
+              button#submit-form.btn Create User
