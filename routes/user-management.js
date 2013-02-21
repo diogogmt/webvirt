@@ -257,6 +257,9 @@ UserManagement.prototype.auth = function (req, res) {
         err = true;
       }
 
+      // Init session
+      req.session.userName = username;
+      
       sendResponse({
         err: err
       });

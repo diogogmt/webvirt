@@ -9,6 +9,7 @@ var express = require('express')
   , crawler = require('./routes/crawler-routes.js')
   , http = require('http')
   , path = require('path')
+  , client = require("./db-conn").client
   , di = {}
   , config
   , logger
@@ -30,12 +31,29 @@ logger.info("config: ", config);
 var app = express();
 
 //CORS middleware
-var allowCrossDomain = function(req, res, next) {
+var allowCrossDomain = function (req, res, next) {
   // console.log("allowCrossDomain");
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
   next();
+}
+
+var authUser = function (req, res, next) {
+  console.log("authUser");
+  if (req.session.userName) {
+    client.hlen("users:" + req.session.userName, function (err, len) {
+      console.log("err: ", err);
+      console.log("len: ", len);
+      if (len) {
+        next();
+      } else {
+        res.redirect('/user/login');
+      }
+    });
+  } else {
+    res.redirect('/user/login');
+  }
 }
 
 
@@ -74,25 +92,25 @@ app.get('/test', function (req, res) {
 
 
 // Virt API
-app.get('/list/vms', routes.virt.listGroup);
-app.get('/list/vms/:ip', routes.virt.listSingle);
-app.get('/list/daemons', routes.virt.listDaemons);
+app.get('/list/vms', authUser, routes.virt.listGroup);
+app.get('/list/vms/:ip', authUser, routes.virt.listSingle);
+app.get('/list/daemons', authUser, routes.virt.listDaemons);
 
-app.get('/stats/version/:ip', routes.virt.version);
-app.get('/stats/cpu/:ip', routes.virt.cpuStats);
-app.get('/stats/mem/:ip', routes.virt.memStats);
+app.get('/stats/version/:ip', authUser, routes.virt.version);
+app.get('/stats/cpu/:ip', authUser, routes.virt.cpuStats);
+app.get('/stats/mem/:ip', authUser, routes.virt.memStats);
 
-app.get('/status/:ip/:name', routes.virt.actions);
-app.get('/start/:ip/:name', routes.virt.actions);
-app.get('/resume/:ip/:name', routes.virt.actions);
-app.get('/suspend/:ip/:name', routes.virt.actions);
-app.get('/shutdown/:ip/:name', routes.virt.actions);
-app.get('/destroy/:ip/:name', routes.virt.actions);
+app.get('/status/:ip/:name', authUser, routes.virt.actions);
+app.get('/start/:ip/:name', authUser, routes.virt.actions);
+app.get('/resume/:ip/:name', authUser, routes.virt.actions);
+app.get('/suspend/:ip/:name', authUser, routes.virt.actions);
+app.get('/shutdown/:ip/:name', authUser, routes.virt.actions);
+app.get('/destroy/:ip/:name', authUser, routes.virt.actions);
 
 
 // Network Scanner API
-app.get("/scan/network", crawler.networkScan);
-app.get("/scan/daemons", crawler.daemonScan);
+app.get("/scan/network", authUser, crawler.networkScan);
+app.get("/scan/daemons", authUser, crawler.daemonScan);
 
 
 // User Management
