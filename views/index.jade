@@ -1,5 +1,33 @@
-extends layout
+html
+  head
+    title
 
-block content
-  h1= title
-  p Welcome to #{title}
+    // Bootstrap 
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
+    link(href='/css/custom.css', rel='stylesheet', media='screen')
+    link(href='/css/bootstrap-responsive.css', rel='stylesheet')
+  body
+    // Header 
+    header
+      .navbar.navbar-fixed-top.navbar-inverse
+        .navbar-inner
+          .container
+            a.brand(href='#') VirtManager
+            p.navbar-text.pull-left
+              small A Libvirt Cluster Web Console
+            #logout
+    // Main 
+    #main.container
+      .row
+        .span6.offset3
+          .well
+            // Form Start 
+            form.form-horizontal
+              legend
+                | Dashboard
+              .control-group
+
+    script(src='http://code.jquery.com/jquery-latest.js')
+    script(src='/js/underscore.js')
+    script(src='/js/bootstrap.min.js')  

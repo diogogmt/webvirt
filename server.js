@@ -102,11 +102,25 @@ var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 
 
+app.get('/user/login', function (req, res) {
+  console.log("login route");
 
-app.get('/create/:username/:password', function (req, res) {
-  console.log("route /create/:username/:password");
-  var username = req.params['username'];
-  var password = req.params['password'];
+  res.render('login', {});
+});
+
+app.get('/user/create', function (req, res) {
+  console.log("login route");
+
+  res.render('create-user', {});
+});
+
+
+
+
+app.post('/user/create', function (req, res) {
+  console.log("route /createUser");
+  var username = req.body['username'];
+  var password = req.body['password'];
   console.log("username: ", username);
   console.log("password: ", password);
   
@@ -161,21 +175,23 @@ app.get('/create/:username/:password', function (req, res) {
       console.log("args: ", arguments);
       console.log("err: ", err);
       console.log("status: ", status);
+
+      res.json({
+        err: err,
+        status: status
+      });
     }
 
   ]);
 
-
-
-
-  res.json(null);
   
 });
 
-app.get('/auth/:username/:password', function (req, res) {
-  console.log("route /auth/:username/:password");
-  var username = req.params['username'];
-  var password = req.params['password'];
+app.post('/user/auth', function (req, res) {
+  console.log("route /auth");
+  var username = req.body.username;
+  var password = req.body.password;
+  console.log("req.body: ", req.body);
   console.log("username: ", username);
   console.log("password: ", password);
 
@@ -225,7 +241,10 @@ app.get('/auth/:username/:password', function (req, res) {
     function checkResults (err, result) {
       console.log("err: ", err);
       console.log("result: ", result);
-      res.json({result: result});
+      res.json({
+        err: err,
+        result: result
+      });
     }
 
   ]);
