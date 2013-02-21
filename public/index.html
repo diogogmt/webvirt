@@ -116,7 +116,7 @@
 
     <script type="text/template" id="host-blank-template">
       <div class="well-small host-blank">
-        <span class="muted">Select an instance</span>
+        <span class="muted">Select a host</span>
       </div>
     </script> <!-- END Host-Blank-Template -->
 
@@ -126,30 +126,30 @@
           <tr>
             <td class="host-btn">
               <button type="button" class="btn" data-toggle="collapse" data-target="#hyperv-1">
-                <i <%= expanded ? 'class="icon-chevron-up"' : 'class="icon-chevron-down"'%> ></i> // "expanded" = bool ? expanded : collapsed
+                <i <%= expanded ? 'class="icon-chevron-up"' : 'class="icon-chevron-down"'%> ></i> <!-- "expanded" = bool ? expanded : collapsed -->
               </button>
             </td>
             <td class="host-ip">
-              <strong>IP:</strong> <em class="muted"><%= ip %></em> // "ip" = ip no
+              <strong>IP:</strong> <em class="muted"><%= ip %></em> <!-- "ip" = ip no -->
             </td>
             <td class="host-lastactive">
-              <strong>Last Active: <em class="muted"><%= lastActive %></em> // "lastActive" = date + time
+              <strong>Last Active: <em class="muted"><%= lastActive %></em> <!-- "lastActive" = date + time -->
             </td>
             <td class="host-state">
-              <strong class="text-success"><%= active ? 'Connected' : 'Disconnected'%> </strong> // "active" = bool
+              <strong class="text-success"><%= active ? 'Connected' : 'Disconnected'%> </strong> <!-- "active" = bool -->
             </td>
             <td class="host-manage">
-              <button type="button" class="btn <%= active ? 'btn-success' : 'btn-danger' %> pull-right" href=""> // Change views
+              <button type="button" class="btn <%= active ? 'btn-success' : 'btn-danger' %> pull-right" href=""> <!-- Change views -->
                 <i class="icon-cog"></i>
               </button>
             </td>
           </tr>
         </table>
-        <div id="hyperv-1" class="collapse <%= expanded ? 'in' : 'out' %>"> // "expanded" = bool ? expanded : collapsed
+        <div id="hyperv-1" class="collapse <%= expanded ? 'in' : 'out' %>"> <!--// "expanded" = bool ? expanded : collapsed -->
           <table class="table table-bordered table-condensed host-details">
             <tr>
               <th>Hypervisor</th>
-              <td><%= host %></td>
+              <td><%= hypervisor %></td>
             </tr>
             <tr>
               <th rowspan="2">CPU</th>
@@ -163,11 +163,11 @@
             <tr>
               <th rowspan="2">RAM</th>
               <th>Used</th>
-              <td><%= ramUsed %>gb</td>
+              <td><%= memUsed %>gb</td>
             </tr>
             <tr>
               <th>Free</th>
-              <td><%= ramFree %>gb</td>
+              <td><%= memFree %>gb</td>
             </tr>
           </table>
         </div>
@@ -214,22 +214,22 @@
 
     <script type="text/template" id="logout-template">
       <p class="navbar-text pull-right">
-        Logout from <a href="#" id="username"><%= username =></a>
+        Logout from <a href="#" id="username"><%= username %></a>
       </p>
     </script> <!-- END Logout-Template -->
 
     <script type="text/template" id="pagination-template">
         <ul>
-          // Create "Prev" link
-          <li <%= prev ? '' : 'class="disabled"' %> ><a href="<%= prevLink %>">Prev</a></li> // "prev" = bool ? exists : disabled
+          <!-- Create "Prev" link -->
+          <li <%= prev ? '' : 'class="disabled"' %> ><a href="<%= prevLink %>">Prev</a></li> <!-- "prev" = bool ? exists : disabled -->
 
-          // Generate regular links
+          <!-- Generate regular links -->
           <% _.each(pageLinks, function(pageLink) {
-            %> <li <%= pageLink[active] ? 'class="active"' : '' %>> <a href=<%= pageLink[link] %>> <%= pageLink[order] %></a></li>
+            %> <li <%= pageLink.active ? 'class="active"' : '' %>> <a href=<%= pageLink.link %>> <%= pageLink.order %></a></li>
           <% }); %> 
 
-          // Create "Next" link
-          <li <%= next ? '' : 'class="disabled"' %> ><a href="<%= nextLink %>">Next</a></li> // "next" = bool ? exists : disabled
+          <!-- Create "Next" link -->
+          <li <%= next ? '' : 'class="disabled"' %> ><a href="<%= nextLink %>">Next</a></li> <!-- "next" = bool ? exists : disabled -->
         </ul>
     </script> <!-- END Pagination-Template -->
 
