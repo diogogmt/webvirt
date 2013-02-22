@@ -22,3 +22,7 @@ exports.daemonScan = function (req, res) {
     res.json({daemons: daemons});
   })
 };
+
+exports.dashboard = function (req, res) {
+  res.render("dashboard", {});
+};

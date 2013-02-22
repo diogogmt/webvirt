@@ -93,6 +93,10 @@ app.get('/test', function (req, res) {
 });
 
 
+// UI 
+app.get('/', crawler.dashboard);
+app.get('/dashboard', crawler.dashboard);
+
 // Virt API
 app.get('/list/vms', routes.virt.listGroup);
 app.get('/list/vms/:ip', authUser, routes.virt.listSingle);
