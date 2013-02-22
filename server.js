@@ -22,9 +22,11 @@ var express = require('express')
 di.config = config = require('./config.js');
 di.logger = logger = require('./logger.js').inject(di);
 di.config.type = "server";
+di.helper = require('./helper.js').inject(di);
 
 routes.virt = require('./routes').inject(di);
 routes.userManagement = require('./routes/user-management.js').inject(di);
+routes.daemonManagement = require('./routes/daemon-management.js').inject(di);
 
 logger.info("config: ", config);  
 
@@ -92,9 +94,8 @@ app.get('/test', function (req, res) {
 
 
 // Virt API
-app.get('/list/vms', authUser, routes.virt.listGroup);
+app.get('/list/vms', routes.virt.listGroup);
 app.get('/list/vms/:ip', authUser, routes.virt.listSingle);
-app.get('/list/daemons', authUser, routes.virt.listDaemons);
 
 app.get('/stats/version/:ip', authUser, routes.virt.version);
 app.get('/stats/cpu/:ip', authUser, routes.virt.cpuStats);
@@ -123,6 +124,13 @@ app.post('/user/changePassword', routes.userManagement.changePassword);
 app.post('/user/create', routes.userManagement.create);
 app.post('/user/auth', routes.userManagement.auth);
 
+
+// Config
+app.get("/daemons/list", routes.daemonManagement.listDaemons);
+
+app.get("/daemons/update/:ip", routes.daemonManagement.updateDaemon);
+app.get("/daemons/add/:ip", routes.daemonManagement.addDaemon);
+app.get("/daemons/delete/:ip", routes.daemonManagement.deleteDaemon);
 
 http.createServer(app).listen(app.get('port'), function(){
   logger.info("Express server listening on port " + app.get('port'));

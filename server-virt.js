@@ -5,65 +5,10 @@ var exec = require('child_process').exec
   , http = require('http')
   , request = require('request')
   , _ = require('underscore')
+  , helper
   , logger;
 
 
-var helper = {
-
-  getDaemonsIp: function (cb) {
-    console.log("getHostIps");
-
-    var sendResponse = function (err) {
-      cb(err, null);
-    }
-
-    Step([
-      function getIps () {
-        logger.info("getIps", {file: __filename, line: __line});
-        client.keys("hosts:*", this);
-      },
-
-      function parseIps (err, keys) {
-        logger.info("parseIps", {file: __filename, line: __line});
-        var step = this;
-        // Log error. Fire callback. Exit Step chain
-        if (err) {
-          logger.error(err, {file: __filename, line: __line});
-          helper.sendResponse(err);
-          this.exitChain();
-          cb(err, null);
-          return;
-        }
-        var step = this;
-        console.log("keys: ", keys);
-        _.map(keys, function (key) {
-          client.hget(key, "type", step.parallel(key.split(":")[1]));
-        });
-
-      },
-
-     function queryIps () {
-      var step = this;
-      logger.info("queryIps", {file: __filename, line: __line});
-      console.log("args: ", arguments);
-      // Iterate on all the saved hosts
-      var hosts =  _.without(_.map(arguments, function (host) {
-        var ip    = host[0]
-          , err   = host[1]
-          , type  = host[2];
-        
-        // Type of the host. Default means it is not hosting libvirt.
-        if (type !== "default") return host[0] ;
-      }), undefined);
-
-      console.log("hosts: ", hosts);
-
-      cb(null, hosts); 
-    },
-
-    ], sendResponse, false);
-  }
-};
 
 // Add error checking code 
 function Virt (data) {
@@ -145,9 +90,16 @@ Virt.prototype.listSingle = function (info, cb) {
 Virt.prototype.listGroup = function (cb) {
   logger.info("Virt Server - listGroup", {file: __filename, line: __line});
   var that = this;
+  console.log("helper: ", helper);
   helper.getDaemonsIp(function (err, ips) {
     console.log("getDaemonsIp callback");
-    // console.log("err: ", err);
+
+    if (err) {
+      logger.error("Failed to get daemon Ips.", {file: __filename, line: __line});
+      res.json({err: 1});
+      return;
+    }
+
     console.log("ips: ", ips);
     var data = {
       ips: ips,
@@ -156,16 +108,6 @@ Virt.prototype.listGroup = function (cb) {
     that.callDaemons(data, cb);
   });
 }
-
-Virt.prototype.listDaemons = function (cb) {
-  logger.info("Virt Server - listDaemons", {file: __filename, line: __line});
-  helper.getDaemonsIp(function (err, ips) {
-    console.log("getDaemonsIp callback");
-    console.log("ips: ", ips);
-    cb({err: null, daemons: ips});
-  });
-}
-
 
 
 Virt.prototype.actions = function (action, data, cb) {
@@ -190,6 +132,7 @@ Virt.prototype.memStats = function (data, cb) {
 
 module.exports.inject = function(di) {
   logger = di.logger;
+  helper = di.helper;
   logger.info("Server Virt inject");
   return new Virt({
     interfaceServerPort: di.config.interfaceServerPort,
