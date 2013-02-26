@@ -9,6 +9,11 @@ var DaemonManagement = function (config) {
 }
 
 
+DaemonManagement.prototype.manageDaemons = function (req, res) {
+  console.log("DaemonManagement - listDaemons");
+  res.render("daemon-management/daemons-crud", {});
+} 
+
 DaemonManagement.prototype.listDaemons = function (req, res) {
   console.log("DaemonManagement - listDaemons");
 
@@ -32,7 +37,7 @@ DaemonManagement.prototype.listDaemons = function (req, res) {
 DaemonManagement.prototype.addDaemon = function (req, res) {
   console.log("DaemonManagement - addDaemons");
   var body = req.body
-    , ip = req.params['ip']
+    , ip = body['ip']
     , hashKey;
 
 
@@ -52,6 +57,8 @@ DaemonManagement.prototype.addDaemon = function (req, res) {
 
 DaemonManagement.prototype.updateDaemon = function (req, res) {
   console.log("DaemonManagement - updateDaemons");
+  console.log("req.body: ", req.body);
+  console.log("req.params: ", req.params);
   var body = req.body
     , ip = req.params['ip']
     , hashKey;
@@ -115,9 +122,12 @@ DaemonManagement.prototype.updateDaemon = function (req, res) {
 DaemonManagement.prototype.deleteDaemon = function (req, res) {
   console.log("DaemonManagement - deleteDaemons");
 
-  var body = req.body
-    , ip = req.params['ip']
+  var params = req.params
+    , ip = params['id']
     , hashKey;
+
+  console.log("req.body: ", req.body);
+  console.log("req.params: ", req.params);
 
 
   // Check if ip is valid

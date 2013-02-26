@@ -43,19 +43,21 @@ var allowCrossDomain = function (req, res, next) {
 
 var authUser = function (req, res, next) {
   console.log("authUser");
-  if (req.session.userName) {
-    client.hlen("users:" + req.session.userName, function (err, len) {
-      console.log("err: ", err);
-      console.log("len: ", len);
-      if (len) {
-        next();
-      } else {
-        res.redirect('/user/login');
-      }
-    });
-  } else {
-    res.redirect('/user/login');
-  }
+  // if (req.session.userName) {
+  //   client.hlen("users:" + req.session.userName, function (err, len) {
+  //     console.log("err: ", err);
+  //     console.log("len: ", len);
+  //     if (len) {
+  //       next();
+  //     } else {
+  //       res.redirect('/user/login');
+  //     }
+  //   });
+  // } else {
+  //   res.redirect('/user/login');
+  // }
+
+  next();
 }
 
 
@@ -130,11 +132,13 @@ app.post('/user/auth', routes.userManagement.auth);
 
 
 // Config
+app.get("/daemons/management", routes.daemonManagement.manageDaemons);
+
 app.get("/daemons/list", routes.daemonManagement.listDaemons);
 
-app.get("/daemons/update/:ip", routes.daemonManagement.updateDaemon);
-app.get("/daemons/add/:ip", routes.daemonManagement.addDaemon);
-app.get("/daemons/delete/:ip", routes.daemonManagement.deleteDaemon);
+app.put("/daemons/update/:id", routes.daemonManagement.updateDaemon);
+app.post("/daemons/add", routes.daemonManagement.addDaemon);
+app.delete("/daemons/delete/:id", routes.daemonManagement.deleteDaemon);
 
 http.createServer(app).listen(app.get('port'), function(){
   logger.info("Express server listening on port " + app.get('port'));

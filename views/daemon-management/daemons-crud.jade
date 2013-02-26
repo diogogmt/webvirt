@@ -1,0 +1,16 @@
+extends ../includes/layout
+
+block content
+  section#wrapperApp
+    header#header
+        h1 Daemon Management
+        input#newDaemon(placeholder='Daemon IP address', autofocus='autofocus')
+        button#addDaemon Add Daemon
+        button#addBatchDaemons Add Batch of Daemons
+      section#main
+        ul#daemonsList
+      footer#footer
+    #info
+      p Double-click to edit a todo
+
+  include templates/item-template
