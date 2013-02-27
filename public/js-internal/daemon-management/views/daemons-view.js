@@ -29,7 +29,7 @@ app.DaemonView = Backbone.View.extend({
 
   // Re-renders the titles of the todo item.
   render: function() {
-    console.log("DaemonView - render");
+    // console.log("DaemonView - render");
     this.$el.html( this.template( 'item-template', this.model.toJSON() ) );
     return this;
   },
@@ -44,6 +44,9 @@ app.DaemonView = Backbone.View.extend({
     var ele = $(e.currentTarget);
     var newValue = ele && ele.val();
     console.log("newValue: ", newValue);
+    console.log("this: ", this);
+    this.model.set({ip: newValue}, {validate: true});
+
     
   },
 

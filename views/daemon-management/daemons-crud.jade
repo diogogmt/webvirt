@@ -1,16 +1,32 @@
 extends ../includes/layout
 
 block content
-  section#wrapperApp
-    header#header
-        h1 Daemon Management
-        input#newDaemon(placeholder='Daemon IP address', autofocus='autofocus')
-        button#addDaemon Add Daemon
-        button#addBatchDaemons Add Batch of Daemons
-      section#main
-        ul#daemonsList
-      footer#footer
-    #info
-      p Double-click to edit a todo
+  #main.container
+    .row
+
+      include ../includes/nav-menu
+      include ../includes/breadcrumbs.jade
+
+      .row
+        .span10
+          #description-area
+            |Daemon Management
+          #record-area.well
+            .input-append
+              input#newDaemon.input-large(type="text", placeholder='Daemon IP address', autofocus='autofocus')
+              button#addDaemon.btn.btn-primary Add Daemon
+            
+            form#hostManagementForm
+              input#file.hide.ie_show(type='file', name="file")
+              .input-append.ie_hide
+                input#pretty-input.input-large(type='text', onclick="$('#file').click();")
+                a.btn(onclick="$('#file').click();") Browse
+              button#uploadHosts.btn.btn-primary Upload file
+            
+            section#main
+              ul#daemonsList.nav.nav-tabs.nav-stacked
+      #pagination.pagination.pagination-right
+  
+  
 
   include templates/item-template

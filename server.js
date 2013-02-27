@@ -9,7 +9,10 @@ var express = require('express')
   , crawler = require('./routes/crawler-routes.js')
   , http = require('http')
   , path = require('path')
+  , connect = require('connect')
   , client = require("./db-conn").client
+  , upload = require('jquery-file-upload-middleware')
+  , fs = require("fs")
   , di = {}
   , config
   , logger
@@ -61,13 +64,13 @@ var authUser = function (req, res, next) {
 }
 
 
-
 app.configure(function () {
   app.set('port', config.interfaceServerPort);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
   app.use(express.logger('dev'));
+  app.use(connect.bodyParser({uploadDir:'./uploads'}));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('test'));
@@ -134,11 +137,15 @@ app.post('/user/auth', routes.userManagement.auth);
 // Config
 app.get("/daemons/management", routes.daemonManagement.manageDaemons);
 
+app.post("/daemons/upload", routes.daemonManagement.uploadDaemon);
+
 app.get("/daemons/list", routes.daemonManagement.listDaemons);
 
 app.put("/daemons/update/:id", routes.daemonManagement.updateDaemon);
 app.post("/daemons/add", routes.daemonManagement.addDaemon);
 app.delete("/daemons/delete/:id", routes.daemonManagement.deleteDaemon);
+
+
 
 http.createServer(app).listen(app.get('port'), function(){
   logger.info("Express server listening on port " + app.get('port'));

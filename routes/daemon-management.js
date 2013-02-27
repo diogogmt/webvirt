@@ -1,5 +1,7 @@
 var client = require("./../db-conn").client
   , Step = require('step')
+  , fs = require('fs')
+  , _ = require('underscore')
   , logger
   , helper;
 
@@ -145,6 +147,58 @@ DaemonManagement.prototype.deleteDaemon = function (req, res) {
   
 };
 
+DaemonManagement.prototype.uploadDaemon = function (req, res) {
+  console.log("DaemonManagement uploadDaemon");
+
+  var file = req.files.file
+  , filename = req.body.filename
+
+  console.log("req.files: ", req.files);
+
+  console.log("file: ", file);
+  console.log("filename: ", filename);
+  var path = "./" + file.path;
+  console.log("path: ", path);
+
+
+  var rawFile = fs.readFileSync(path,'utf8'); 
+  var parsedFile = JSON.parse(rawFile); 
+  console.log("rawFile: ", rawFile);
+
+  var hosts = parsedFile.hosts;
+  console.log("hosts: ", hosts);
+
+  var errors = [];
+  var hostsLen = hosts && hosts.length || 0;
+  console.log("hosts.len: ", hosts.length);
+  console.log("hostsLen: ", hostsLen);
+
+  if (!hostsLen) {
+    res.json({
+      err: "File was empty. Please try again."
+    });
+    return;
+  }
+
+  console.log("before each");
+  _.each(hosts, function (host) {
+    console.log("host: ", host);
+
+    (function (host) {    
+    helper.addDaemon({ip: host}, function (data) {
+      var err = data.err || false
+      errors.push({err: err, ip: host});
+      if(!--hostsLen) {
+        res.json({data: errors});
+        console.log("errors: ", errors);
+      } 
+    });    
+  })(host);
+
+  });
+  console.log("after each");
+
+}
 module.exports.inject = function(di) {
   logger = di.logger;
   helper = di.helper;

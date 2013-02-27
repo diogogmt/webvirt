@@ -25,9 +25,9 @@ var DaemonsList = Backbone.Collection.extend({
   },
 
   getAll: function () {
-    console.log("DaemonsList - getAll");
-    return this.filter(function (todo) {
-      return todo;
+    // console.log("DaemonsList - getAll");
+    return this.filter(function (daemon) {
+      return daemon;
     });
   },
 

@@ -7,7 +7,7 @@ app.WrapperView = Backbone.View.extend({
 
   // Instead of generating a new element, bind to the existing skeleton of
   // the App already present in the HTML.
-  el: '#wrapperApp',
+  el: '#record-area',
 
   // Our template for the line of statistics at the bottom of the app.
   // statsTemplate: _.template( $('#stats-template').html() ),
@@ -24,13 +24,60 @@ app.WrapperView = Backbone.View.extend({
   initialize: function() {
     console.log("AppView - initialize");
     this.$newDaemon = this.$('#newDaemon');
-    this.$footer = this.$('#footer');
-    this.$main = this.$('#main');
 
     this.listenTo(app.Daemons, 'all', this.render);
     this.listenTo(app.Daemons, 'reset', this.addAll);
     this.listenTo(app.Daemons, 'add', this.addOne);
     this.listenTo(app.Daemons, 'destroy', this.addAll);
+    this.listenTo(app.Daemons, 'invalid', this.validationFailed);
+    this.listenTo(app.Daemons, 'remove', this.render);
+
+    $('input[id=file]').change(function() {
+      $('#pretty-input').val($(this).val().replace("C:\\fakepath\\", ""));
+    });
+
+    $("#hostManagementForm").ajaxForm({
+      url: "/daemons/upload",
+      type: "POST",
+      dataType: "json",
+      clearForm: true,
+      beforeSubmit: function (formData, jqForm, options) {
+        console.log("beforeSubmit");
+        // formData is an array of objects containing the values of the form
+        // jqForm is the html form element
+        // options are the object initialized with ajaxForm
+        // maybe validate the for before submiting
+        // if form is not valid return false
+        console.log("formData: ", formData);
+        console.log("jqForm: ", jqForm);
+        console.log("options: ", options);
+        return true;;
+      },
+      success: function (data) {
+        console.log("ajaxform success");
+        console.log("data: ", data);
+        // app.Daemons.trigger("reset");
+        var data = data.data;
+        var dataLen = data && data.length || 0;
+        console.log("dataLen: ", dataLen);
+        for (var i = 0; i < dataLen; i++) {
+          var obj = data[i];
+          console.log("obj: ", obj);
+          if (obj.err) {
+            toastr.error("Failed to add host " + obj.ip, 'An error occured.');
+          } else {
+            toastr.success("Add host " + obj.ip, 'Action completed.');
+          }
+        }
+        app.Daemons.fetch();
+      },
+      error: function () {
+        console.log("ajaxform error");
+      },
+      complete: function () {
+        console.log("ajaxform complete");
+      }
+    });
 
 
     console.log("app.Daemons.fetch");
@@ -44,34 +91,23 @@ app.WrapperView = Backbone.View.extend({
 
     var daemons = app.Daemons.getAll();
     console.log("daemons: ", daemons);
-
-
-
-    this.$main.show();
-    this.$footer.show();
-
-    // this.$footer.html(this.statsTemplate({
-    //   completed: completed,
-    //   remaining: remaining
-    // }));
+    this.addAll();
+    // toastr.info('rendering WrapperView')
 
   },
 
   addOne: function (todo) {
-    console.log("WrapperView - addOne");
+    // console.log("WrapperView - addOne");
     var view = new app.DaemonView({ model: todo });
     $('#daemonsList').append(view.render().el);
   },
 
-  // Add all items in the **Todos** collection at once.
   addAll: function () {
-    console.log("WrapperView - addAll");
+    // console.log("WrapperView - addAll");
     this.$('#daemonsList').html('');
     app.Daemons.each(this.addOne, this);
   },
 
-  // If you hit return in the main input field, create new Todo model,
-  // persisting it to localStorage.
   createDaemon: function( event ) {
     console.log("WrapperView - createDaemon");
 
@@ -89,5 +125,18 @@ app.WrapperView = Backbone.View.extend({
 
     this.createDaemon();
   },
+
+  validationFailed: function (model, error, w) {
+    console.log("WrapperView - validationFailed");
+    console.log("model: ", model);
+    console.log("error: ", error);
+
+    if (!model.id) {
+      app.Daemons.remove(model);
+    }
+    toastr.options.fadeOut = 50000;
+    toastr.error(error, 'An error occured.');
+    
+  }
 
 });
