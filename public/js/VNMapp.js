@@ -8,7 +8,9 @@ $(function() {
   
   // API Helper Object
   var API = {
-    // AJAX wrapper
+    //// AJAX wrapper cb signatures:
+    // [ success(data, textStatus, jqXHR) ]
+    // [ error(jqXHR, textStatus, errorThrown) ]
     callServer:  function(call, success, error) {
       $.ajax({
         url: "/" + call,
@@ -45,7 +47,7 @@ $(function() {
       }
 
       // Bind an event to log changes to console
-      this.on("complete", function() {
+      this.on("change", function() {
         console.log("------Model: Updated!");
         console.log("      IP: " + this.get("ip"));
         console.log("      Hypervisor: " + this.get("hypervisor"));
@@ -55,11 +57,8 @@ $(function() {
         console.log("      Memory used: " + this.get("memUsed"));
       }, this);
       
-      // Set other host data members
-      this.updateHost();
-
-      // Collect instances
-      this.updateInstanceList();
+      // Check if data was passed
+      if(!this.get("hypervisor")) this.updateHost();
     }, // END Initialize Method
 
     updateHost: function() {
@@ -95,7 +94,7 @@ $(function() {
 
                   // Trigger completion of model initialization
                   console.log("-----Model details retrieved: " + that.get("ip"));
-                  that.trigger("complete");
+                  that.trigger("complete:hostDetails"); // !!![TRIGGER]!!!
                 },
                 function() {
                   console.log("XX mem command errorz XX");
@@ -167,19 +166,6 @@ $(function() {
         });
     }, // END updateInstance Method
 
-    getInstanceKeys: function() {
-      // Retrieve keys prefixed with "vm-"
-      var curAttributes = _.keys(this.toJSON());
-      var curInstances = [];
-      var i;
-
-      _.each(curAttributes, function(el, list, index) {
-        if (el.match(/^vm-[a-zA-Z0-9-]+/)) curInstances.push(el);
-      });
-
-      return curInstances;
-    }, // END getInstanceKeys Method
-
     sendInstanceCommand: function(cmd, vmName) {
       var that = this;
 
@@ -201,69 +187,93 @@ $(function() {
           console.log("interface-server connection error");
           return null; // Error handling?
         })); // End API callServer
-
     },
 
     errHandle: function(err) {
       console.log("XX Error connecting to daemon: " + err + " XX");
     }
-  }); // END Model: Host
+  });
 
   var HostList = Backbone.Collection.extend({
     model: Host,
     
-    localStorage: new Backbone.LocalStorage("hosts-backbone"),
-
-    url: "/hosts",
+    url: "/list/models/hosts",
 
     totalHosts: 0,
 
     initialize: function() {
-      // Set to fire a console log for each model
-      // this.on("add", function(model) {
-      //   var vms = model.getInstanceKeys();
-      //   var msg = "New Host!\nIP:" + model.get("ip");
-      //   var i;
-
-      //   _.each(vms, function(element, index, list) {
-      //     msg += "\nVm #" + (index+1) + ": " + element;
-      //   });
-
-      //   console.log(msg);
-      // });
-
-      var that = this;
-      console.log("-begin collection calls");
-
-      API.callServer("list/daemons/",
-        function(data, textStatus, jqXHR) {
-          // Loop through host list, creating a model for each
-          _.each(data.daemons, function(element, index, list) {
-            console.log("--Add Model | ip: " + element);
-            that.add({ip: element});
-            // Increment host counter
-            that.totalHosts = that.totalHosts + 1;
-          });
-
-          // Fire event marking all hosts added to the collection
-          App.trigger("complete:hostList");
-        },
-        function() {
-          console.log("XX Cannot find daemon-hosts! XX");
-        });
+      this.refresh(function() {
+        console.log("Host collection created");
+      },
+      function() {
+        console.log("Host collection failed to create!");
+      });
     }, // End Initialize
 
     comparator: function(model) {
       return model.get("ip");
-    }
+    },
 
-  }); // END Collection: HostList
+    refresh: function(success) {
+      // Clear collection
+      this.fetch(success, function() {
+        console.log("ERROR REFRESHING HOST COLLECTION!");
+      });
+    }
+  });
+
+  var Instance = Backbone.Model.extend({
+    initialize: function () {
+    },
+
+    sendCommand: function () {
+
+    },
+
+    urlRoot: function () {
+      return ('/status/' + this.get("ip") + "/");
+    },
+
+    parse: function (res) {
+      var copy;
+
+      if (res.data) {
+        copy = this.toJSON();
+        copy.status = res.data;
+      } 
+      else if (res.err) {
+        toastr.error(res.err);
+      } 
+      else
+        copy = res;   
+
+      return copy;
+    }
+    
+  });
+
+  var InstanceList = Backbone.Collection.extend({
+    model: Instance,
+
+    url: "/list/vms/",
+
+    initialize: function() {
+    },
+
+    comparator: function(model) {
+      return model.get("id");
+    },
+
+    parse: function(res) {
+      return res.instances;
+    }
+  })
 
   var User = Backbone.Model.extend({
     initialize: function() {
       if (!this.get("username")) this.set("username", "username");
     }
-  }); // END Model: Host
+  });
 
   // Create host collection
   console.log("[creating hosts]");
@@ -322,73 +332,199 @@ $(function() {
 
       return this;
     }
-  }); // END View: HostDescriptionView
+  });
 
-  var RecordView = Backbone.View.extend({
-    /* Initialization */
-    el: $("#record-area"),
-
-    initialize: function (){
-      var that = this;
-
-      // Check for type, 
-      if (!this.options.type) { this.options.type = "host"; }
-
-      // Bind model change event
-      this.listenTo(this.model, "complete", function() {
-        // Trigger event for record rendering
-        console.log("------Attempting record render: !!!!");
-        that.trigger("complete:hostDetails");
-      });
-
-      this.listenTo(this.model, "empty:records", function() {
-        this.$el.empty();
+  var InstanceRecordView = Backbone.View.extend({
+    initialize: function () {
+      console.log("-----InstanceRecord Initialization");
+      this.listenTo(this.model, 'destroy', this.remove);
+      this.listenTo(this.model, 'change', function () {
+        console.log("-------Instance Model: Change detected!");
+        this.render();
       });
     },
 
+    events: {
+      "click .refresh" : "refreshRecord",
+      "click .start"   : "startInstance",
+      "click .shutdown": "shutdownInstance",
+      "click .resume"  : "resumeInstance",
+      "click .suspend" : "suspendInstance",
+      "click .destroy" : "destroyInstance"
+    },
+
+    template: _.template($('#instance-record-template').html()),
+
+    render: function () {
+      console.log("------Rendering instance view!");
+      console.log("      DEBUG:");
+      console.log(this.model.toJSON());
+
+      this.$el.html( this.template(this.model.toJSON()) );
+
+      console.log("      ...rendered!");
+
+      return this;
+    },
+
+    refreshRecord: function(){
+      console.log("REFRESHHHHHHHIIIIIINNNGG!")
+      this.model.fetch();
+    },
+
+    startInstance: function(){
+      var self = this;
+      API.callServer("start/" + self.model.get("ip") + "/" + self.model.get("id"),
+        function (data, textStatus, jqXHR) {
+          if (data.err) {
+            console.log("daemon error:" + data.err); 
+            toastr.error("Daemon error!", "There is a problem with the connection to the API daemon! Check the interface-server logs for more details.");
+
+            return;
+          }
+
+          toastr.success('Command successful!', "VIRSH: " + data.data);
+
+          console.log( "Start Instance:" + self.model.get("id") );
+          console.log(data);
+          console.log( "    VIRSH:" + data.data);
+          self.refreshRecord();
+        },
+        function () {
+          toastr.error("Server error!", "Error communicating with interface-server");
+          console.log( "XX Error communicating with interface-server! XX");
+        });
+    },
+
+    shutdownInstance: function(){
+      var self = this;
+      API.callServer("shutdown/" + self.model.get("ip") + "/" + self.model.get("id"),
+        function (data, textStatus, jqXHR) {
+          if (data.err) {
+            console.log("daemon error:" + data.err); 
+            toastr.error("Daemon error!", "There is a problem with the connection to the API daemon! Check the interface-server logs for more details.");
+
+            return;
+          }
+
+          toastr.success('Command successful!', "VIRSH: " + data.data);
+
+          console.log( "Shutdown Instance:" + self.model.get("id") );
+          console.log(data);
+          console.log( "    VIRSH:" + data.data);
+
+          // Update model
+          self.model.fetch();
+        },
+        function () {
+          console.log( "XX Error communicating with interface-server! XX");
+        });
+    },
+
+    resumeInstance: function(){
+      var self = this;
+      API.callServer("resume/" + self.model.get("ip") + "/" + self.model.get("id"),
+        function (data, textStatus, jqXHR) {
+          if (data.err) {
+            console.log("daemon error:" + data.err); 
+            toastr.error("Daemon error!", "There is a problem with the connection to the API daemon! Check the interface-server logs for more details.");
+
+            return;
+          }
+
+          toastr.success('Command successful!', "VIRSH: " + data.data);
+
+          console.log( "Shutdown Instance:" + self.model.get("id") );
+          console.log(data);
+          console.log( "    VIRSH:" + data.data);
+
+          // Update model
+          self.model.fetch();
+        },
+        function () {
+          console.log( "XX Error communicating with interface-server! XX");
+        });
+    },
+
+    suspendInstance: function(){
+      var self = this;
+      API.callServer("suspend/" + self.model.get("ip") + "/" + self.model.get("id"),
+        function (data, textStatus, jqXHR) {
+          if (data.err) {
+            console.log("daemon error:" + data.err); 
+            toastr.error("Daemon error!", "There is a problem with the connection to the API daemon! Check the interface-server logs for more details.");
+
+            return;
+          }
+
+          toastr.success('Command successful!', "VIRSH: " + data.data);
+
+          console.log( "Shutdown Instance:" + self.model.get("id") );
+          console.log(data);
+          console.log( "    VIRSH:" + data.data);
+
+          // Update model
+          self.model.fetch();
+        },
+        function () {
+          console.log( "XX Error communicating with interface-server! XX");
+        });
+    },
+
+    destroyInstance: function(){
+      var self = this;
+      API.callServer("destroy/" + self.model.get("ip") + "/" + self.model.get("id"),
+        function (data, textStatus, jqXHR) {
+          if (data.err) {
+            console.log("daemon error:" + data.err); 
+            toastr.error("Daemon error!", "There is a problem with the connection to the API daemon! Check the interface-server logs for more details.");
+
+            return;
+          }
+
+          toastr.success('Command successful!', "VIRSH: " + data.data);
+
+          console.log( "Shutdown Instance:" + self.model.get("id") );
+          console.log(data);
+          console.log( "    VIRSH:" + data.data);
+
+          // Update model
+          self.model.fetch();
+        },
+        function () {
+          console.log( "XX Error communicating with interface-server! XX");
+        });
+    },
+
+  });
+
+  var RecordView = Backbone.View.extend({
+    /* Initialization */
+    initialize: function (){
+      console.log("-----RecordView Initializing");
+    },
+
+
     /* Templates */
-    HostTemplate: _.template($('#host-record-template').html()),
-    InstanceTemplate: _.template($('#instance-record-template').html()),
+    template: _.template($('#host-record-template').html()),
 
     /* Render */
     render: function() {
       // Populate template template
-      console.log("----Record rendering");
-      console.log("    to JSON:");
+      console.log("------Record rendering");
+  
+      var q = this.model.toJSON();
 
-      if (this.options.type === "host"){
-        console.log("    Model: ");
-        console.log(this.model.toJSON());
+      q.expanded = false;
+      q.lastActive = "N/A";
+      q.active = true;
 
-        var q = this.model.toJSON();
-
-        q.expanded = false;
-        q.lastActive = "N/A";
-        q.active = true;
-
-        this.$el.append( this.HostTemplate(q) );
-      }
-      else {
-        console.log("Dummy!");
-
-        // Parse instance name
-        var i = this.model.get(this.options.instance);
-        i.name = this.options.instance.substr(3);
-
-        // Send instance command
-        this.model.sendInstanceCommand("status/" + i.ip + "/", i.name);
-
-        this.listenTo(this.model, "complete:cmd" + i.name, function() {
-          i.status = (this.model.get(this.options.instance)).status;
-          console.log(i.status);
-          this.$el.append( this.InstanceTemplate(i) );
-        })
-
-      }
-
+      this.$el.html( this.template(q) );
+      console.log("      ...rendered!");
       return this;
-    }
-  }); // END View: RecordView
+    },
+
+  });
 
 
   /*  Scaffolding  */
@@ -428,7 +564,7 @@ $(function() {
 
       return this;
     }
-  }); // END View: LogoutView
+  });
 
   var BreadcrumbsView = Backbone.View.extend({
     /* Initialization */
@@ -465,8 +601,7 @@ $(function() {
     
       return this;
     }
-
-  }); // END View: BreadcrumbsView
+  });
 
   var PaginationView = Backbone.View.extend({
     /* Initialization */
@@ -510,7 +645,7 @@ $(function() {
 
       return this;
     }
-  }); // END View: PaginationView
+  });
 
   /*  Application  */
 
@@ -528,16 +663,16 @@ $(function() {
     initialize: function() {
       console.log("--AppView instance created");
 
-      // Set trigger to wait for Hosts collection to finish API calls
-      this.on("complete:hostList", this.displayHosts, this);
+      // Set callback to wait for Hosts collection to finish API calls
+      this.listenTo(Hosts, "reset", this.displayHosts);
 
-      this.reset();
 
-      // Navigate to the default route
-      Routes.navigate("dashboard");
-    },
+      // Set callback to clear record area
+      this.on("empty:records", function(){
+        // Empty record area
+        $("#record-area").empty();
+      });
 
-    reset: function() {
       // Set user
       this.setUser();
 
@@ -550,8 +685,28 @@ $(function() {
       // Create pagination view
       this.paginate();
 
-      // Display host records
-      this.displayHosts();
+      // Navigate to the default route
+      // Routes.navigate("dashboard");
+    },
+
+    reset: function() {
+      // Trigger clearing of records
+      this.trigger("empty:records");
+
+      // Reset hosts
+      Hosts.refresh(this.displayHosts);
+
+      // Set user
+      this.setUser();
+
+      // Create breadcrumb
+      this.makeBreadcrumbs();
+
+      // Set host-detail-view to default
+      this.displayDetails();
+
+      // Create pagination view
+      this.paginate();
     },
 
     setUser: function() {
@@ -614,57 +769,70 @@ $(function() {
 
     displayHosts: function() {
       console.log("---DisplayHosts Check");
+
+      // Empty record area
+      $("record-area").empty();
+      // Display hosts
       Hosts.each(this.displayHost, this);
     },
 
     displayHost: function(host) {
       console.log("----Attempting render: collecting host model details | ip: " + host.get("ip"));
 
-      // Create view
       var view = new RecordView({model: host, type: "host"});
-
-      // Render view
-      this.listenTo(App, "complete:gotoDashboard", function() {
-        view.$el.empty();
-      });
-
-      this.listenTo(view, "complete:hostDetails", function() {
-        view.$el.append(view.render());
-      });
+      $("#record-area").append( view.render().el );
 
     },
 
     displayInstances: function(ip) {
-      // Render breadcrumbs
-      var data = {
+      var self = this;
+      var crumbs = {
         curPage: "Host: " + ip,
         routes: [
           {path: "#dashboard", sequence: "Dashboard"}
         ]
       };
 
-      this.makeBreadcrumbs(data);
+      // Callback declarations
+      var success = function (model, response, options) {
+        Instances.each( 
+          function(model) {
+            view = new InstanceRecordView({model: model});
+            self.$("#record-area").append( view.render().el );
+            // model.on("change", function (model) {
+            //   view.$el.html(view.render().el);
+            // });
+          }
+        );
+      };
+      var error = function() {
+          console.log("Fetch failed!");
+      };   
+
+      // Render breadcrumbs
+      this.makeBreadcrumbs(crumbs);
 
       // Render the display area
       this.displayDetails(ip);
 
-      // Render the instance records
-      var view;
-      var model = (Hosts.where({"ip": ip}))[0];
-      
       // Trigger emptying of record area
-      model.trigger("empty:records");
+      this.$("#record-area").empty();
 
-      _.each(model.getInstanceKeys(), function(el, index, list) {
-        console.log("RENDERING INSTANCE RECORD");
-        view = new RecordView({model: model, type: "instance", instance: el});
-        view.$el.append(view.render());
-      });
+      var Instances = new InstanceList();
 
+      Instances.hostIp = ip;
+      Instances.url += ip;
+
+      Instances.fetch({"success": success, "error": error});
     }
-  }); // END View: AppView
+  }); 
 
+///////////////////////////////////////////////
+//////// APP LOGIC ////////////////////////////
 
+console.log("[creating app]");
+
+var App = new AppView();
 ///////////////////////////////////////////////
 //////// ROUTING //////////////////////////////
 
@@ -677,40 +845,28 @@ var Dashboard = Backbone.Router.extend({
   initialize: function () {
     var that = this;
 
-    this.listenTo(Hosts, "complete:hostList", function() {
-      that.navigate("dashboard");
-      App.reset();
-    }, Hosts);
-
     this.on("route:gotoDashboard", function() {
       console.log("[Return to Dashboard]");
 
-      // Trigger "complete:gotoDashboard" event, clearing the record area
-      App.trigger("complete:gotoDashboard");
-      Hosts.trigger("complete:hostList");
+      App.reset();
     });
 
     // Set instance list trigger to route #host/ip
     this.on("route:listInstances", function(ip) {
       console.log("[Render Instances]");
+      console.log("  ...IP: " + ip);
       that.navigate("host/" + ip);
       App.displayInstances(ip);
     });
   }
 });
 
-var Routes = new Dashboard();
+  var Routes = new Dashboard();
 
-Backbone.history.start();
-Routes.navigate("");
-
+  Backbone.history.start();
 
 
-///////////////////////////////////////////////
-//////// APP LOGIC ////////////////////////////
 
-  console.log("[creating app]");
 
-  var App = new AppView();
 
 }) // END Application

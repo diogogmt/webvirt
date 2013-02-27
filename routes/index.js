@@ -3,6 +3,12 @@
 // a possible reason for this problem is that the Controller methods are being used as express callback for the API routes
 var virt;
 var logger;
+var Step = require('step');
+var _ = require('underscore');
+var helper;
+
+
+
 var Controller = function (di) {
   logger.info("Controller");
   virt = di.config.type === "server"
@@ -115,8 +121,107 @@ Controller.prototype.memStats = function (req,res) {
   });
 };
 
+Controller.prototype.hostToModel = function(req,res) {
+  console.log("Controller hostToModel");
+
+  var hostIps;
+  var models = [];
+  var counter;
+
+  var responseCounter = function() {
+    counter--;
+    if (!counter) {
+      res.json(models);
+    }
+  }
+
+  // Collect host IPs
+  helper.getDaemonsIp(function(err, ips) {
+    hostIps = ips;
+    console.log("Host IPs COllected:");
+    console.log(hostIps);
+    counter = ips.length;
+
+    _.each(hostIps,
+     function(element, index, list) {
+      var model = {};
+          model.ip = element;
+
+      console.log("each: ")
+      console.log(element);
+      console.log(index);
+      console.log(list);
+      Step([
+        function pullCpuInfo () {
+          var step = this;
+
+          var vmInfo = {
+            ips: [element],
+            route: "stats\/cpu\/" 
+          };
+  
+          console.log("pullCPUinfo: ")
+          console.log(vmInfo);
+
+
+
+          virt.cpuStats(vmInfo, step);
+        },
+
+        function pullMemInfo (status) {
+          var step = this;
+
+          console.log("cpuStats callback callback");
+          console.log("status: ", status);
+          model.cpuIdle = status.idle;
+          model.cpuUsed = status.usage;
+
+          var vmInfo = {
+            ips: [element],
+            route: "stats\/mem\/" 
+          };
+         
+          virt.memStats(vmInfo, step);
+        },
+
+        function pullVersionInfo(status) {
+          var step = this;
+
+          console.log("memStats callback callback");
+          console.log("statusz: ", status);
+          model.memFree = status.free;
+          model.memUsed = (status.total) - (status.free);
+
+          var vmInfo = {
+            ips: [element],
+            route: "stats\/version\/"
+          };
+          virt.version(vmInfo, step);
+        },
+
+        function finalStep(status) {
+          console.log("version callback");
+          console.log("status: ", status);
+          model.hypervisor = status.hypervisor;
+
+          models.push(model);
+          
+          // Check for final host
+          responseCounter();
+        }
+      ], function(error){console.log("BLARRG"); logger.error(error, {file: __filename, line: __line})}, false);
+    }, this);
+
+  });
+
+
+
+
+};
+
 module.exports.inject = function(di) {
   logger = di.logger;
+  helper = di.helper;
   logger.info("Controller inject");
   return new Controller(di);
 }

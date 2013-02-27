@@ -14,6 +14,8 @@
     "redis": "*",
     "winston": "*",
     "injectr": "*",
-    "step": "https://github.com/diogogmt/step/tarball/master"
+    "step": "https://github.com/diogogmt/step/tarball/master",
+    "scrypt": "*",
+    "bcrypt-nodejs": "*"
   }
 }

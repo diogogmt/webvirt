@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/custom.css" rel="stylesheet" media="screen">
+    <link href="css/toastr.min.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -108,8 +109,8 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="js/underscore.js"></script>
     <script src="js/backbone.js"></script>
-    <script src="js/backbone.localStorage.js"></script>
-    <script src="js/VNMapp.js"></script>
+    <script src="js/VNMapp_fiddle.js"></script>
+    <script src="js/toastr.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
     <!-- Content Templates -->
@@ -184,7 +185,7 @@
         <table class="instance">
           <tr>
             <td class="instance-id">
-              <strong>ID:</strong> <em class="muted"><%= id %></em>
+              <strong>ID:</strong> <em class="muted"><%= vid %></em>
             </td>
             <td class="instance-name">
               <strong>Name:</strong> <em class="muted"><%= name %></em>
@@ -199,20 +200,20 @@
                   <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a tabindex="-1" href="#">Refresh Status</a></li>
+                  <li class="refresh"><a tabindex="-1">Refresh Status</a></li>
                   <li class="divider"></li>
-                  <li><a tabindex="-1" href="#">Start</a></li>
-                  <li><a tabindex="-1" href="#">Shutdown</a></li>
-                  <li><a tabindex="-1" href="#">Resume</a></li>
-                  <li><a tabindex="-1" href="#">Suspend</a></li>
-                  <li><a tabindex="-1" href="#">Destroy</a></li>
+                  <li class="start"><a tabindex="-1">Start</a></li>
+                  <li class="shutdown"><a tabindex="-1">Shutdown</a></li>
+                  <li class="resume"><a tabindex="-1">Resume</a></li>
+                  <li class="suspend"><a tabindex="-1">Suspend</a></li>
+                  <li class="destroy"><a tabindex="-1">Destroy</a></li>
                 </ul>
               </div>
             </td>
           </tr>
         </table>
       </div>
-    </script> <!-- END Host-Record-Template -->
+    </script> <!-- END Instance-Record-Template -->
 
 
     <!-- Scaffolding Templates -->
