@@ -99,6 +99,7 @@ Helper.prototype.deleteDaemon = function (opts, cb) {
   }
 
   var hashKey = "hosts:" + ip;
+  console.log("hashKey: ", hashKey);
   Step([
     function deleteDaemon () {
       var step = this;
