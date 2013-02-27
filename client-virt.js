@@ -28,8 +28,8 @@ Virt.prototype.listSingle = function (info, cb) {
     for (i = 0; i < listLength; i++) {
       tmp = rawList[i].trim().split(/ +/);
       list.push({
-        id:tmp[0],
-        name:tmp[1],
+        vid:tmp[0],
+        id:tmp[1],
         status: tmp[3] ? tmp[2] + " " + tmp[3] : tmp[2],
         ip: ip
       });

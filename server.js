@@ -42,20 +42,21 @@ var allowCrossDomain = function (req, res, next) {
 }
 
 var authUser = function (req, res, next) {
-  console.log("authUser");
-  if (req.session.userName) {
-    client.hlen("users:" + req.session.userName, function (err, len) {
-      console.log("err: ", err);
-      console.log("len: ", len);
-      if (len) {
-        next();
-      } else {
-        res.redirect('/user/login');
-      }
-    });
-  } else {
-    res.redirect('/user/login');
-  }
+  // console.log("authUser");
+  // if (req.session.userName) {
+  //   client.hlen("users:" + req.session.userName, function (err, len) {
+  //     console.log("err: ", err);
+  //     console.log("len: ", len);
+  //     if (len) {
+  //       next();
+  //     } else {
+  //       res.redirect('/user/login');
+  //     }
+  //   });
+  // } else {
+  //   res.redirect('/user/login');
+  // }
+  next();
 }
 
 
@@ -97,6 +98,8 @@ app.get('/test', function (req, res) {
 app.get('/', crawler.dashboard);
 app.get('/dashboard', crawler.dashboard);
 
+app.get('/list/models/hosts', authUser, routes.virt.hostToModel);
+
 // Virt API
 app.get('/list/vms', routes.virt.listGroup);
 app.get('/list/vms/:ip', authUser, routes.virt.listSingle);
@@ -111,7 +114,6 @@ app.get('/resume/:ip/:name', authUser, routes.virt.actions);
 app.get('/suspend/:ip/:name', authUser, routes.virt.actions);
 app.get('/shutdown/:ip/:name', authUser, routes.virt.actions);
 app.get('/destroy/:ip/:name', authUser, routes.virt.actions);
-
 
 // Network Scanner API
 app.get("/scan/network", authUser, crawler.networkScan);
