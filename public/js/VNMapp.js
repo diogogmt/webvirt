@@ -242,7 +242,7 @@ $(function() {
         copy.status = res.data;
       } 
       else if (res.err) {
-        toastr.error(res.err);
+        toastr.error(res.err, "Instance model");
       } 
       else
         copy = res;   
@@ -378,12 +378,12 @@ $(function() {
         function (data, textStatus, jqXHR) {
           if (data.err) {
             console.log("daemon error:" + data.err); 
-            toastr.error("Daemon error!", "There is a problem with the connection to the API daemon! Check the interface-server logs for more details.");
+            toastr.error("VIRSH: " + data.err);
 
             return;
           }
 
-          toastr.success('Command successful!', "VIRSH: " + data.data);
+          toastr.success("VIRSH: " + data.data);
 
           console.log( "Start Instance:" + self.model.get("id") );
           console.log(data);
@@ -391,7 +391,7 @@ $(function() {
           self.refreshRecord();
         },
         function () {
-          toastr.error("Server error!", "Error communicating with interface-server");
+          toastr.error("Error communicating with interface-server");
           console.log( "XX Error communicating with interface-server! XX");
         });
     },
@@ -402,12 +402,12 @@ $(function() {
         function (data, textStatus, jqXHR) {
           if (data.err) {
             console.log("daemon error:" + data.err); 
-            toastr.error("Daemon error!", "There is a problem with the connection to the API daemon! Check the interface-server logs for more details.");
+            toastr.error("VIRSH: " + data.err);
 
             return;
           }
 
-          toastr.success('Command successful!', "VIRSH: " + data.data);
+          toastr.success("VIRSH: " + data.data);
 
           console.log( "Shutdown Instance:" + self.model.get("id") );
           console.log(data);
@@ -417,6 +417,7 @@ $(function() {
           self.model.fetch();
         },
         function () {
+          toastr.error("Error communicating with interface-server");
           console.log( "XX Error communicating with interface-server! XX");
         });
     },
@@ -427,12 +428,12 @@ $(function() {
         function (data, textStatus, jqXHR) {
           if (data.err) {
             console.log("daemon error:" + data.err); 
-            toastr.error("Daemon error!", "There is a problem with the connection to the API daemon! Check the interface-server logs for more details.");
+            toastr.error("VIRSH: " + data.err);
 
             return;
           }
 
-          toastr.success('Command successful!', "VIRSH: " + data.data);
+          toastr.success("VIRSH: " + data.data);
 
           console.log( "Shutdown Instance:" + self.model.get("id") );
           console.log(data);
@@ -442,6 +443,7 @@ $(function() {
           self.model.fetch();
         },
         function () {
+          toastr.error("Error communicating with interface-server");
           console.log( "XX Error communicating with interface-server! XX");
         });
     },
@@ -452,12 +454,12 @@ $(function() {
         function (data, textStatus, jqXHR) {
           if (data.err) {
             console.log("daemon error:" + data.err); 
-            toastr.error("Daemon error!", "There is a problem with the connection to the API daemon! Check the interface-server logs for more details.");
+            toastr.error("VIRSH: " + data.err);
 
             return;
           }
 
-          toastr.success('Command successful!', "VIRSH: " + data.data);
+          toastr.success("VIRSH: " + data.data);
 
           console.log( "Shutdown Instance:" + self.model.get("id") );
           console.log(data);
@@ -467,6 +469,7 @@ $(function() {
           self.model.fetch();
         },
         function () {
+          toastr.error("Error communicating with interface-server");
           console.log( "XX Error communicating with interface-server! XX");
         });
     },
@@ -477,12 +480,12 @@ $(function() {
         function (data, textStatus, jqXHR) {
           if (data.err) {
             console.log("daemon error:" + data.err); 
-            toastr.error("Daemon error!", "There is a problem with the connection to the API daemon! Check the interface-server logs for more details.");
+            toastr.error("VIRSH: " + data.err);
 
             return;
           }
 
-          toastr.success('Command successful!', "VIRSH: " + data.data);
+          toastr.success("VIRSH: " + data.data);
 
           console.log( "Shutdown Instance:" + self.model.get("id") );
           console.log(data);
@@ -492,6 +495,7 @@ $(function() {
           self.model.fetch();
         },
         function () {
+          toastr.error("Error communicating with interface-server");
           console.log( "XX Error communicating with interface-server! XX");
         });
     },
