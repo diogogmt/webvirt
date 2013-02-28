@@ -16,6 +16,8 @@
     "injectr": "*",
     "step": "https://github.com/diogogmt/step/tarball/master",
     "scrypt": "*",
-    "bcrypt-nodejs": "*"
+    "bcrypt-nodejs": "*",
+    "connect": "*",
+    "jquery-file-upload-middleware": "*"
   }
 }

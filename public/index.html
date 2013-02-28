@@ -109,7 +109,7 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="js/underscore.js"></script>
     <script src="js/backbone.js"></script>
-    <script src="js/VNMapp_fiddle.js"></script>
+    <script src="js/VNMapp.js"></script>
     <script src="js/toastr.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
@@ -126,9 +126,9 @@
         <table class="host">
           <tr>
             <td class="host-btn">
-              <button type="button" class="btn" data-toggle="collapse" data-target="#host-<%= ip.split('.').join("_") %>">
-                <i <%= expanded ? 'class="icon-chevron-up"' : 'class="icon-chevron-down"'%> ></i> <!-- "expanded" = bool ? expanded : collapsed -->
-              </button>
+              <a  class="btn <%= active ? 'btn-success' : 'btn-danger' %> pull-right" href="#host/<%= ip %>"> <!-- Change views -->
+                <i class="icon-cog"></i>
+              </a>
             </td>
             <td class="host-ip">
               <strong>IP:</strong> <em class="muted"><%= ip %></em> <!-- "ip" = ip no -->
@@ -140,9 +140,9 @@
               <strong>Daemon Status:</strong> <strong class="text-success"><%= active ? 'Connected' : 'Disconnected'%> </strong> <!-- "active" = bool -->
             </td>
             <td class="host-manage">
-              <a  class="btn <%= active ? 'btn-success' : 'btn-danger' %> pull-right" href="#host/<%= ip %>"> <!-- Change views -->
-                <i class="icon-cog"></i>
-              </a>
+              <button type="button" class="btn" data-toggle="collapse" data-target="#host-<%= ip.split('.').join("_") %>">
+                <i <%= expanded ? 'class="icon-chevron-up"' : 'class="icon-chevron-down"'%> ></i> <!-- "expanded" = bool ? expanded : collapsed -->
+              </button>
             </td>
           </tr>
         </table>
@@ -188,7 +188,7 @@
               <strong>ID:</strong> <em class="muted"><%= vid %></em>
             </td>
             <td class="instance-name">
-              <strong>Name:</strong> <em class="muted"><%= name %></em>
+              <strong>Name:</strong> <em class="muted"><%= id %></em>
             </td>
             <td class="instance-state">
               <strong>VM Status: </strong><strong class="text-success"><%= status %></strong>
