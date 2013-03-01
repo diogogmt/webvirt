@@ -120,6 +120,10 @@ Helper.prototype.deleteDaemon = function (opts, cb) {
   ], handleStepException);
 };
 
+Helper.prototype.validateIp = function (ip) {
+  return ip && ip.match(/^\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}$/);
+}
+
 
 module.exports.inject = function(di) {
   logger = di.logger;
