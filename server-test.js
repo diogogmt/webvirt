@@ -6,7 +6,6 @@
 
 
 var express = require('express')
-  , crawler = require('./routes/crawler-routes.js')
   , http = require('http')
   , path = require('path')
   , connect = require('connect')
@@ -16,9 +15,10 @@ var app = express();
 
 console.log("process.env[NODE_SERVER_TYPE]: ", process.env["NODE_SERVER_TYPE"]);
 
+var port = process.env["NODE_SERVER_PORT"];
 
 app.configure(function () {
-  app.set('port', 8080);
+  app.set('port', port);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());

@@ -122,11 +122,17 @@ Helper.prototype.deleteDaemon = function (opts, cb) {
 
 Helper.prototype.validateIp = function (ip) {
   return ip && ip.match(/^\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}$/);
+};
+
+Helper.prototype.handleStepException = function (msg, cb) {
+  return function (fnName, err) {
+    logger.error(err + " at " + fnName + " - " + msg);    
+    cb({err: 1});    
+  }
 }
 
 
 module.exports.inject = function(di) {
   logger = di.logger;
-  logger.info("Helper inject");
   return new Helper();
 }
