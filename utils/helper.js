@@ -131,6 +131,27 @@ Helper.prototype.handleStepException = function (msg, cb) {
   }
 }
 
+Helper.prototype.createUser = function (opts, cb) {
+  console.log("helper createUser");
+  var hashKey = opts.hashKey || null
+    , password = opts.password || null;
+
+  bcrypt.genSalt(100, function (err, salt) {
+    var saltLength = salt.length;
+    var saltedPass = salt.slice(0,saltLength / 2) + password + salt.slice(saltLength / 2, saltLength);
+
+    scrypt.passwordHash(saltedPass, maxtime, maxmem, maxmemfrac, function(err, scryptHash) {
+      client.multi()
+        .hset(hashKey, "password", scryptHash)
+        .hset(hashKey, "salt", salt)
+        .exec(function (err, status) {
+          console.log("Step confirmCreation");
+          cb(err, status);
+        });
+    });
+  });
+}
+
 
 module.exports.inject = function(di) {
   logger = di.logger;

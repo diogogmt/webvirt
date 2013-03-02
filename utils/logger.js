@@ -42,7 +42,6 @@ Logger.prototype.error = function (msg, metadata) {
 
 module.exports.inject = function (di) {
   if (!_logger) {
-    console.log("Instaciating new logger");
     _logger = new Logger({path: di.config.logger.serverLog});
   }
   return _logger;
