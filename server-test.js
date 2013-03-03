@@ -13,9 +13,9 @@ var express = require('express')
 
 var app = express();
 
-console.log("process.env[NODE_SERVER_TYPE]: ", process.env["NODE_SERVER_TYPE"]);
+console.log("process.env[NODE_TYPE]: ", process.env["NODE_TYPE"]);
 
-var port = process.env["NODE_SERVER_PORT"];
+var port = process.env["NODE_PORT"];
 
 app.configure(function () {
   app.set('port', port);
@@ -40,6 +40,7 @@ app.configure('development', function(){
 
 
 app.use(require("./lib"));
+app.use(require("./lib/user-management"));
 
 
 http.createServer(app).listen(app.get('port'), function(){

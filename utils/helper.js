@@ -1,7 +1,10 @@
-var Step = require('step')
-  , client = require("./db-conn").client
-  , _ = require('underscore')
-  , logger;
+var Step
+  , client
+  , _
+  , logger
+  , bcrypt
+  , scrypt
+  , _helper;
 
 
 var Helper = function () {
@@ -134,7 +137,10 @@ Helper.prototype.handleStepException = function (msg, cb) {
 Helper.prototype.createUser = function (opts, cb) {
   console.log("helper createUser");
   var hashKey = opts.hashKey || null
-    , password = opts.password || null;
+    , password = opts.password || null
+    , maxtime =  opts.maxtime
+    , maxmem = opts.maxmem
+    , maxmemfrac = opts.maxmemfrac
 
   bcrypt.genSalt(100, function (err, salt) {
     var saltLength = salt.length;
@@ -154,6 +160,16 @@ Helper.prototype.createUser = function (opts, cb) {
 
 
 module.exports.inject = function(di) {
-  logger = di.logger;
-  return new Helper();
+  if (!_helper) {
+    logger = di.logger;
+    Step = di.Step;
+    _ = di._;
+    client = di.client;
+    bcrypt = di.bcrypt;
+    scrypt = di.scrypt;
+    _helper = new Helper();
+  }
+
+  return _helper;
+
 }

@@ -18,6 +18,6 @@
     "scrypt": "*",
     "bcrypt-nodejs": "*",
     "connect": "*",
-    "jquery-file-upload-middleware": "*"
+    "bcrypt": "*"
   }
 }
