@@ -21,7 +21,6 @@ Helper.prototype.getDaemonsIp = function (cb) {
 
   Step([
     function getIps () {
-      logger.info("getIps", {file: __filename, line: __line});
       client.keys("hosts:*", this);
     },
 
@@ -36,7 +35,7 @@ Helper.prototype.getDaemonsIp = function (cb) {
         return;
       }
       var step = this;
-      console.log("keys: ", keys);
+      // console.log("keys: ", keys);
       _.map(keys, function (key) {
         client.hget(key, "type", step.parallel(key.split(":")[1]));
       });
@@ -45,8 +44,7 @@ Helper.prototype.getDaemonsIp = function (cb) {
 
    function queryIps () {
     var step = this;
-    logger.info("queryIps", {file: __filename, line: __line});
-    console.log("args: ", arguments);
+    // console.log("args: ", arguments);
     // Iterate on all the saved hosts
     var hosts =  _.without(_.map(arguments, function (host) {
       var ip    = host[0]
@@ -57,7 +55,7 @@ Helper.prototype.getDaemonsIp = function (cb) {
       if (type !== "default") return host[0] ;
     }), undefined);
 
-    console.log("hosts: ", hosts);
+    // console.log("hosts: ", hosts);
 
     cb(null, hosts); 
   },
@@ -66,43 +64,28 @@ Helper.prototype.getDaemonsIp = function (cb) {
 }
 
 
-Helper.prototype.addDaemon = function (opts, cb) {
+Helper.prototype.addDaemon = function (opts, cbb) {
   console.log("helper addDaemon");
-  var ip = opts && opts.ip || null;
+  var ip = opts && opts.ip || null
+    , hashKey = "hosts:" + ip;
 
-  var hashKey = "hosts:" + ip;
   client.multi()
     .hset(hashKey, "ip", ip)
     .hset(hashKey, "status", "on")
     .hset(hashKey, "type", "compute")
     .hset(hashKey, "lastOn", "timestamp")
-    .exec(function () {
+    .exec(function (err, results) {
       console.log("args: ", arguments);
-      var cmdResults = arguments[1] || []
-        , cmdLength = cmdResults.length
-        , err = 0;
-      while (cmdLength--) {
-        if (!cmdResults[cmdLength]) {
-          logger.error("An error happened while adding a new daemon to the database", 
-            {file: __filename, line: __line});
-          err = 1;
-        }
-      }
-      cb({err: err});
+      cbb(err);
     });
 };
 
 Helper.prototype.deleteDaemon = function (opts, cb) {
   console.log("helper deleteDaemon");
-  var ip = opts && opts.ip || null;
-  
-  var handleStepException = function (err) {
-    logger.error(err, {file: __filename, line: __line});
-    cb({err: 1});
-  }
+  var ip = opts && opts.ip || null
+    , hashKey = "hosts:" + ip
+    , self = this
 
-  var hashKey = "hosts:" + ip;
-  console.log("hashKey: ", hashKey);
   Step([
     function deleteDaemon () {
       var step = this;
@@ -110,17 +93,12 @@ Helper.prototype.deleteDaemon = function (opts, cb) {
     },
 
     function confirmDeletion (err, status) {
-      console.log("args: ", arguments);
       if (err) {
         logger.error(err, {file: __filename, line: __line});
-        this.exitChain();
-        cb({err: 1});
-        return;
       }
-
-      cb({err: 0});
+      cb(err);
     }
-  ], handleStepException);
+  ], self.handleStepException("Step error at Helper::deleteDaemon - file: " + __filename + "line: " + __line, cb), false); 
 };
 
 Helper.prototype.validateIp = function (ip) {

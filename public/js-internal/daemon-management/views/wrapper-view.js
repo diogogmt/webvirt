@@ -1,26 +1,15 @@
 var app = app || {};
 
-// The Application
-// ---------------
-// Our overall **AppView** is the top-level piece of UI.
+
 app.WrapperView = Backbone.View.extend({
 
-  // Instead of generating a new element, bind to the existing skeleton of
-  // the App already present in the HTML.
   el: '#record-area',
 
-  // Our template for the line of statistics at the bottom of the app.
-  // statsTemplate: _.template( $('#stats-template').html() ),
-
-  // Delegated events for creating new items, and clearing completed ones.
   events: {
     'keypress #newDaemon': 'createOnEnter',
     'click #addDaemon': 'createDaemon',
   },
 
-  // At initialization we bind to the relevant events on the `Todos`
-  // collection, when items are added or changed. Kick things off by
-  // loading any preexisting todos that might be saved in *localStorage*.
   initialize: function() {
     console.log("AppView - initialize");
     this.$newDaemon = this.$('#newDaemon');
@@ -31,6 +20,7 @@ app.WrapperView = Backbone.View.extend({
     this.listenTo(app.Daemons, 'destroy', this.addAll);
     this.listenTo(app.Daemons, 'invalid', this.validationFailed);
     this.listenTo(app.Daemons, 'remove', this.render);
+    this.listenTo(app.Daemons, 'sync', this.syncCollection);
 
     $('input[id=file]').change(function() {
       $('#pretty-input').val($(this).val().replace("C:\\fakepath\\", ""));
@@ -42,83 +32,82 @@ app.WrapperView = Backbone.View.extend({
       dataType: "json",
       clearForm: true,
       beforeSubmit: function (formData, jqForm, options) {
-        console.log("beforeSubmit");
-        // formData is an array of objects containing the values of the form
-        // jqForm is the html form element
-        // options are the object initialized with ajaxForm
-        // maybe validate the for before submiting
-        // if form is not valid return false
-        console.log("formData: ", formData);
-        console.log("jqForm: ", jqForm);
-        console.log("options: ", options);
         return true;;
       },
       success: function (data) {
-        console.log("ajaxform success");
-        console.log("data: ", data);
-        // app.Daemons.trigger("reset");
-        var data = data.data;
-        var dataLen = data && data.length || 0;
-        console.log("dataLen: ", dataLen);
-        for (var i = 0; i < dataLen; i++) {
-          var obj = data[i];
-          console.log("obj: ", obj);
+        var keys = _.keys(data);
+        var keysLen = keys && keys.length || 0;
+
+        for (var i = 0; i < keysLen; i++) {
+          var ip = keys[i];
+          var obj = data[ip];
           if (obj.err) {
-            toastr.error("Failed to add host " + obj.ip, 'An error occured.');
+            toastr.error("Failed to add host " + ip, 'An error occured.');
           } else {
-            toastr.success("Add host " + obj.ip, 'Action completed.');
+            toastr.success("Add host " + ip, 'Action completed.');
           }
         }
         app.Daemons.fetch();
       },
-      error: function () {
-        console.log("ajaxform error");
+      error: function (xhr) {
+        toastr.error(xhr.responseText, 'An error occured.');
       },
       complete: function () {
         console.log("ajaxform complete");
       }
     });
 
-
-    console.log("app.Daemons.fetch");
     app.Daemons.fetch();
   },
 
-  // Re-rendering the App just means refreshing the statistics -- the rest
-  // of the app doesn't change.
   render: function() {
-    // console.log("WrapperView - render");
-
     var daemons = app.Daemons.getAll();
-    console.log("daemons: ", daemons);
     this.addAll();
-    // toastr.info('rendering WrapperView')
-
   },
 
   addOne: function (todo) {
-    // console.log("WrapperView - addOne");
+    // console.log("addOne");
+    // console.log("args: ", arguments);
     var view = new app.DaemonView({ model: todo });
     $('#daemonsList').append(view.render().el);
   },
 
   addAll: function () {
-    // console.log("WrapperView - addAll");
     this.$('#daemonsList').html('');
     app.Daemons.each(this.addOne, this);
   },
 
-  createDaemon: function( event ) {
-    console.log("WrapperView - createDaemon");
+  createDaemon: function(e) {
+    var ip = this.$newDaemon.val().trim(); 
+    var daemon = app.Daemons.create(
+      {
+        ip: ip
+      },
 
-    app.Daemons.create({
-      ip: this.$newDaemon.val().trim(),
-    });
+      {
+        'wait': true,
+        'success': function (model, res) {
+          console.log("Daemons.create success");
+          var ip = model.get('ip');
+          toastr.success("Daemon with ip " + ip + " was successfuly added.", 'Success!');
+        },
+        'error': function (model, res) {
+          console.log("Daemons.create error");
+          var ip = model.get('ip');
+          toastr.error("Failed to add daemon " + ip, 'An error occured.');
+        },
+        'complete': function () {
+          console.log("createDaemon complete");
+        },
+      }
+    );
+    if (daemon.validationError) {
+      toastr.error("Failed to add daemon " + ip, 'An error occured.');
+    }
     this.$newDaemon.val('');
   },
 
   createOnEnter: function( event ) {
-    console.log("WrapperView - createOnEnter");
     if ( event.which !== ENTER_KEY || !this.$newDaemon.val().trim() ) {
       return;
     }
@@ -127,16 +116,16 @@ app.WrapperView = Backbone.View.extend({
   },
 
   validationFailed: function (model, error, w) {
-    console.log("WrapperView - validationFailed");
-    console.log("model: ", model);
-    console.log("error: ", error);
-
     if (!model.id) {
       app.Daemons.remove(model);
     }
     toastr.options.fadeOut = 50000;
     toastr.error(error, 'An error occured.');
-    
+  },
+
+  syncCollection: function () {
+    console.log("\nsyncCollection");
+    console.log("args: ", arguments);
   }
 
 });

@@ -12,10 +12,12 @@ block content
           #description-area
             |Daemon Management
           #record-area.well
+            h3 Add single host
             .input-append
               input#newDaemon.input-large(type="text", placeholder='Daemon IP address', autofocus='autofocus')
               button#addDaemon.btn.btn-primary Add Daemon
             
+            h3 Upload list of hosts
             form#hostManagementForm
               input#file.hide.ie_show(type='file', name="file")
               .input-append.ie_hide
@@ -23,6 +25,8 @@ block content
                 a.btn(onclick="$('#file').click();") Browse
               button#uploadHosts.btn.btn-primary Upload file
             
+            h3 Hosts list
+
             section#main
               ul#daemonsList.nav.nav-tabs.nav-stacked
       #pagination.pagination.pagination-right
