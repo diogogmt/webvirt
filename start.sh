@@ -1,1 +1,1 @@
-nodemon server-test.js
+nodemon server.js
