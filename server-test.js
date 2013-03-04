@@ -39,7 +39,7 @@ app.configure('development', function(){
 });
 
 
-app.use(require("./lib"));
+app.use(require("./lib/virt"));
 app.use(require("./lib/user-management"));
 
 
