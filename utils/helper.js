@@ -135,12 +135,12 @@ Helper.prototype.handleStepException = function (msg, cb) {
 }
 
 Helper.prototype.createUser = function (opts, cb) {
-  console.log("helper createUser");
   var hashKey = opts.hashKey || null
     , password = opts.password || null
-    , maxtime =  opts.maxtime
-    , maxmem = opts.maxmem
-    , maxmemfrac = opts.maxmemfrac
+    , scryptConfig = opts.scryptConfig || {}
+    , maxtime =  scryptConfig.maxtime
+    , maxmem = scryptConfig.maxmem
+    , maxmemfrac = scryptConfig.maxmemfrac
 
   bcrypt.genSalt(100, function (err, salt) {
     var saltLength = salt.length;
