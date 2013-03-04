@@ -1,6 +1,7 @@
 var path = require("path");
 var winston = require('winston');
 
+var _logger;
 
 Object.defineProperty(global, '__stack', {
   get: function(){
@@ -40,6 +41,10 @@ Logger.prototype.error = function (msg, metadata) {
 };
 
 module.exports.inject = function (di) {
-  return new Logger({path: di.config.logger.serverLog});
+  if (!_logger) {
+    console.log("Instaciating new logger");
+    _logger = new Logger({path: di.config.logger.serverLog});
+  }
+  return _logger;
 }
 
