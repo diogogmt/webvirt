@@ -3,7 +3,10 @@ var app = app || {};
 
 app.WrapperView = Backbone.View.extend({
 
-  el: '#record-area',
+
+  // Instead of generating a new element, bind to the existing skeleton of
+  // the App already present in the HTML.
+  el: $('#content-area'),
 
   events: {
     'keypress #newDaemon': 'createOnEnter',

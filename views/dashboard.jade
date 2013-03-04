@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  #main.container
+    .row
+      .span2
+        #navigation.well.sidebar-nav          
+      .span10
+        #heading
+        .row
+          .span10
+            #description-area
+            #content-area.well
+        #pagination.pagination.pagination-right
+
+      include underscoreTemplates.jade    
+
+      include footer
