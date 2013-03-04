@@ -31,6 +31,12 @@ body {
   margin-bottom: 5px;
  }
 
+ .host-title {
+  background-color: #F0F0F0;
+  border: 1px dotted #E0E0E0;
+  margin-bottom: 5px;
+ }
+
 .host-active {
   background-color: #F0F0F0;
   border: 1px solid #E0E0E0;
@@ -46,6 +52,7 @@ body {
 table.host {
   width: 100%;
   vertical-align: center;
+
 }
 
 .host-btn, .host-id,
@@ -69,7 +76,7 @@ table.host {
 }
 
 .host-lastactive {
-  width: 45%;
+  width: 40%;
 }
 
 .host-state {
@@ -140,8 +147,8 @@ table.instance {
   width: 10%;
 }
 
-.instance-ip {
-  width: 20%;
+.instance-name {
+  width: 30%;
 }
 
 .instance-lastactive {
@@ -149,7 +156,7 @@ table.instance {
 }
 
 .instance-state {
-  text-align: left;
+  text-align: right;
 }
 
 .instance-manage {

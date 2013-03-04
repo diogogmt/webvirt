@@ -7,7 +7,7 @@ app.WrapperView = Backbone.View.extend({
 
   // Instead of generating a new element, bind to the existing skeleton of
   // the App already present in the HTML.
-  el: '#record-area',
+  el: $('#content-area'),
 
   // Our template for the line of statistics at the bottom of the app.
   // statsTemplate: _.template( $('#stats-template').html() ),
