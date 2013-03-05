@@ -73,6 +73,6 @@ app.Host = Backbone.Model.extend({
 
   errHandle: function(err) {
     console.log("XX Error connecting to daemon: " + err + " XX");
-    toastr.error(err);
+    toastr.error("Daemon-host list is out of date, or the connection to the daemon has been lost: " + err);
   }
 });

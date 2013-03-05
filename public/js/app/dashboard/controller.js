@@ -198,6 +198,10 @@ var ENTER_KEY = 13;
     },
 
     displayManage: function() {
+
+      // Set callback to wait for Hosts collection to finish API calls
+      this.listenTo(app.Hosts, "reset", this.displayHosts);
+
       var self = this;
       var crumbs = {
         curPage: "Daemon Management",
