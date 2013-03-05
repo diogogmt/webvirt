@@ -131,7 +131,7 @@ var ENTER_KEY = 13;
       } // END If
       else {
         // Create description view of passed IP
-        var hostDetail = new app.HostDescriptionView({model: (app.Hosts.where({"ip": data}))[0], type: "host"});
+        var hostDetail = new app.HostDescriptionView({model: (app.Hosts.where({"ip": data.ip}))[0], type: "host"});
         hostDetail.$el.empty();
         hostDetail.render().el;
       } // END Else
