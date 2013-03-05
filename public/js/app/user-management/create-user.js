@@ -36,7 +36,7 @@ $(function () {
 
   CreateUser.prototype.bindEventHandlers = function () {
     var self = this;
-    $("#submit-form").click(function (e) {
+    $("#submit-form-createUser").click(function (e) {
       console.log("getFormData: ", self.getFormData());
       e.preventDefault();
 
@@ -55,7 +55,7 @@ $(function () {
             toastr.success('User successfuly created, redirecting to login page...', 'Success')
             setTimeout(function () {
               window.location = "/user/login"
-            }, 3000);
+            }, 1000);
           } else {
             toastr.error('A problem occured, please try again.', 'Error')
           }
