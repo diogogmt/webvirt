@@ -146,3 +146,10 @@ script#host-title-template(type='text/template')
   <div class="well-small host-title">
   <h3><%= title %></h3>
   </div>
+
+script#item-template(type="text/template")
+  <div class="view"></div>
+  <div class="input-prepend input-append"><span class="add-on"><img src="/img/glyphicons/png/glyphicons_206_ok_2.png"/></span>
+  <input id="appendedPrependedInput" type="text" value="<%= ip %>" class="input-large"/>
+  <button class="deleteBtn btn">Delete</button>
+  </div>
