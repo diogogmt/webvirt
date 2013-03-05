@@ -34,7 +34,6 @@ Helper.prototype.getDaemonsIp = function (cb) {
 
    function queryIps () {
     console.log("queryIps");
-    console.log("args: ", arguments);
     var step = this;
     var hosts =  _.without(_.map(arguments, function (host) {
       var ip    = host[0]
@@ -44,11 +43,9 @@ Helper.prototype.getDaemonsIp = function (cb) {
       // Type of the host. Default means it is not hosting libvirt.
       if (type !== "default") return host[0] ;
     }), undefined);
-    console.log("hosts: ", hosts);
     if (cb) {
       cb(null, hosts); 
     }
-    console.log("here?")
   },
 
   ], self.handleStepException("Step error at Helper::getDaemonsIp - file: " + __filename + "line: " + __line, cb), false); 

@@ -11,7 +11,7 @@ var DaemonsList = Backbone.Collection.extend({
   model: app.Daemon,
 
   // Save all of the todo items under the `"todos"` namespace.
-  url: "/daemons/list",
+  url: "/daemons",
 
   parse: function (response) {
     console.log("response: ", response);
