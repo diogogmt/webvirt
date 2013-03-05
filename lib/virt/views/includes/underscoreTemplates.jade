@@ -124,10 +124,12 @@ script#navigation-template(type='text/template')
   </ul>
 
 script#manage-template(type='text/template')
+  <h3>Add single host</h3>
   <div class="input-append">
   <input id="newDaemon" type="text" placeholder="Daemon IP address" autofocus="autofocus" class="input-large">
   <button id="addDaemon" class="btn btn-primary">Add Daemon</button>
   </div>
+  <h3>Upload list of hosts</h3>
   <form id="hostManagementForm">
   <input id="file" type="file" name="file" class="hide ie_show">
   <div class="input-append ie_hide">
@@ -135,6 +137,7 @@ script#manage-template(type='text/template')
   </div>
   <button id="uploadHosts" class="btn btn-primary">Upload file</button>
   </form>
+  <h3>Host list</h3>
   <section id="main">
   <ul id="daemonsList" class="nav nav-tabs nav-stacked"></ul>
   </section>

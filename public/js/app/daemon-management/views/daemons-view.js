@@ -11,7 +11,7 @@ app.DaemonView = Backbone.View.extend({
 
   // Cache the template function for a single item.
   // template: _.template( $('#item-template').html() ),
-  template: $.tmpl,
+  template: _.template($("#item-template").html()),
 
   // The DOM events specific to an item.
   events: {
@@ -21,16 +21,15 @@ app.DaemonView = Backbone.View.extend({
   },
 
   initialize: function() {
-    // console.log("DaemonView - initialize")
-    $.template("item-template", $("#item-template"));
-    
+    console.log("DaemonView - initialize")
+    // console.log("this.template: ", this.template);
     this.listenTo(this.model, 'change', this.render);
   },
 
   // Re-renders the titles of the todo item.
   render: function() {
     // console.log("DaemonView - render");
-    this.$el.html( this.template( 'item-template', this.model.toJSON() ) );
+    this.$el.html(this.template(this.model.toJSON()));
     return this;
   },
 

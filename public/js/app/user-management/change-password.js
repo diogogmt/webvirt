@@ -2,19 +2,22 @@ var virtManager =  virtManager ||  {};
 
 $(function () {
 
-  var CreateUser = function () {
-
+  var ChangePassword = function () {
     this.bindEventHandlers();
   }
-  CreateUser.prototype.getFormData = function () {
+
+
+  ChangePassword.prototype.getFormData = function () {
     // validate data here
     return {
       username: $("#username").val(),
-      password: $("#password").val()
+      currentPassword: $("#currentPassword").val(),
+      newPassword: $("#newPassword").val()
     }
   };
 
-  CreateUser.prototype.isFormValid = function () {
+
+  ChangePassword.prototype.isFormValid = function () {
     var formData = this.getFormData()
       , isValid = true;
 
@@ -34,28 +37,21 @@ $(function () {
     return isValid;
   }
 
-  CreateUser.prototype.bindEventHandlers = function () {
+  ChangePassword.prototype.bindEventHandlers = function () {
     var self = this;
     $("#submit-form").click(function (e) {
-      console.log("getFormData: ", self.getFormData());
-      e.preventDefault();
-
-      if (!self.isFormValid()) {
-        return false;
-      }
-
       $.ajax({
         type: "POST",
-        url: "/user/create",
+        url: "/user/changePassword",
         data: self.getFormData(),
         success: function (data) {
           console.log("success");
           console.log("data: ", data);
           if (!data.err) {
-            toastr.success('User successfuly created, redirecting to login page...', 'Success')
+            toastr.success('User password changed successfuly, redirecting to login page...', 'Success')
             setTimeout(function () {
               window.location = "/user/login"
-            }, 3000);
+            }, 1000);
           } else {
             toastr.error('A problem occured, please try again.', 'Error')
           }
@@ -68,11 +64,10 @@ $(function () {
           console.log("complete");
         }
       });
+      e.preventDefault();
       return false;
     });
   }
 
-  virtManager.createUser = new CreateUser();
-
+  virtManager.changePassword = new ChangePassword();
 });
-
