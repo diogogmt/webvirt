@@ -22,6 +22,8 @@ app.RecordView = Backbone.View.extend({
     q.lastActive = "N/A";
     q.active = true;
 
+    q.memCritical = ((q.memFree / q.memTotal) < 0.1) ? true : false; 
+
     this.$el.html( this.template(q) );
     console.log("      ...rendered!");
     return this;

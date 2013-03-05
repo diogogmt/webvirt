@@ -33,6 +33,7 @@ app.InstanceRecordView = Backbone.View.extend({
   },
 
   refreshRecord: function(){
+    toastr.success("Instance status refreshed");
     this.model.fetch();
   },
 
