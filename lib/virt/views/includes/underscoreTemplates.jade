@@ -30,22 +30,25 @@ script#host-record-template(type='text/template')
   <div id="host-<%= ip.split('.').join("_") %>" class="collapse <%= expanded ? 'in' : 'out' %>">
   <table class="table table-bordered table-condensed host-details">
   <tr>
-  <th rowspan="2">Hypervisor</th>
+  <th rowspan="3">Hypervisor</th>
   <th>Type</th>
   <td><%= hypervisor %></td>
   </tr>
   <tr>
   <th>Health</th>
-  <td>Hypervisor Health Here</td>
+  <td><%= health %></td>
   </tr>
+  <tr>
+  <th class="<%= loadCritical === true ? "text-error" : "" %>">Load Average</th>
+  <td class="<%= loadCritical === true ? "text-error" : "" %>"><%= load %></td>
   <tr>
   <th rowspan="2">RAM</th>
-  <th>Used</th>
-  <td class="<%= memCritical === "true" ? "text-error" : "" %>"><%= memUsed %>gb</td>
+  <th class="<%= memCritical === true ? "text-error" : "" %>">Used</th>
+  <td><%= memUsed %>gb</td>
   </tr>
   <tr>
-  <th>Free</th>
-  <td class="<%= memCritical === "true" ? "text-error" : "" %>"><%= memFree %>gb</td>
+  <th class="<%= memCritical === true ? "text-error" : "" %>">Free</th>
+  <td><%= memFree %>gb</td>
   </tr>
   </table>
   </div>

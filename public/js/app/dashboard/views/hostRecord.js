@@ -19,10 +19,12 @@ app.RecordView = Backbone.View.extend({
     var q = this.model.toJSON();
 
     q.expanded = false;
-    q.lastActive = "N/A";
     q.active = true;
+    q.load = 1;
+    q.health = "A-Okay!";
 
-    q.memCritical = ((q.memFree / q.memTotal) < 0.1) ? true : false; 
+    q.memCritical = ( parseFloat(q.memUsed) /  ( parseFloat(q.memFree) + parseFloat(q.memUsed) )) < 0.9 ? false : true;
+    q.loadCritical = (q.load < 1) ? false : true;
 
     this.$el.html( this.template(q) );
     console.log("      ...rendered!");

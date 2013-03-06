@@ -35,8 +35,12 @@ app.HostDescriptionView = Backbone.View.extend({
       var q = this.model.toJSON();
 
       q.expanded = false;
-      q.lastActive = "N/A";
       q.active = true;
+      q.load = 1;
+      q.health = "blaz";
+      q.memCritical = (q.memUsed /  (q.memFree + q.memUsed)) < 0.9 ? false : true;
+      q.loadCritical = (q.load < 1) ? false : true;
+
 
       this.$el.append( this.stdTemplate(q) );
     }
