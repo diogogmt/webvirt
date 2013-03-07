@@ -3,7 +3,10 @@ extends ../includes/layout
 
 block content
 
-  include create-user-content
+  - if (userExists)
+    include user-already-exists-content
+  - else
+    include create-user-content
   
   
 

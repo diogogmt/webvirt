@@ -41,9 +41,12 @@ Logger.prototype.error = function (msg, metadata) {
 };
 
 module.exports.inject = function (di) {
+  console.log("logger inject");
   if (!_logger) {
+    console.log("creating new logger");
     _logger = new Logger({path: di.config.logger.serverLog});
   }
+  console.log("returning old logger");
   return _logger;
 }
 

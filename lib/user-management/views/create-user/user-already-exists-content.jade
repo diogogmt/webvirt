@@ -1,0 +1,17 @@
+#main.container
+  .row
+    .span6.offset3
+      .well
+        // Form Start 
+        div
+          h1 Action Blocked
+            br
+            small A user already exists
+          ul
+          li To login with the existsing user go to the 
+            a(href='/user/login') Login page
+          li To change the password of the existing user go to the
+            a(href='/user/changePassword')  Change Password page
+          li
+            |To delete the existing user run the command: 'node delete-user' in the project's root directory
+

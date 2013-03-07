@@ -5,4 +5,5 @@ if [ -z "$MY_PATH" ] ; then
 fi
 echo "$MY_PATH"
 export NODE_LOG_PATH=$MY_PATH
-nodemon server.js
+
+node utils/remove-users.js

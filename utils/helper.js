@@ -108,6 +108,9 @@ Helper.prototype.createUser = function (opts, cb) {
     , maxmem = scryptConfig.maxmem
     , maxmemfrac = scryptConfig.maxmemfrac
 
+  console.log("hashKey: ", hashKey);
+  console.log("password: ", password);
+
   bcrypt.genSalt(100, function (err, salt) {
     var saltLength = salt.length;
     var saltedPass = salt.slice(0,saltLength / 2) + password + salt.slice(saltLength / 2, saltLength);

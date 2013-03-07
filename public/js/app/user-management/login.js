@@ -42,14 +42,9 @@ $(function () {
         url: "/user/auth",
         data: self.getFormData(),
         success: function (data) {
-          console.log("success");
-          if (!data.err) {
-            window.location = "/";
-          } else {
-            toastr.error('A problem occured, please try again.', 'Error')
-          }
+          window.location = "/";
         },
-        error: function () {
+        error: function (xhr) {
           toastr.error('A problem occured, please try again.', 'Error')
         },
         complete: function () {

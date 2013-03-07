@@ -45,20 +45,14 @@ $(function () {
         url: "/user/changePassword",
         data: self.getFormData(),
         success: function (data) {
-          console.log("success");
-          console.log("data: ", data);
-          if (!data.err) {
-            toastr.success('User password changed successfuly, redirecting to login page...', 'Success')
-            setTimeout(function () {
-              window.location = "/user/login"
-            }, 1000);
-          } else {
-            toastr.error('A problem occured, please try again.', 'Error')
-          }
+          toastr.success('Redirecting to login page...', 'Password upated')
+          setTimeout(function () {
+            window.location = "/user/login"
+          }, 1000);
 
         },
-        error: function () {
-          console.log("error");
+        error: function (xhr) {
+          toastr.error(xhr.responseText, 'Error')
         },
         complete: function () {
           console.log("complete");
