@@ -10,7 +10,9 @@ var config = {
 	},
 
 	logger: {
-		serverLog: process.env["NODE_LOG_PATH"] + "/server.log"
+		serverPath: process.env["NODE_PATH"] + "/logs/server.log",
+    clientPath: process.env["NODE_PATH"] + "/logs/client.log",
+    exceptionsPath: process.env["NODE_PATH"] + "/logs/exceptions.log"
 	},
 
   virtCmds: {

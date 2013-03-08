@@ -3,40 +3,43 @@ var winston = require('winston');
 
 var _logger;
 
-Object.defineProperty(global, '__stack', {
-  get: function(){
-    var orig = Error.prepareStackTrace;
-    Error.prepareStackTrace = function(_, stack){ return stack; };
-    var err = new Error;
-    Error.captureStackTrace(err, arguments.callee);
-    var stack = err.stack;
-    Error.prepareStackTrace = orig;
-    return stack;
+var CustomLogger = function (config) {
+  
+  var path = config.clientPath;
+  if (process.env['NODE_TYPE'] === "server") {
+    path = config.serverPath;
   }
-});
 
-Object.defineProperty(global, '__line', {
-  get: function(){
-    return __stack[1].getLineNumber();
-  }
-});
+  // Requiring `winston-redis` will expose 
+  // `winston.transports.Redis`
+  require('winston-redis').Redis;
 
-var Logger = function (data) {
-  winston.add(winston.transports.File, {
-    filename: data.path,
-    handleExceptions: false
+
+  winston.add(winston.transports.File, { filename: path });
+  winston.add(winston.transports.Redis, {});
+
+  winston.handleExceptions(new winston.transports.File({ filename: config.exceptionsPath }));
+  winston.handleExceptions(new winston.transports.Redis());
+  winston.exitOnError = false;
+
+  winston.remove(winston.transports.Console);
+  winston.add(winston.transports.Console, {
+      handleExceptions: true,
+      json: true
   });
+  
+
 }
 
-Logger.prototype.info = function (msg, metadata) {
+CustomLogger.prototype.info = function (msg, metadata) {
   winston.info(msg + "\n", metadata);
 };
 
-Logger.prototype.warn = function (msg, metadata) {
+CustomLogger.prototype.warn = function (msg, metadata) {
   winston.warn(msg + "\n", metadata);
 };
 
-Logger.prototype.error = function (msg, metadata) {
+CustomLogger.prototype.error = function (msg, metadata) {
   winston.error(msg + "\n", metadata);
 };
 
@@ -44,7 +47,7 @@ module.exports.inject = function (di) {
   console.log("logger inject");
   if (!_logger) {
     console.log("creating new logger");
-    _logger = new Logger({path: di.config.logger.serverLog});
+    _logger = new CustomLogger(di.config.logger);
   }
   console.log("returning old logger");
   return _logger;

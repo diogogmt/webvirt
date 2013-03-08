@@ -4,5 +4,5 @@ if [ -z "$MY_PATH" ] ; then
   exit 1  # fail
 fi
 echo "$MY_PATH"
-export NODE_LOG_PATH=$MY_PATH
+export NODE_PATH=$MY_PATH
 nodemon server.js
