@@ -11,32 +11,33 @@ var ENTER_KEY = 13;
     initialize: function() {
       console.log("--AppView instance created");
 
-      // Set callback to wait for Hosts collection to finish API calls
-      this.listenTo(app.Hosts, "reset", this.displayHosts);
-
       // Set callback to clear record area
       this.on("empty:records", function(){
         // Empty record area
         $("#content-area").empty();
       });
 
-      // Set user
-      this.setUser();
+      // Set load events
+      this.on("load:start", this.loadStart);
 
-      // Set nav
-      this.setNav("dashboard");
-
-      // Create breadcrumb
-      this.makeBreadcrumbs();
-
-      // Set host-detail-view to default
-      this.displayDetails();
-
-      // Create pagination view
-      this.paginate();
     },
 
-    reset: function() {
+    reset: function(cb) {
+      var self = this;
+
+      // Set callback to wait for Hosts collection to finish API calls
+      this.listenTo(app.Hosts, "reset", function() {
+        console.log("---DisplayHosts Check");
+
+        // Empty record area
+        $("record-area").empty();
+        // Display hosts
+        app.Hosts.each(this.displayHost, this);
+
+        // Prevent host record duplication
+        self.stopListening(app.Hosts, "reset");
+      });
+
       // Trigger clearing of records
       this.trigger("empty:records");
 
@@ -57,6 +58,11 @@ var ENTER_KEY = 13;
 
       // Create pagination view
       this.paginate();
+
+      // Run callback
+      if (cb) {
+        cb();
+      }
     },
 
     setUser: function() {
@@ -137,16 +143,6 @@ var ENTER_KEY = 13;
       } // END Else
     },
 
-
-    displayHosts: function() {
-      console.log("---DisplayHosts Check");
-
-      // Empty record area
-      $("record-area").empty();
-      // Display hosts
-      app.Hosts.each(this.displayHost, this);
-    },
-
     displayHost: function(host) {
       console.log("----Attempting render: collecting host model details | ip: " + host.get("ip"));
 
@@ -198,6 +194,9 @@ var ENTER_KEY = 13;
     },
 
     displayManage: function() {
+      // Prevent hosts populating the content area
+      this.stopListening(app.Hosts, "reset");
+
       var self = this;
       var crumbs = {
         curPage: "Daemon Management",
@@ -213,11 +212,23 @@ var ENTER_KEY = 13;
       this.setNav("daemon");
 
       // Render the display area
-      this.displayDetails({title: "Daemon Management (Manual)"});
+      this.$("#description-area").empty();
 
       // Trigger emptying of record area
       this.$("#content-area").empty();
       
       var daemonWrapper = new app.WrapperView();
+    },
+
+    loadStart: function() {
+      $('#content-area').empty();
+
+      var loader = new LoadView();
+      loader.render().el;
+
+      loader.listenTo(this, "load:stop", function() {
+        $('#content-area').empty();      
+        loader.remove();
+      });
     }
   }); 

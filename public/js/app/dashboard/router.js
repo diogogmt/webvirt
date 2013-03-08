@@ -25,13 +25,19 @@ app.Dashboard = Backbone.Router.extend({
 
     // Set instance list trigger to route #host/ip
     this.on("route:listInstances", function(ip) {
-      if (typeof(app.loaded) !== "undefined") {
+      var instanceDisplay = function () {
         console.log("[Render Instances]");
         console.log("  ...IP: " + ip);
         that.navigate("host/" + ip);
         app.controller.displayInstances(ip);
       }
+
+      if (typeof(app.loaded) !== "undefined") {
+        instanceDisplay()
+      }
       else  {
+        // app.controller.reset();
+        
         this.trigger("route:gotoDashboard");
         this.navigate("dashboard");
       }

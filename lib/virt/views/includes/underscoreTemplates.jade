@@ -16,7 +16,6 @@ script#host-record-template(type='text/template')
   <strong>IP:</strong> <em class="muted"><%= ip %></em>
   </td>
   <td class="host-lastactive">
-  <strong>Daemon Last Active: <em class="muted"><%= lastActive %></em>
   </td>
   <td class="host-state">
   <strong>Daemon Status:</strong> <strong class="text-success"><%= active ? 'Connected' : 'Disconnected'%> </strong>
@@ -31,30 +30,24 @@ script#host-record-template(type='text/template')
   <div id="host-<%= ip.split('.').join("_") %>" class="collapse <%= expanded ? 'in' : 'out' %>">
   <table class="table table-bordered table-condensed host-details">
   <tr>
-  <th rowspan="2">Hypervisor</th>
+  <th rowspan="3">Hypervisor</th>
   <th>Type</th>
   <td><%= hypervisor %></td>
   </tr>
   <tr>
-  <th>Status</th>
-  <td>Hypervisor Health Here</td>
+  <th>Health</th>
+  <td><%= health %></td>
   </tr>
   <tr>
-  <th rowspan="2">CPU</th>
-  <th>Used</th>
-  <td><%= cpuUsed %> %</td>
-  </tr>
-  <tr>
-  <th>Idle</th>
-  <td><%= cpuIdle %> %</td>
-  </tr>
+  <th class="<%= loadCritical === true ? "text-error" : "" %>">Load Average</th>
+  <td class="<%= loadCritical === true ? "text-error" : "" %>"><%= load %></td>
   <tr>
   <th rowspan="2">RAM</th>
-  <th>Used</th>
+  <th class="<%= memCritical === true ? "text-error" : "" %>">Used</th>
   <td><%= memUsed %>gb</td>
   </tr>
   <tr>
-  <th>Free</th>
+  <th class="<%= memCritical === true ? "text-error" : "" %>">Free</th>
   <td><%= memFree %>gb</td>
   </tr>
   </table>
@@ -78,14 +71,13 @@ script#instance-record-template(type='text/template')
   <div class="btn-group pull-right">
   <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> Actions <span class="caret"></span> </a>
   <ul class="dropdown-menu">
-  <li class="refresh"><a tabindex="-1">Refresh Status</a></li>
-  <li class="divider"></li>
   <li class="start"><a tabindex="-1">Start</a></li>
   <li class="shutdown"><a tabindex="-1">Shutdown</a></li>
   <li class="resume"><a tabindex="-1">Resume</a></li>
   <li class="suspend"><a tabindex="-1">Suspend</a></li>
   <li class="destroy"><a tabindex="-1">Destroy</a></li>
   </ul>
+  <a class="btn btn-primary refresh" href="#">Refresh</a>
   </div>
   </td>
   </tr>
@@ -118,8 +110,9 @@ script#navigation-template(type='text/template')
   <ul class="nav nav-list">
   <li class="nav-header">Manage</li>
   <li class="<%= active === "dashboard" ? "active" : "" %>"><a href="#dashboard">Dashboard</a></li>
+  <li class="<%= active === "daemon" ? "active" : "" %>"><a href="#daemons">Daemons</a></li>
   <li class="nav-header">Admin</li>
-  <li class="<%= active === "daemon" ? "active" : "" %>"><a href="#daemons">Daemon Management</a></li>
+  <li class="<%= active === "logs" ? "active" : "" %>"><a href="#logs">Interface-Server Logs</a></li>
   <li><a href="#">Logout</a></li>
   </ul>
 
