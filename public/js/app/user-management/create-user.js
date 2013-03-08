@@ -18,16 +18,14 @@ $(function () {
     var formData = this.getFormData()
       , isValid = true;
 
-    console.log("formData: ", formData);
-
     // Add more rules to the validation, min number of chars for example
     if (formData.username === "") {
-      toastr.error('Please enter a valid username', 'Error')
+      toastr.error('Please enter a valid username', 'Error');
+      $("#username").focus();
       isValid = false;      
-    }
-
-    if (formData.password == "") {
+    } else if (formData.password == "") {
       toastr.error('Please enter a valid password', 'Error')      
+      $("#password").focus();
       isValid = false;      
     }
 

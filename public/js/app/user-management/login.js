@@ -22,12 +22,12 @@ $(function () {
 
     // Add more rules to the validation, min number of chars for example
     if (formData.username === "") {
-      toastr.error('Please enter a valid username', 'Error')
+      toastr.error('Please enter a valid username', 'Error');
+      $("#username").focus();
       isValid = false;      
-    }
-
-    if (formData.password == "") {
+    } else if (formData.password == "") {
       toastr.error('Please enter a valid password', 'Error')      
+      $("#password").focus();
       isValid = false;      
     }
 
@@ -37,6 +37,10 @@ $(function () {
   Login.prototype.bindEventHandlers = function () {
     var self = this;
     $("#submit-form-login").click(function (e) {
+      e.preventDefault();
+      if (!self.isFormValid()) {
+        return false;
+      }
       $.ajax({
         type: "POST",
         url: "/user/auth",
@@ -51,7 +55,6 @@ $(function () {
           console.log("complete");
         }
       });
-      e.preventDefault();
       return false;
     });
   };
