@@ -145,10 +145,12 @@ var ENTER_KEY = 13;
 
     displayHost: function(host) {
       console.log("----Attempting render: collecting host model details | ip: " + host.get("ip"));
+      console.log(host.toJSON());
 
-      var view = new app.RecordView({model: host, type: "host"});
-      $("#content-area").append( view.render().el );
-
+      if (host.get("ip")) {
+        var view = new app.RecordView({model: host, type: "host"});
+        $("#content-area").append( view.render().el );
+      }
     },
 
     displayInstances: function(ip) {
