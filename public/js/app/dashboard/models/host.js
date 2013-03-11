@@ -20,7 +20,9 @@ app.Host = Backbone.Model.extend({
     }, this);
     
     // Check if data was passed
-    // if(!this.get("hypervisor")) this.updateHost();
+    if(!this.get("hypervisor")) {
+      toastr.error("Daemon-host list is out of date, or the connection to the daemon has been lost: " + this.get("ip"));
+    };
   }, // END Initialize Method
 
   updateHost: function() {

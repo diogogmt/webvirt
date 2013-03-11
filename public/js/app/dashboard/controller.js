@@ -16,21 +16,18 @@ var ENTER_KEY = 13;
         // Empty record area
         $("#content-area").empty();
       });
-
-      // Set load events
-      this.on("load:start", this.loadStart);
-
     },
 
     reset: function(cb) {
       var self = this;
+
 
       // Set callback to wait for Hosts collection to finish API calls
       this.listenTo(app.Hosts, "reset", function() {
         console.log("---DisplayHosts Check");
 
         // Empty record area
-        $("record-area").empty();
+        $("#content-area").empty();
         // Display hosts
         app.Hosts.each(this.displayHost, this);
 
@@ -41,8 +38,13 @@ var ENTER_KEY = 13;
       // Trigger clearing of records
       this.trigger("empty:records");
 
+      var loading = new app.LoadingView();
+
+      loading.render();
+
       // Set nav
       this.setNav("dashboard");
+
 
       // Reset hosts
       app.Hosts.refresh();

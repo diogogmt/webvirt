@@ -26,12 +26,15 @@ app.HostList = Backbone.Collection.extend({
     };
 
     this.fetch({success: s, error: e});
+  },
 
-    // Delete 
-    var empty = this.where({ip: 0});
+  parse: function (data) {
+    if (data.err) {
+      _.each(data.err, function (el) {
+        toastr.error("Daemon-host list is out of date, or the connection to the daemon has been lost: " + el.ip);
+      });
+    }
 
-    if (empty.length) {
-      
-    } 
+    return data.hosts;
   }
 });

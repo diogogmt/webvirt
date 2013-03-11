@@ -9,7 +9,7 @@ $(function () {
   Login.prototype.getFormData = function () {
     // validate data here
     return {
-      username: $("#username").val(),
+      username: $("#username").val().trim(),
       password: $("#password").val()
     }
   };
