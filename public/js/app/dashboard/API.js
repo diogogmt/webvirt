@@ -23,9 +23,6 @@ app.API = {
           case "abort":
           case "parsererror": 
           default:
-            console.log("XX On: " + this.url + " XX");
-            console.log("XX Error, connection to interface-server refused XX");
-            toastr.error("Connection to interface-server refused!", this.url);
             error();  
             break;
         } // END Switch

@@ -30,13 +30,9 @@ script#host-record-template(type='text/template')
   <div id="host-<%= ip.split('.').join("_") %>" class="collapse <%= expanded ? 'in' : 'out' %>">
   <table class="table table-bordered table-condensed host-details">
   <tr>
-  <th rowspan="3">Hypervisor</th>
+  <th rowspan="2">Hypervisor</th>
   <th>Type</th>
   <td><%= hypervisor %></td>
-  </tr>
-  <tr>
-  <th>Health</th>
-  <td><%= health %></td>
   </tr>
   <tr>
   <th class="<%= loadCritical === true ? "text-error" : "" %>">Load Average</th>

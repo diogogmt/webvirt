@@ -26,5 +26,12 @@ app.HostList = Backbone.Collection.extend({
     };
 
     this.fetch({success: s, error: e});
+
+    // Delete 
+    var empty = this.where({ip: 0});
+
+    if (empty.length) {
+      
+    } 
   }
 });
