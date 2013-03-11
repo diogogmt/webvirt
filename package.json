@@ -18,6 +18,7 @@
     "scrypt": "*",
     "bcrypt-nodejs": "*",
     "connect": "*",
-    "bcrypt": "*"
+    "bcrypt": "*",
+    "sliced": "*"
   }
 }
