@@ -81,7 +81,7 @@ script#instance-record-template(type='text/template')
   </div>
 
 script#logout-template(type='text/template')
-  <p class="navbar-text pull-right">Logout from <a href="#" id="username"><%= username %></a></p>
+  <p class="navbar-text pull-right">Logout from <a href="user/logout" id="username"><%= username %></a></p>
 
 
 script#pagination-template(type='text/template')
@@ -109,7 +109,7 @@ script#navigation-template(type='text/template')
   <li class="<%= active === "daemon" ? "active" : "" %>"><a href="#daemons">Daemons</a></li>
   <li class="nav-header">Admin</li>
   <li class="<%= active === "logs" ? "active" : "" %>"><a href="#logs">Interface-Server Logs</a></li>
-  <li><a href="#">Logout</a></li>
+  <li><a href="user/logout">Logout</a></li>
   </ul>
 
 script#manage-template(type='text/template')

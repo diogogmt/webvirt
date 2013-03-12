@@ -27,7 +27,7 @@ app.LogoutView = Backbone.View.extend({
 
   render: function() {
     // User generator logic here
-    var data = {username: "Username"};
+    var data = {"username": username};
     // Populate logout template
     console.log("-----Logout rendering");
 

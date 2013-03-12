@@ -1,26 +1,16 @@
 var app = app || {};
 
-// The Application
-// ---------------
-// Our overall **AppView** is the top-level piece of UI.
 app.WrapperView = Backbone.View.extend({
 
-  // Instead of generating a new element, bind to the existing skeleton of
-  // the App already present in the HTML.
   el: '#content-area',
 
-  // Our template for the line of statistics at the bottom of the app.
   template: _.template( $('#manage-template').html() ),
 
-  // Delegated events for creating new items, and clearing completed ones.
   events: {
     'keypress #newDaemon': 'createOnEnter',
     'click #addDaemon': 'createDaemon',
   },
 
-  // At initialization we bind to the relevant events on the `Todos`
-  // collection, when items are added or changed. Kick things off by
-  // loading any preexisting todos that might be saved in *localStorage*.
   initialize: function() {
     console.log("AppView - initialize");
     console.log(this.template());
@@ -58,7 +48,7 @@ app.WrapperView = Backbone.View.extend({
       success: function (data) {
         console.log("ajaxform success");
         console.log("data: ", data);
-        // app.Daemons.trigger("reset");
+
         var data = data.data;
         var dataLen = data && data.length || 0;
         console.log("dataLen: ", dataLen);
@@ -86,26 +76,18 @@ app.WrapperView = Backbone.View.extend({
     app.Daemons.fetch();
   },
 
-  // Re-rendering the App just means refreshing the statistics -- the rest
-  // of the app doesn't change.
   render: function() {
-    // console.log("WrapperView - render");
-
     var daemons = app.Daemons.getAll();
     console.log("daemons: ", daemons);
     this.addAll();
-    // toastr.info('rendering WrapperView')
-
   },
 
   addOne: function (todo) {
-    // console.log("WrapperView - addOne");
     var view = new app.DaemonView({ model: todo });
     $('#daemonsList').append(view.render().el);
   },
 
   addAll: function () {
-    // console.log("WrapperView - addAll");
     this.$('#daemonsList').html('');
     app.Daemons.each(this.addOne, this);
   },

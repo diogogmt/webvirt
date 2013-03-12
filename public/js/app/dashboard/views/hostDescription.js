@@ -36,8 +36,7 @@ app.HostDescriptionView = Backbone.View.extend({
 
       q.expanded = false;
       q.active = true;
-      q.load = 1;
-      q.health = "blaz";
+      q.load = this.model.get("load");
       q.memCritical = ( parseFloat(q.memUsed) /  ( parseFloat(q.memFree) + parseFloat(q.memUsed) ) ) < 0.9 ? false : true;
       q.loadCritical = ( parseFloat(q.load) < 1 ) ? false : true;
 

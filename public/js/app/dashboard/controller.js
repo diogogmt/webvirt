@@ -38,13 +38,12 @@ var ENTER_KEY = 13;
       // Trigger clearing of records
       this.trigger("empty:records");
 
+      // Display loading image
       var loading = new app.LoadingView();
-
       loading.render();
 
       // Set nav
       this.setNav("dashboard");
-
 
       // Reset hosts
       app.Hosts.refresh();
@@ -166,6 +165,9 @@ var ENTER_KEY = 13;
 
       // Callback declarations
       var success = function (model, response, options) {
+        // Trigger emptying of record area
+        self.$("#content-area").empty();
+
         Instances.each( 
           function(model) {
             view = new app.InstanceRecordView({model: model});
@@ -186,8 +188,9 @@ var ENTER_KEY = 13;
       // Render the display area
       this.displayDetails({"ip": ip});
 
-      // Trigger emptying of record area
-      this.$("#content-area").empty();
+      // Loading image
+      var loading = new app.LoadingView();
+      loading.render();
 
       var Instances = new app.InstanceList();
 
