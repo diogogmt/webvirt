@@ -62,8 +62,39 @@ process.on('uncaughtException', function(err) {
 
 
 
-http.createServer(app).listen(app.get('port'), function(){
+// Get logger handler
+var di = {};
+di.config = require('./config/config.js');
+var logger = require('./utils/logger.js').inject(di);
+
+logger.on("socket", function () {
+  console.log("**********logger on.socket");
+  this.socketIO = loggerSocket;
+  // logger.info("after socket ON");
+  // console.log("this: ", this);
+});
+
+
+
+// Create && Start http server
+console.log("creating http server...");
+var server = http.createServer(app);
+server.listen(app.get('port'), function() {
   console.log("Express server listening on port " + app.get('port'));
+});
+
+
+// Create socket.io connection
+var io = require('socket.io')
+console.log("creating socket connection");
+var loggerSocket = io.listen(server, {log: false}).of('/logger');
+
+
+loggerSocket.on('connection', function(socket){
+  console.log("Logger Client Connected");
+  socket.join(socket.handshake.sessionID);
+  // Emit event to logger
+  logger.emit("socket");
 });
 
 

@@ -1,10 +1,16 @@
+console.log("utils/logger.js");
 var path = require("path");
 var winston = require('winston');
+var events = require('events');
 
 var _logger;
 
 var CustomLogger = function (config) {
   
+
+  this.socketIO;
+  var self = this;
+
   var path = config.clientPath;
   if (process.env['NODE_TYPE'] === "server") {
     path = config.serverPath;
@@ -15,7 +21,11 @@ var CustomLogger = function (config) {
   require('winston-redis').Redis;
 
 
-  winston.add(winston.transports.File, { filename: path });
+  winston.add(winston.transports.File, {
+    'filename': path,
+    'level': 'error',
+    'stream': false
+  });
   winston.add(winston.transports.Redis, {});
 
   winston.handleExceptions(new winston.transports.File({ filename: config.exceptionsPath }));
@@ -28,11 +38,28 @@ var CustomLogger = function (config) {
       json: true
   });
   
+  winston.stream({ start: -1 }).on('log', function(log) {
+    console.log("\n***winston.stream");
+    console.log("log: ", log);
+    console.log("log.transport: ", log.transport);
+    var type = log.transport[0]
+    console.log("type: ", type);
+    if (self.socketIO && type === "redis") {
+      console.log("emitting socket msg");
+      self.socketIO.emit(log.level, log);
+    } else {
+      console.log("this.loggerSocket not init");
+    }
+  });
 
 }
 
+CustomLogger.prototype = new events.EventEmitter();
+
 CustomLogger.prototype.info = function (msg, metadata) {
+  // console.log("CustomLogger.info");
   winston.info(msg + "\n", metadata);
+  
 };
 
 CustomLogger.prototype.warn = function (msg, metadata) {
@@ -43,13 +70,50 @@ CustomLogger.prototype.error = function (msg, metadata) {
   winston.error(msg + "\n", metadata);
 };
 
+CustomLogger.prototype.query = function (options, cb) {
+  console.log("CustomLogger.prototype.query");
+  console.log("options: ", options);
+  var start = options.start || 1;
+  var rows = options.rows || 50;
+  var type = options.type || 'redis';
+  var level = options.level || 'error';
+
+  
+
+  console.log("start: ", start);
+  console.log("rows: ", rows);
+  console.log("type: ", type);
+  console.log("level: ", level);
+
+  winston.query({
+    'start': +start,
+    'rows': +rows,
+    'level': level
+  }, function (err, data) {
+    console.log("winston.query");
+    console.log("arguments: ", arguments);
+    var logs = [];
+    var redisLogs = data.redis;
+    var redisLogsLen = redisLogs && redisLogs.length || 0;
+    var i;
+    console.log("data.redis.length: ", data.redis.length);
+    for (i = 0; i < redisLogsLen; i++) {
+      var log = redisLogs[i];
+      console.log("log.level: ", log.level);
+      if (log.level === level) {
+        log.id = +start + i;
+        logs.push(redisLogs[i]);
+      }
+    }
+
+    cb(err, logs);
+  })  
+}
+
 module.exports.inject = function (di) {
-  console.log("logger inject");
   if (!_logger) {
-    console.log("creating new logger");
     _logger = new CustomLogger(di.config.logger);
   }
-  console.log("returning old logger");
   return _logger;
 }
 

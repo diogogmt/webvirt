@@ -1,0 +1,64 @@
+html
+  head
+    title
+
+  style
+    .wrap-log {
+      border: 1px dotted black;
+      padding: 5px;
+      margin: 3px;
+      list-style: none;
+    }
+  body
+
+    div#content-area
+      h1 Logs view
+      button#logErrorBtn
+        |Log Error
+
+      button#logInfoBtn
+        |Log Info
+
+      br
+      br
+
+      button#viewErrorsBtn
+        |View Errors
+
+      button#viewInfoBtn
+        |View Info
+
+
+      ul#errorsList
+
+      button#viewMoreBtn
+        |View More
+
+    script(type="text/template", id="logsTemplate")
+      <div class='wrap-log'>
+      <li><b>Timestamp</b>: <%= timestamp %></li> 
+      <li><b>File</b>: <%= file %></li> 
+      <li><b>Line</b>: <%= line %></li> 
+      <li><b>Message</b>: <%= message %></li> 
+      </div>
+    
+    script(src='/js/plugins/jquery-1.9.1.min.js')
+    script(src='/js/plugins/jquery.form.js')
+    script(src='/js/plugins/jquery.tmpl.js')
+    script(src='/js/plugins/underscore.js')
+    script(src='/js/plugins/backbone.js')
+    script(src='/js/plugins/toastr.min.js')
+    script(src='/js/plugins/bootstrap.min.js')
+    script(src="/socket.io/socket.io.js")
+
+    script(src='/js/app/logger-management/models/log-model.js')
+    script(src='/js/app/logger-management/collections/logger-collection.js')
+    script(src='/js/app/logger-management/views/error-view.js')
+    script(src='/js/app/logger-management/controller.js')
+    script(src='/js/app/logger-management/app.js')
+
+
+    // script(src="/js/app/logger-management/logger-management.js")
+      
+
+
