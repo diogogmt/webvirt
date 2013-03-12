@@ -6,6 +6,7 @@ app.LoadingView = Backbone.View.extend({
 
   initialize: function (){
     console.log("-----RecordView Initializing");
+  },
 
   /* Templates */
   template: _.template($('#loading-template').html()),
