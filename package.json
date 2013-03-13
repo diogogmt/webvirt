@@ -18,6 +18,8 @@
     "scrypt": "*",
     "bcrypt-nodejs": "*",
     "connect": "*",
-    "bcrypt": "*"
+    "bcrypt": "*",
+    "sliced": "*",
+    "winston-redis": "*"
   }
 }

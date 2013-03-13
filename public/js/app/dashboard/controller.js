@@ -17,20 +17,21 @@ var ENTER_KEY = 13;
         $("#content-area").empty();
       });
 
-      // Set load events
-      this.on("load:start", this.loadStart);
+      toastr.options.fadeOut = 50000;
+      toastr.options.tapToDismiss = true;
 
     },
 
     reset: function(cb) {
       var self = this;
 
+
       // Set callback to wait for Hosts collection to finish API calls
       this.listenTo(app.Hosts, "reset", function() {
         console.log("---DisplayHosts Check");
 
         // Empty record area
-        $("record-area").empty();
+        $("#content-area").empty();
         // Display hosts
         app.Hosts.each(this.displayHost, this);
 
@@ -40,6 +41,10 @@ var ENTER_KEY = 13;
 
       // Trigger clearing of records
       this.trigger("empty:records");
+
+      // Display loading image
+      var loading = new app.LoadingView();
+      loading.render();
 
       // Set nav
       this.setNav("dashboard");
@@ -57,7 +62,7 @@ var ENTER_KEY = 13;
       this.displayDetails();
 
       // Create pagination view
-      this.paginate();
+      // this.paginate();
 
       // Run callback
       if (cb) {
@@ -145,10 +150,12 @@ var ENTER_KEY = 13;
 
     displayHost: function(host) {
       console.log("----Attempting render: collecting host model details | ip: " + host.get("ip"));
+      console.log(host.toJSON());
 
-      var view = new app.RecordView({model: host, type: "host"});
-      $("#content-area").append( view.render().el );
-
+      if (host.get("ip")) {
+        var view = new app.RecordView({model: host, type: "host"});
+        $("#content-area").append( view.render().el );
+      }
     },
 
     displayInstances: function(ip) {
@@ -162,6 +169,9 @@ var ENTER_KEY = 13;
 
       // Callback declarations
       var success = function (model, response, options) {
+        // Trigger emptying of record area
+        self.$("#content-area").empty();
+
         Instances.each( 
           function(model) {
             view = new app.InstanceRecordView({model: model});
@@ -182,8 +192,9 @@ var ENTER_KEY = 13;
       // Render the display area
       this.displayDetails({"ip": ip});
 
-      // Trigger emptying of record area
-      this.$("#content-area").empty();
+      // Loading image
+      var loading = new app.LoadingView();
+      loading.render();
 
       var Instances = new app.InstanceList();
 

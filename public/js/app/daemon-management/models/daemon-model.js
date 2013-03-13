@@ -20,7 +20,7 @@ app.Daemon = Backbone.Model.extend({
 
   validate: function (attrs, options) {
     var ip = attrs["ip"] || null
-      , match = ip && ip.match(/^\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}$/)
+      , match = ip && ip.match(/^(?!255)\d{1,3}\.(?!255)\d{1,3}\.(?!255)\d{1,3}\.(?!0)(?!255)\d{1,3}$/)
       , len = match && match.length || 0;
     
     if (len != 1) {
