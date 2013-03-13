@@ -1,9 +1,4 @@
-console.log("log-model.js");
 var app = app || {};
-
-// Todo Model
-// ----------
-// Our basic **Todo** model has `title`, `order`, and `completed` attributes.
 
 app.Log = Backbone.Model.extend({
 
@@ -17,7 +12,10 @@ app.Log = Backbone.Model.extend({
   idAttribute: "id",
 
   initialize: function () {
-    // console.log("Log - initialize");
   },
+
+  save: function () {
+    return true;
+  }
 
 });

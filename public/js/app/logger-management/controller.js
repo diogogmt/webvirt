@@ -1,90 +1,105 @@
-console.log("controller.js");
 var app = app || {};
 
 app.Controller = Backbone.View.extend({
 
   el: '#content-area',
 
-  // template: _.template( $('#manage-template').html() ),
-
   events: {
     'click #viewErrorsBtn': 'displayErrorsTab',
     'click #viewInfoBtn': 'displayInfoTab',
-
     'click #logInfoBtn': 'logInfo',
     'click #logErrorBtn': 'logError',
-
     'click #viewMoreBtn': 'viewMore',
 
   },
 
   initialize: function() {
-    console.log("Controller - initialize");
     var self = this;
-    // console.log(this.template());
-    // this.$el.html(this.template());
-    // this.$newDaemon = this.$('#newDaemon');
 
-    // this.listenTo(app.Daemons, 'all', this.render);
-    // this.listenTo(app.ErrorList, 'reset', this.addAll);
-    // this.listenTo(app.ErrorList, 'add', this.addOne);
-    // this.listenTo(app.Daemons, 'destroy', this.addAll);
-    // this.listenTo(app.Daemons, 'invalid', this.validationFailed);
-    // this.listenTo(app.Daemons, 'remove', this.render);
+    // Create log collections
+    this.collections = [];
+    this.collections['error'] = new app.LogsList({level: 'error'});
+    this.collections['info'] = new app.LogsList({level: 'info'});
 
-    this.errorCollection = new app.ErrorList({level: 'error'});
-    this.infoCollection = new app.ErrorList({level: 'info'});
+    // Set activa tab
+    this.currentTab = "error";
 
+    // Create event handlers for error collection
+    this.listenTo(this.collections['error'], 'add', this.addOne);
+    this.listenTo(this.collections['error'], 'change:viewMoreBtn', this.changeViewMoreBtn);
 
-    this.listenTo(this.errorCollection, 'reset', this.addAll);
-    this.listenTo(this.errorCollection, 'add', this.addOne);
-    this.listenTo(this.errorCollection, 'change:viewMoreBtn', this.changeViewMoreBtn);
+    // Create event handlers for info collection
+    this.listenTo(this.collections['info'], 'add', this.addOne);
+    this.listenTo(this.collections['info'], 'change:viewMoreBtn', this.changeViewMoreBtn);
 
-    this.errorCollection.fetch(function () {
-      self.listenTo(this.infoCollection, 'reset', this.addAll);
-      self.listenTo(this.infoCollection, 'add', this.addOne);
-      self.listenTo(self.infoCollection, 'change:viewMoreBtn', this.changeViewMoreBtn);
+    // Fecth data from server and init collections
+    this.collections['error'].fetch();
+    self.collections['info'].fetch();
+
+    // Create socketIO connection
+    this.logger = io.connect('http://142.204.133.138/logger');
+    // Incoming log via socket connection
+    this.logger.on('newLog', function (data) {
+      var log = new app.Log({
+        'timestamp' : data.timestamp,
+        'file'      : data.file,
+        'line'      : data.line,
+        'message'   : data.message,
+        'level'     : data.level,
+        'id'        : data.id,
+      });
+      self.socketLog = true;
+      self.collections[data.level].add(log);
     });
 
-    this.infoCollection.fetch();
-
-    this.currentTab = "errorCollection";
   },
 
   render: function() {
-    console.log("Controller - render");
-    // var daemons = app.Daemons.getAll();
-    // console.log("daemons: ", daemons);
-    // this.addAll();
   },
 
   addOne: function (log) {
-    console.log("Controller - addOne");
-    // console.log("log: ", log);
-    var view = new app.ErrorView({ model: log });
-    $('#errorsList').append(view.render().el);
+    // If log level's match current tab then display log on the screen
+    if (log.get('level') === this.currentTab) {
+      var view = new app.LogView({ model: log });
+      // Prepend live logs from socket connection
+      var action = this.socketLog ? "prepend" : "append";
+      this.socketLog = false;
+      $('#logsList')[action](view.render().el);
+    }
   },
 
   addAll: function (logType) {
-    console.log("Controller - addAll");
-    this.$('#errorsList').html('');
-    this[logType].each(this.addOne, this);
+    // Reset list of logs and add logs from current tab
+    this.$('#logsList').html('');
+    this.collections[logType].each(this.addOne, this);
   },
 
   displayErrorsTab: function () {
-    console.log("displayErrorsTab");
-    this.currentTab = "errorCollection";
+    this.currentTab = "error";
     this.addAll(this.currentTab);
     this.changeViewMoreBtn();
   },
 
   displayInfoTab: function () {
-    console.log("displayInfoTab");
-    this.currentTab = "infoCollection";
+    this.currentTab = "info";
     this.addAll(this.currentTab);
     this.changeViewMoreBtn();
   },
 
+  viewMore: function () {
+    // Fetch more data from the server
+    // Logic to determine range is built in the collection
+    this.collections[this.currentTab].fetch();
+  },
+
+  changeViewMoreBtn: function () {
+    // Update viewMore button visibility
+    this.collections[this.currentTab].viewMoreStatus()
+      ? $("#viewMoreBtn").show()
+      : $("#viewMoreBtn").hide()
+  },
+
+  // Temp functions to help debug
   logError: function () {
     $.ajax({
       type: "GET",
@@ -117,16 +132,6 @@ app.Controller = Backbone.View.extend({
     });
   },
 
-  viewMore: function () {
-    this[this.currentTab].fetch();
-  },
-
-  changeViewMoreBtn: function () {
-    console.log("Controller - changeViewMoreBtn");
-    this[this.currentTab].viewMoreStatus()
-      ? $("#viewMoreBtn").show()
-      : $("#viewMoreBtn").hide()
-
-  }
+  
 
 });

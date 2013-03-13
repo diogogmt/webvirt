@@ -21,14 +21,16 @@ var CustomLogger = function (config) {
   require('winston-redis').Redis;
 
 
-  winston.add(winston.transports.File, {
-    'filename': path,
-    'level': 'error',
-    'stream': false
+  // winston.add(winston.transports.File, {
+  //   'filename': path,
+  //   'level': 'error',
+  //   'stream': false
+  // });
+  winston.add(winston.transports.Redis, {
+    'channel': 'steamLogs'
   });
-  winston.add(winston.transports.Redis, {});
 
-  winston.handleExceptions(new winston.transports.File({ filename: config.exceptionsPath }));
+  // winston.handleExceptions(new winston.transports.File({ filename: config.exceptionsPath }));
   winston.handleExceptions(new winston.transports.Redis());
   winston.exitOnError = false;
 
@@ -37,7 +39,7 @@ var CustomLogger = function (config) {
       handleExceptions: true,
       json: true
   });
-  
+  // console.log("winston.stream: ", winston.stream);
   winston.stream({ start: -1 }).on('log', function(log) {
     console.log("\n***winston.stream");
     console.log("log: ", log);
@@ -45,8 +47,9 @@ var CustomLogger = function (config) {
     var type = log.transport[0]
     console.log("type: ", type);
     if (self.socketIO && type === "redis") {
-      console.log("emitting socket msg");
-      self.socketIO.emit(log.level, log);
+      console.log("\n**emitting socket msg");
+
+      self.socketIO.emit("newLog", log);
     } else {
       console.log("this.loggerSocket not init");
     }
@@ -100,10 +103,10 @@ CustomLogger.prototype.query = function (options, cb) {
     for (i = 0; i < redisLogsLen; i++) {
       var log = redisLogs[i];
       console.log("log.level: ", log.level);
-      if (log.level === level) {
-        log.id = +start + i;
+      // if (log.level === level) {
+        // log.id = +start + i;
         logs.push(redisLogs[i]);
-      }
+      // }
     }
 
     cb(err, logs);
