@@ -90,6 +90,9 @@ Helper.prototype.deleteDaemon = function (opts, cb) {
 };
 
 Helper.prototype.validateIp = function (ip) {
+  console.log("HERE IT IS!!!! :");
+  console.log(ip);
+
   return ip && ip.match(/^(?!255)\d{1,3}\.(?!255)\d{1,3}\.(?!255)\d{1,3}\.(?!0)(?!255)\d{1,3}$/);
 };
 

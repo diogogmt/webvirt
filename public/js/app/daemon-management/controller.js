@@ -13,7 +13,6 @@ app.WrapperView = Backbone.View.extend({
 
   initialize: function() {
     console.log("AppView - initialize");
-    console.log(this.template());
     this.$el.html(this.template());
     this.$newDaemon = this.$('#newDaemon');
 

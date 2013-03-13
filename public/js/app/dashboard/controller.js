@@ -16,6 +16,10 @@ var ENTER_KEY = 13;
         // Empty record area
         $("#content-area").empty();
       });
+
+      toastr.options.fadeOut = 50000;
+      toastr.options.tapToDismiss = true;
+
     },
 
     reset: function(cb) {
@@ -58,7 +62,7 @@ var ENTER_KEY = 13;
       this.displayDetails();
 
       // Create pagination view
-      this.paginate();
+      // this.paginate();
 
       // Run callback
       if (cb) {
