@@ -26,5 +26,5 @@ $(function() {
   // console.log("[creating log controller]");
   // new app.LogController();
 
-  app.LogInfoList = new app.InfoList();
+  // app.LogInfoList = new app.InfoList();
 }) // END Application

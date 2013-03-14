@@ -162,3 +162,9 @@ table.instance {
 .instance-manage {
 
 }
+
+.wrap-log {
+  border: solid black 1px;
+  margin: 5px 0 5px 0;
+  padding: 0 5px 0 5px ;
+}

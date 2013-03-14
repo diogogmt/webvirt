@@ -236,7 +236,7 @@ var ENTER_KEY = 13;
       // Trigger emptying of record area
       this.$("#content-area").empty();
       
-      var daemonWrapper = new app.WrapperView();
+       var daemonWrapper = new app.WrapperView();
     },
 
     loadStart: function() {
@@ -255,7 +255,8 @@ var ENTER_KEY = 13;
       // Prevent hosts populating the content area
       this.stopListening(app.Hosts, "reset");
 
-     var self = this;
+      var self = this;
+ 
       var crumbs = {
         curPage: "Server Logs",
         routes: [
@@ -276,6 +277,5 @@ var ENTER_KEY = 13;
       this.$("#content-area").empty();
       
       var logWrapper = new app.LogController();
-     
     }
   }); 

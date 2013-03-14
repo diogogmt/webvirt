@@ -164,3 +164,14 @@ script(type="text/template", id="logsTemplate")
   <li><b>Line</b>: <%= line %></li> 
   <li><b>Message</b>: <%= message %></li> 
   </div>
+
+script(type="text/template", id="logPageTemplate")
+  <h1>Logs view</h1>
+  <button id="logErrorBtn">Log Error</button>
+  <button id="logInfoBtn">Log Info</button>
+  <br/>
+  <br/>
+  <button id="viewErrorsBtn">View Errors</button>
+  <button id="viewInfoBtn">View Info</button>
+  <ul id="logsList"></ul>
+  <button id="viewMoreBtn">View More</button>

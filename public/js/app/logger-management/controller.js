@@ -16,6 +16,10 @@ app.LogController = Backbone.View.extend({
   initialize: function() {
     var self = this;
 
+    // Generate HTML structure
+    var shell = _.template($('#logPageTemplate').html());
+    $("#content-area").append(shell());
+
     // Create log collections
     this.collections = [];
     this.collections['error'] = new app.LogsList({level: 'error'});
