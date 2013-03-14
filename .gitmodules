@@ -1,0 +1,3 @@
+[submodule "external/step"]
+	path = external/step
+	url = git://github.com/diogogmt/step.git
