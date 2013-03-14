@@ -1,34 +1,26 @@
 #!/bin/bash
 
+# Save the absolute path of the project's root
 MY_PATH="`dirname \"$0\"`"              # relative
 MY_PATH="`( cd \"$MY_PATH\" && pwd )`"  # absolutized and normalized
 if [ -z "$MY_PATH" ] ; then
-  exit 1  # fail
+  exit 1 
 fi
-echo "$MY_PATH"
-export NODE_PATH=$MY_PATH
 
 REDIS_IP="127.0.0.1"
 REDIS_PORT=6379
 REDIS_DIR="redis/redis-2.6.11/src"
-
-NODE="nodejs/node-v0.10.0-linux-x64/bin/node"
-
+REDIS_CONF="config/redis.conf"
 export NODE="nodejs/node-v0.10.0-linux-x64/bin"
 export NODE_PATH="nodejs/node-v0.10.0-linux-x64/lib"
-
-echo "PATH: $PATH"
-
 export PATH=$PATH:$NODE_PATH:$NODE
+export NODE_PATH=$MY_PATH
 
-echo "Starting redis-server"
-echo "REDIS_DIR: $REDIS_DIR"
-nohup $REDIS_DIR/redis-server --port $REDIS_PORT &
-
-echo -e "\n---------------\n"
-
-echo $PWD
-cd $MY_PATH
-pwd
+# Check if redis-server is already running
+netstat -atnp 2>/dev/null | grep -qE ".*${REDIS_PORT}.*"redis-server
+if [ $? -ne 0 ]; then
+  echo "Starting redis server"
+  $REDIS_DIR/redis-server $REDIS_CONF
+fi
 
 node_modules/nodemon/nodemon.js server.js
