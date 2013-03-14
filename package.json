@@ -20,6 +20,7 @@
     "connect": "*",
     "bcrypt": "*",
     "sliced": "*",
-    "winston-redis": "*"
+    "winston-redis": "*",
+    "socket.io": "*"
   }
 }
