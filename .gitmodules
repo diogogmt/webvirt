@@ -1,3 +1,6 @@
 [submodule "external/step"]
 	path = external/step
 	url = git://github.com/diogogmt/step.git
+[submodule "external/winston-redis"]
+	path = external/winston-redis
+	url = git://github.com/diogogmt/winston-redis.git
