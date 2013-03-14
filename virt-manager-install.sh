@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CURRENT_DIR=$(pwd)
+PROJECT_ROOT=$(pwd)
 
 NODE_JS_VERSION="v0.10.0"
 NODE_JS_FILENAME="node-${NODE_JS_VERSION}-linux-x64.tar.gz"
@@ -8,119 +8,155 @@ NODE_JS_URL="http://nodejs.org/dist/${NODE_JS_VERSION}/${NODE_JS_FILENAME}"
 
 REDIS_VERSION=2.6.11
 REDIS_FILENAME="redis-${REDIS_VERSION}.tar.gz"
+REDIS_URL="http://redis.googlecode.com/files/$REDIS_FILENAME"
 
 VIRT_MANAGER_DIR="virt-manager"
 
-echo "NODE_JS_VERSION " $NODE_JS_VERSION
-echo "NODE_JS_FILENAME " $NODE_JS_FILENAME
-echo "NODE_JS_URL " $NODE_JS_URL
-echo "CURRENT_DIR " $CURRENT_DIR
-echo -e "\n---------\n"
+INSTALL_LOG="install.log"
 
-#echo "Installing node dependencies."
-#apt-get install python g++ make
+NODE_JS_DIR="nodejs"
+REDIS_DIR="redis"
 
-echo -e "\n---------\n"
+checkError() {
+  if [ $1 -ne 0 ]; then
+      echo "Something went wrong, check $INSTALL_LOG for more information."
+      echo $2
+      exit 1
+  fi
+}
 
-echo "Switching directories."
-mkdir -p nodejs && cd $_
+# Clean install.log file
+echo "" > $INSTALL_LOG 2>&1
 
-echo -e "\n---------\n"
 
-pwd
+#######################
+# Node.js installation
+######################
+echo "Begin node.js installation."
 
-echo -e "\n---------\n"
+echo "Creating nodejs dir..."
+mkdir -p $NODE_JS_DIR >> $INSTALL_LOG 2>&1
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR creating nodejs dir."
+checkError $CMD_RESULT "$MSG"
 
-echo "Download last nodejs stable version."
+cd $NODE_JS_DIR >> $INSTALL_LOG 2>&1
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR entering nodejs dir."
+checkError $CMD_RESULT "$MSG"
+
+echo "Downloading node.js package..."
+# wget -N $NODE_JS_URL 2>> $INSTALL_LOG
 wget -N $NODE_JS_URL
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR downloading node.js package"
+checkError $CMD_RESULT "$MSG"
 
-echo -e "\n---------\n"
+echo "Untarring node.js package..."
+tar xzvf $NODE_JS_FILENAME >> $INSTALL_LOG 2>&1
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR untarring node.js package"
+checkError $CMD_RESULT "$MSG"
 
-echo "Untar node."
-tar xzvf $NODE_JS_FILENAME
+cd `ls -rd node-v*/` >> $INSTALL_LOG 2>&1
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR entering node.js package dir"
+checkError $CMD_RESULT "$MSG"
 
-echo -e "\n---------\n"
-
-echo "Switch directories."
-cd `ls -rd node-v*/`
-
-echo -e "\n---------\n"
-
+# Export NODE vars required later on to install the project dependencies through npm
 export NODE="$(pwd)/bin/"
 export NODE_PATH="$(pwd)/lib/"
-echo "NODE: $NODE"
-echo "NODE_PATH: $NODE_PATH"
-echo "PATH: $PATH"
 export PATH=$PATH:$NODE_PATH:$NODE
-echo "PATH: $PATH"
 
-
-echo "CURRENT_DIR " $CURRENT_DIR
-
-cd $CURRENT_DIR
-
-echo -e "\n---------\n"
-
-pwd
-
-echo -e "\n---------\n"
+cd $PROJECT_ROOT >> $INSTALL_LOG 2>&1
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR going back to project's root dir"
+checkError $CMD_RESULT "$MSG"
 
 
 
+#######################
+# Redis installation
+#######################
+echo "Begin redis installation"
 
-echo "Begin installing redis."
+mkdir -p $REDIS_DIR >> $INSTALL_LOG 2>&1
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR creating redis dir."
+checkError $CMD_RESULT "$MSG"
 
-echo "Switching directories."
-mkdir -p redis && cd $_
+cd $REDIS_DIR >> $INSTALL_LOG 2>&1
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR entering redis dir."
+checkError $CMD_RESULT "$MSG"
 
-echo -e "\n---------\n"
+wget -N $REDIS_URL
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR downloading redis package"
+checkError $CMD_RESULT "$MSG"
 
-echo "Downloading redis."
+tar xzvf $REDIS_FILENAME >> $INSTALL_LOG 2>&1
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR untarring redis package"
+checkError $CMD_RESULT "$MSG"
 
-wget -N http://redis.googlecode.com/files/$REDIS_FILENAME
+cd `ls -rd redis-**/` >> $INSTALL_LOG 2>&1
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR entering redis package dir"
+checkError $CMD_RESULT "$MSG"
 
-echo -e "\n---------\n"
+make -j12 > /dev/null 2>> $INSTALL_LOG
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR building redis"
+checkError $CMD_RESULT "$MSG"
 
-echo "Untar redis."
+cd $PROJECT_ROOT >> $INSTALL_LOG 2>&1
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR going back to project's root dir"
+checkError $CMD_RESULT "$MSG"
 
-tar xzf $REDIS_FILENAME
 
-echo -e "\n---------\n"
-
-echo "Switching dirs."
-
-cd `ls -rd redis-**/`
-
-echo -e "\n---------\n"
-
-echo "Building redis."
-
-make -j12 > /dev/null
-
-echo -e "\n---------\n"
-
-pwd
-
-echo -e "\n---------\n"
-
-echo "Cloning virt-manager repo"
-
-cd $CURRENT_DIR
-
-if [ ! -d "$VIRT_MANAGER_DIR" ]; then
-  git clone https://github.com/diogogmt/virt-node.git $VIRT_MANAGER_DIR
-fi
-
-cd $VIRT_MANAGER_DIR
-
+################################
+# NPM Dependencies installation
+################################
 echo "Installing npm dependencies."
+# sudo npm install > /dev/null 2>> $INSTALL_LOG
 npm install
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR installating npm dependencies"
+checkError $CMD_RESULT "$MSG"
 
-echo -e "\n---------\n"
+################################
+# Installating git submodules
+################################
+echo "Installing git submodules."
+git submodule init
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR initializing git submodules"
+checkError $CMD_RESULT "$MSG"
 
-cd $CURRENT_DIR
+git submodule update
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR updating git submodules"
+checkError $CMD_RESULT "$MSG"
 
-pwd
-
-echo -e "\n---------\n"
+echo -e "\n-----------------------\n"
+echo    "Installation completed!"
+echo -e "\n-----------------------\n"
 
