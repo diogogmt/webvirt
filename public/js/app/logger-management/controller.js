@@ -37,7 +37,7 @@ app.Controller = Backbone.View.extend({
     self.collections['info'].fetch();
 
     // Create socketIO connection
-    this.logger = io.connect('http://127.0.0.1/logger');
+    this.logger = io.connect('/logger');
     // Incoming log via socket connection
     this.logger.on('newLog', function (data) {
       var log = new app.Log({
