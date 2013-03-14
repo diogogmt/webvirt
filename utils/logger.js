@@ -18,7 +18,7 @@ var CustomLogger = function (config) {
 
   // Requiring `winston-redis` will expose 
   // `winston.transports.Redis`
-  require('winston-redis').Redis;
+  require('../external/winston-redis/lib/winston-redis.js').Redis;
 
 
   // winston.add(winston.transports.File, {
