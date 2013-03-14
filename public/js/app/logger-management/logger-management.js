@@ -1,4 +1,4 @@
-var virtManager =  virtManager ||  {};
+var app =  app ||  {};
 
 $(function () {
 
@@ -129,5 +129,5 @@ $(function () {
       console.log("data: ", data);
     });
   }
-  virtManager.logger = new CustomLogger();
+  app.logger = new CustomLogger();
 });

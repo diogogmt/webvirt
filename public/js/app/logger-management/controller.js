@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.Controller = Backbone.View.extend({
+app.LogController = Backbone.View.extend({
 
   el: '#content-area',
 

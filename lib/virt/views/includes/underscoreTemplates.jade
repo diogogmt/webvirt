@@ -151,3 +151,16 @@ script#loading-template(type="text/template")
   </div>
   </div>
   </div>
+
+script#instance-empty-template(type="text/template")
+  <div class="well-small instance-record">
+  <p class="text-error">No instance data found! If instances were expected, check the server logs for more details.</p>
+  </div>
+
+script(type="text/template", id="logsTemplate")
+  <div class='wrap-log'>
+  <li><b>Timestamp</b>: <%= timestamp %></li> 
+  <li><b>File</b>: <%= file %></li> 
+  <li><b>Line</b>: <%= line %></li> 
+  <li><b>Message</b>: <%= message %></li> 
+  </div>

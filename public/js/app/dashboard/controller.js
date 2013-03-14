@@ -172,15 +172,23 @@ var ENTER_KEY = 13;
         // Trigger emptying of record area
         self.$("#content-area").empty();
 
-        Instances.each( 
-          function(model) {
-            view = new app.InstanceRecordView({model: model});
-            self.$("#content-area").append( view.render().el );
-            // model.on("change", function (model) {
-            //   view.$el.html(view.render().el);
-            // });
-          }
-        );
+        console.log("INSTANCES LENGTHHHHHH ::: " + Instances.length);
+        if (Instances.length) {
+          Instances.each( 
+            function(model) {
+              view = new app.InstanceRecordView({model: model});
+              self.$("#content-area").append( view.render().el );
+              // model.on("change", function (model) {
+              //   view.$el.html(view.render().el);
+              // });
+            }
+          );
+        }
+        else {
+          view = new app.InstanceRecordView({empty: true});
+          self.$("#content-area").append( view.render().el );
+        }
+
       };
       var error = function() {
           console.log("Fetch failed!");
@@ -241,5 +249,33 @@ var ENTER_KEY = 13;
         $('#content-area').empty();      
         loader.remove();
       });
+    },
+
+    displayLogs: function() {
+      // Prevent hosts populating the content area
+      this.stopListening(app.Hosts, "reset");
+
+     var self = this;
+      var crumbs = {
+        curPage: "Server Logs",
+        routes: [
+          {path: "#dashboard", sequence: "Dashboard"}
+        ]
+      };
+
+      // Render breadcrumbs
+      this.makeBreadcrumbs(crumbs);
+
+      // Render nav
+      this.setNav("logs");
+
+      // Render the display area
+      this.$("#description-area").empty();
+
+      // Trigger emptying of record area
+      this.$("#content-area").empty();
+      
+      var logWrapper = new app.LogController();
+     
     }
   }); 
