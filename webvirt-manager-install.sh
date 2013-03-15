@@ -21,7 +21,7 @@ INSTALL_LOG="install.log"
 REDIS_DIR="redis"
 
 DEPENDENCIES_DEB="make gcc g++ wget git"
-DEPENDENCIES_FED="make gcc gcc-c++ wget git"
+DEPENDENCIES_FED="make gcc g++ wget git"
 
 function deps {
   deps_ok=YES
