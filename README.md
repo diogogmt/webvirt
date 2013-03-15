@@ -13,6 +13,7 @@
  -----------------
 
  1) Clone the github repository:
+ 
       git clone git://github.com/diogogmt/virt-node.git
 
  2) Install Openssl & the Openssl-dev packages:
