@@ -1,13 +1,69 @@
-Before installing Virt-Manager make sure you have the following dependencies resolved.
+/* ************************************************************ *
+ * ** Webvirsh Quickstart Guide ******************************* *
+ * ************************************************************ */
 
-Ubuntu:
+ Prerequisites: 
+ -----------------
 
-apt-get install wget git gcc g++ make libssl-dev
+  - Fedora / Ubuntu / Debian
+  - Active internet connection
 
 
+ Preinstall:
+ -----------------
+
+ 1) Install Openssl & the Openssl-dev packages:
+
+      Debian/Ubuntu: 
+          apt-get install -y openssl libssl-dev
+
+      Fedora:
+          yum install openssl-libs.x86_64 openssl-devel.x86_64
 
 
-By default the redis-server runs on port 6379.
-To modify the port number as well other configuration options edit the file conf/redis.conf
+ Install:
+ -----------------
 
-If the redis-server is using a port number different than 6379 specify as an argument to the server_start.sh and client_start.sh
+ Two scripts are provided to automate the installation of the Webvirt application.  
+
+      [Webvirt-Manager]: 
+          webvirt-manager-install.sh
+
+      [Webvirt-Node]:
+          webvirt-node-install.sh
+
+
+ The script will check for critical dependancies before executing, and then display the 
+ ones that are missing.  If this occurs, ensure all dependancies are installed and then
+ try again.
+
+
+ Deployment:
+ -----------------
+
+ To start the server, run the corresponding script:
+
+      [Manager]: 
+          server_start.sh
+
+      [Node]:
+          client_start.sh
+
+
+ Important info: 
+ -----------------
+
+ By default, the installation process creates a web server listening on a port:
+
+      [Manager]: 
+          3000
+
+      [Node]:
+          4000
+
+ As soon as the [Webvirt-Manager] is running, it can be reached via any modern browser
+ through the host IP & port combination. 
+
+   e.g. 
+     To access the dashboard from the host machine, open a browser window
+     and type: "127.0.0.1:3000" to start.
