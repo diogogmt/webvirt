@@ -5,7 +5,7 @@ PROJECT_ROOT=$(pwd)
 MATCH=$(cat /proc/version | grep -c "Red Hat")
 echo $MATCH
 
-if [[ ! $MATCH ]]; then
+if [[ $MATCH == 1 ]]; then
   OS_TYPE="rh"
 else
   OS_TYPE="ub"
@@ -31,7 +31,7 @@ function deps {
     do
       if ! which $dep &>/dev/null;  then
               echo -e "This script requires $dep to run but it is not installed"
-              echo -e "If you are running ubuntu or debian you might be able to install $dep with the following  command"
+              echo -e "If you are running Ubuntu or Debian, you might be able to install $dep with the following  command"
               echo -e "\t\tsudo apt-get install $dep\n"
               deps_ok=NO
       fi
@@ -41,7 +41,7 @@ function deps {
     do
       if ! which $dep &>/dev/null;  then
               echo -e "This script requires $dep to run but it is not installed"
-              echo -e "If you are running ubuntu or debian you might be able to install $dep with the following  command"
+              echo -e "If you are running Fedora, you might be able to install $dep with the following  command"
               echo -e "\t\tsudo yum install $dep\n"
               deps_ok=NO
       fi
