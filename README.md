@@ -5,7 +5,7 @@
  Prerequisites: 
  -----------------
 
-  - Fedora / Ubuntu / Debian
+  - Running Fedora or Ubuntu distro
   - Active internet connection
 
 
@@ -18,13 +18,13 @@
           apt-get install -y openssl libssl-dev
 
       Fedora:
-          yum install openssl-libs.x86_64 openssl-devel.x86_64
+          yum install openssl-libs openssl-devel
 
 
  Install:
  -----------------
 
- Two scripts are provided to automate the installation of the Webvirt application.  
+ Two scripts are provided to automate the installation of the Webvirt application.
 
       [Webvirt-Manager]: 
           webvirt-manager-install.sh
