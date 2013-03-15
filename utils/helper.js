@@ -33,7 +33,6 @@ Helper.prototype.getDaemonsIp = function (cb) {
     },
 
    function queryIps () {
-    console.log("queryIps");
     var step = this;
     var hosts =  _.without(_.map(arguments, function (host) {
       var ip    = host[0]
@@ -53,7 +52,6 @@ Helper.prototype.getDaemonsIp = function (cb) {
 
 
 Helper.prototype.addDaemon = function (opts, cbb) {
-  console.log("helper addDaemon");
   var ip = opts && opts.ip || null
     , hashKey = "hosts:" + ip;
 
@@ -63,13 +61,11 @@ Helper.prototype.addDaemon = function (opts, cbb) {
     .hset(hashKey, "type", "compute")
     .hset(hashKey, "lastOn", "timestamp")
     .exec(function (err, results) {
-      console.log("args: ", arguments);
       cbb(err);
     });
 };
 
 Helper.prototype.deleteDaemon = function (opts, cb) {
-  console.log("helper deleteDaemon");
   var ip = opts && opts.ip || null
     , hashKey = "hosts:" + ip
     , self = this
@@ -90,9 +86,6 @@ Helper.prototype.deleteDaemon = function (opts, cb) {
 };
 
 Helper.prototype.validateIp = function (ip) {
-  console.log("HERE IT IS!!!! :");
-  console.log(ip);
-
   return ip && ip.match(/^(?!255)\d{1,3}\.(?!255)\d{1,3}\.(?!255)\d{1,3}\.(?!0)(?!255)\d{1,3}$/);
 };
 
@@ -111,9 +104,6 @@ Helper.prototype.createUser = function (opts, cb) {
     , maxmem = scryptConfig.maxmem
     , maxmemfrac = scryptConfig.maxmemfrac
 
-  console.log("hashKey: ", hashKey);
-  console.log("password: ", password);
-
   bcrypt.genSalt(100, function (err, salt) {
     var saltLength = salt.length;
     var saltedPass = salt.slice(0,saltLength / 2) + password + salt.slice(saltLength / 2, saltLength);
@@ -123,7 +113,6 @@ Helper.prototype.createUser = function (opts, cb) {
         .hset(hashKey, "password", scryptHash)
         .hset(hashKey, "salt", salt)
         .exec(function (err, status) {
-          console.log("Step confirmCreation");
           cb(err, status);
         });
     });
