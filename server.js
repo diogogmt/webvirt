@@ -50,11 +50,7 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-
-app.use(require("./lib/virt"));
-app.use(require("./lib/user-management"));
-app.use(require("./lib/logger-management"));
-
+app.use(require("./lib"));
 
 process.on('uncaughtException', function(err) {
   logger.error( "Error: Uncaught Exception, " + err.toString(), {file: __filename, line: __line});
