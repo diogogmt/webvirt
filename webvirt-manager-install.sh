@@ -2,11 +2,11 @@
 
 PROJECT_ROOT=$(pwd)
 
-if [[ cat /proc/version | grep -c "Red Hat" ]]; then
-  OS_TYPE="rh"
-fi
+MATCH=cat /proc/version | grep -c "Red Hat" 
 
-if [[ cat /proc/version | grep -c "ubuntu" ]]; then
+if [[ $MATCH ]]; then
+  OS_TYPE="rh"
+else
   OS_TYPE="ub"
 fi
 
