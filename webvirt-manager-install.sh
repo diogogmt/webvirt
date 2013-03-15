@@ -2,9 +2,10 @@
 
 PROJECT_ROOT=$(pwd)
 
-MATCH=cat /proc/version | grep -c "Red Hat" 
+MATCH=$(cat /proc/version | grep -c "Red Hat")
+echo $MATCH
 
-if [[ $MATCH ]]; then
+if [[ ! $MATCH ]]; then
   OS_TYPE="rh"
 else
   OS_TYPE="ub"
@@ -25,7 +26,7 @@ DEPENDENCIES_FED="make gcc gcc-c++ wget git"
 
 function deps {
   deps_ok=YES
-  if [[ $OS_TYPE == "ub"]]; then
+  if [[ $OS_TYPE == "ub" ]]; then
     for dep in $DEPENDENCIES_DEB
     do
       if ! which $dep &>/dev/null;  then
