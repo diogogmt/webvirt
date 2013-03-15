@@ -29,8 +29,8 @@ function deps {
     done
   else
     for dep in $DEPENDENCIES_FED
-    if
-      do ! which $dep &>/dev/null;  then
+    do
+      if ! which $dep &>/dev/null;  then
               echo -e "This script requires $dep to run but it is not installed"
               echo -e "If you are running Fedora, you might be able to install $dep with the following  command"
               echo -e "\t\tsudo yum install $dep\n"
