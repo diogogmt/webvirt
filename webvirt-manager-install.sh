@@ -25,7 +25,7 @@ DEPENDENCIES_FED="make gcc gcc-c++ wget git"
 
 function deps {
   deps_ok=YES
-  if [[ $OS_TYPE == "ub"]]
+  if [[ $OS_TYPE == "ub"]]; then
     for dep in $DEPENDENCIES_DEB
     do
       if ! which $dep &>/dev/null;  then
