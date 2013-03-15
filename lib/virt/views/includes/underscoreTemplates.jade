@@ -151,3 +151,30 @@ script#loading-template(type="text/template")
   </div>
   </div>
   </div>
+
+script#instance-empty-template(type="text/template")
+  <div class="well-small instance-record">
+  <p class="text-error">No instance data found! If instances were expected, check the server logs for more details.</p>
+  </div>
+
+script(type="text/template", id="logsTemplate")
+  <div class='wrap-log'>
+  <li><b>Timestamp</b>: <%= timestamp %></li> 
+  <li><b>File</b>: <%= file %></li> 
+  <li><b>Line</b>: <%= line %></li> 
+  <li><b>Message</b>: <%= message %></li> 
+  </div>
+
+script(type="text/template", id="logPageTemplate")
+  <div class="btn-group">
+  <button class="btn btn-warning" id="logErrorBtn">Log Error</button>
+  <button class="btn btn-success" id="logInfoBtn">Log Info</button>
+  </div>
+  <br/>
+  <br/>
+  <ul class="nav nav-tabs">
+  <li class="active" id="viewErrorsBtn"><a>View Errors</a></li>
+  <li id="viewInfoBtn"><a>View Info</a></li>
+  </ul>
+  <ul id="logsList"></ul>
+  <button class="btn btn-primary" id="viewMoreBtn">View More</button>

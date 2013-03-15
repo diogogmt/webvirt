@@ -4,11 +4,16 @@ var app = app || {};
 app.InstanceRecordView = Backbone.View.extend({
   initialize: function () {
     console.log("-----InstanceRecord Initialization");
-    this.listenTo(this.model, 'destroy', this.remove);
-    this.listenTo(this.model, 'change', function () {
-      console.log("-------Instance Model: Change detected!");
-      this.render();
-    });
+
+    if (!this.options.empty) {
+      this.listenTo(this.model, 'destroy', this.remove);
+      this.listenTo(this.model, 'change', function () {
+        console.log("-------Instance Model: Change detected!");
+        this.render();
+      });
+    }
+
+    this.template = this.options.empty ? _.template($('#instance-empty-template').html()) : _.template($('#instance-record-template').html())
   },
 
   events: {
@@ -20,12 +25,10 @@ app.InstanceRecordView = Backbone.View.extend({
     "click .destroy" : "destroyInstance"
   },
 
-  template: _.template($('#instance-record-template').html()),
-
   render: function () {
     console.log("------Rendering instance view!");
 
-    this.$el.html( this.template(this.model.toJSON()) );
+    this.$el.html( this.template(this.model && this.model.toJSON() || null) );
 
     console.log("      ...rendered!");
 

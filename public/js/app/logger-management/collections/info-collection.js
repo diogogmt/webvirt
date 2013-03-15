@@ -1,8 +1,6 @@
-console.log("logger-collections.js");
-
 var app = app || {};
 
-var InfoList = Backbone.Collection.extend({
+app.InfoList = Backbone.Collection.extend({
 
   model: app.Log,
 
@@ -74,9 +72,6 @@ var InfoList = Backbone.Collection.extend({
   },
 
 });
-
-// Create our global collection of **Todos**.
-app.InfoList = new InfoList();
 
 
 

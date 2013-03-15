@@ -15,7 +15,6 @@ $(function() {
   app.Routes = new app.Dashboard();
   Backbone.history.start();
 
-
   if (typeof(app.loaded) === "undefined") {
   	app.Routes.trigger("route:gotoDashboard");
   	app.Routes.navigate("dashboard");
@@ -24,4 +23,8 @@ $(function() {
   console.log("[creating daemon list]");
   app.Daemons = new DaemonsList();
 
+  // console.log("[creating log controller]");
+  // new app.LogController();
+
+  // app.LogInfoList = new app.InfoList();
 }) // END Application

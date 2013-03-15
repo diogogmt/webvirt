@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.Controller = Backbone.View.extend({
+app.LogController = Backbone.View.extend({
 
   el: '#content-area',
 
@@ -15,6 +15,10 @@ app.Controller = Backbone.View.extend({
 
   initialize: function() {
     var self = this;
+
+    // Generate HTML structure
+    var shell = _.template($('#logPageTemplate').html());
+    $("#content-area").append(shell());
 
     // Create log collections
     this.collections = [];
@@ -75,12 +79,16 @@ app.Controller = Backbone.View.extend({
   },
 
   displayErrorsTab: function () {
+    $('#viewInfoBtn').removeClass("active");
+    $('#viewErrorsBtn').addClass("active");
     this.currentTab = "error";
     this.addAll(this.currentTab);
     this.changeViewMoreBtn();
   },
 
   displayInfoTab: function () {
+    $('#viewErrorsBtn').removeClass("active");
+    $('#viewInfoBtn').addClass("active");
     this.currentTab = "info";
     this.addAll(this.currentTab);
     this.changeViewMoreBtn();
