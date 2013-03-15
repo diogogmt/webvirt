@@ -20,6 +20,7 @@
     "bcrypt": "*",
     "sliced": "*",
     "socket.io": "*",
-    "nodemon": "*"
+    "nodemon": "*",
+    "forever-monitor": "*"
   }
 }

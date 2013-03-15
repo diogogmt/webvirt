@@ -7,10 +7,9 @@ if [ -z "$MY_PATH" ] ; then
   exit 1 
 fi
 
-REDIS_IP="127.0.0.1"
-REDIS_PORT=6379
 REDIS_DIR="redis/redis-2.6.11/src"
 REDIS_CONF="config/redis.conf"
+
 export NODE="nodejs/node-v0.10.0-linux-x64/bin"
 export NODE_PATH="nodejs/node-v0.10.0-linux-x64/lib"
 export PATH=$PATH:$NODE_PATH:$NODE
