@@ -79,12 +79,16 @@ app.LogController = Backbone.View.extend({
   },
 
   displayErrorsTab: function () {
+    $('#viewInfoBtn').removeClass("active");
+    $('#viewErrorsBtn').addClass("active");
     this.currentTab = "error";
     this.addAll(this.currentTab);
     this.changeViewMoreBtn();
   },
 
   displayInfoTab: function () {
+    $('#viewErrorsBtn').removeClass("active");
+    $('#viewInfoBtn').addClass("active");
     this.currentTab = "info";
     this.addAll(this.currentTab);
     this.changeViewMoreBtn();

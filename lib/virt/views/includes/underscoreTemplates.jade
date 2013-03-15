@@ -166,12 +166,15 @@ script(type="text/template", id="logsTemplate")
   </div>
 
 script(type="text/template", id="logPageTemplate")
-  <h1>Logs view</h1>
-  <button id="logErrorBtn">Log Error</button>
-  <button id="logInfoBtn">Log Info</button>
+  <div class="btn-group">
+  <button class="btn btn-warning" id="logErrorBtn">Log Error</button>
+  <button class="btn btn-success" id="logInfoBtn">Log Info</button>
+  </div>
   <br/>
   <br/>
-  <button id="viewErrorsBtn">View Errors</button>
-  <button id="viewInfoBtn">View Info</button>
+  <ul class="nav nav-tabs">
+  <li class="active" id="viewErrorsBtn"><a>View Errors</a></li>
+  <li id="viewInfoBtn"><a>View Info</a></li>
+  </ul>
   <ul id="logsList"></ul>
-  <button id="viewMoreBtn">View More</button>
+  <button class="btn btn-primary" id="viewMoreBtn">View More</button>

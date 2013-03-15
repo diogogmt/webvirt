@@ -168,3 +168,7 @@ table.instance {
   margin: 5px 0 5px 0;
   padding: 0 5px 0 5px ;
 }
+#logsList {
+  list-style-type: none;    
+  margin:0;
+}
