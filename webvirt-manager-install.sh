@@ -2,9 +2,8 @@
 
 PROJECT_ROOT=$(pwd)
 
+# OS CHECK
 MATCH=$(cat /proc/version | grep -c "Red Hat")
-echo $MATCH
-
 if [[ $MATCH == 1 ]]; then
   OS_TYPE="rh"
 else
