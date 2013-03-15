@@ -2,6 +2,13 @@
 
 PROJECT_ROOT=$(pwd)
 
+if [[ cat /proc/version | grep -c "Red Hat" ]]; then
+  OS_TYPE="rh"
+fi
+
+if [[ cat /proc/version | grep -c "ubuntu" ]]; then
+  OS_TYPE="ub"
+fi
 
 REDIS_VERSION=2.6.11
 REDIS_FILENAME="redis-${REDIS_VERSION}.tar.gz"
@@ -13,19 +20,33 @@ INSTALL_LOG="install.log"
 
 REDIS_DIR="redis"
 
-DEPENDENCIES="make gcc g++ wget git"
+DEPENDENCIES_DEB="make gcc g++ wget git"
+DEPENDENCIES_FED="make gcc gcc-c++ wget git"
 
 function deps {
   deps_ok=YES
-  for dep in $DEPENDENCIES
-  do
-    if ! which $dep &>/dev/null;  then
-            echo -e "This script requires $dep to run but it is not installed"
-            echo -e "If you are running ubuntu or debian you might be able to install $dep with the following  command"
-            echo -e "\t\tsudo apt-get install $dep\n"
-            deps_ok=NO
-    fi
-  done
+  if [[ $OS_TYPE == "ub"]]
+    for dep in $DEPENDENCIES_DEB
+    do
+      if ! which $dep &>/dev/null;  then
+              echo -e "This script requires $dep to run but it is not installed"
+              echo -e "If you are running ubuntu or debian you might be able to install $dep with the following  command"
+              echo -e "\t\tsudo apt-get install $dep\n"
+              deps_ok=NO
+      fi
+    done
+  else
+    for dep in $DEPENDENCIES_FED
+    do
+      if ! which $dep &>/dev/null;  then
+              echo -e "This script requires $dep to run but it is not installed"
+              echo -e "If you are running ubuntu or debian you might be able to install $dep with the following  command"
+              echo -e "\t\tsudo yum install $dep\n"
+              deps_ok=NO
+      fi
+    done
+  fi
+
   if [[ "$deps_ok" == "NO" ]]; then
     echo -e "Unmet dependencies ^"
     echo -e "Aborting!"
