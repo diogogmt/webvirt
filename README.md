@@ -12,7 +12,11 @@
  Preinstall:
  -----------------
 
- 1) Install Openssl & the Openssl-dev packages:
+ 1) Clone the github repository:
+ 
+      git clone git://github.com/diogogmt/virt-node.git
+
+ 2) Install Openssl & the Openssl-dev packages:
 
       Debian/Ubuntu: 
           apt-get install -y openssl libssl-dev
