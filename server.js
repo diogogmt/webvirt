@@ -23,6 +23,7 @@ var express = require('express')
   , connect = require('connect')
 
 
+
 var app = express();
 
 console.log("process.env[NODE_TYPE]: ", process.env["NODE_TYPE"]);
@@ -39,7 +40,16 @@ app.configure(function () {
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('test'));
-  app.use(express.session());
+  // if (process.env["NODE_TYPE"] === "server") {
+  var RedisStore = require('connect-redis')(express);
+  var client = require('utils/db-conn').client;
+  app.use(express.session({
+      secret: "mysecret",
+      store: new RedisStore({ host: 'localhost', port: 6739, client: client })
+  }));
+  // } else {
+    // app.use(express.session());
+  // }
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });

@@ -16,6 +16,7 @@ var CustomLogger = function (config) {
     path = config.serverPath;
   }
 
+  console.log("requiring Redis transport...");
   // Requiring `winston-redis` will expose 
   // `winston.transports.Redis`
   require('../external/winston-redis/lib/winston-redis.js').Redis;
@@ -27,7 +28,11 @@ var CustomLogger = function (config) {
   //   'stream': false
   // });
   winston.add(winston.transports.Redis, {
-    'channel': 'steamLogs'
+    channel: 'steamLogs',
+    container: function (level, msg, meta) {
+      console.log("parsing container");
+      return 'winston:' + level;
+    }
   });
 
   // winston.handleExceptions(new winston.transports.File({ filename: config.exceptionsPath }));
@@ -42,10 +47,10 @@ var CustomLogger = function (config) {
   // console.log("winston.stream: ", winston.stream);
   winston.stream({ start: -1 }).on('log', function(log) {
     console.log("\n***winston.stream");
-    console.log("log: ", log);
-    console.log("log.transport: ", log.transport);
+    // console.log("log: ", log);
+    // console.log("log.transport: ", log.transport);
     var type = log.transport[0]
-    console.log("type: ", type);
+    // console.log("type: ", type);
     if (self.socketIO && type === "redis") {
       console.log("\n**emitting socket msg");
 
@@ -83,10 +88,10 @@ CustomLogger.prototype.query = function (options, cb) {
 
   
 
-  console.log("start: ", start);
-  console.log("rows: ", rows);
-  console.log("type: ", type);
-  console.log("level: ", level);
+  // console.log("start: ", start);
+  // console.log("rows: ", rows);
+  // console.log("type: ", type);
+  // console.log("level: ", level);
 
   winston.query({
     'start': +start,
@@ -94,7 +99,7 @@ CustomLogger.prototype.query = function (options, cb) {
     'level': level
   }, function (err, data) {
     console.log("winston.query");
-    console.log("arguments: ", arguments);
+    // console.log("arguments: ", arguments);
     var logs = [];
     var redisLogs = data.redis;
     var redisLogsLen = redisLogs && redisLogs.length || 0;
