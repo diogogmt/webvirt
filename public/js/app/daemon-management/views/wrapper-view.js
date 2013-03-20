@@ -122,7 +122,6 @@ app.WrapperView = Backbone.View.extend({
     if (!model.id) {
       app.Daemons.remove(model);
     }
-    toastr.options.fadeOut = 50000;
     toastr.error(error, 'An error occured.');
   },
 

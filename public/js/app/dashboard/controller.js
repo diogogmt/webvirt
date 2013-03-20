@@ -17,9 +17,11 @@ var ENTER_KEY = 13;
         $("#content-area").empty();
       });
 
-      toastr.options.fadeOut = 50000;
+      toastr.options.timeOut = 10000;
+      toastr.options.fadeOut = 1000;
       toastr.options.tapToDismiss = true;
 
+      console.log(toastr);
     },
 
     reset: function(cb) {
