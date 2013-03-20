@@ -5,7 +5,7 @@ app.Dashboard = Backbone.Router.extend({
   routes: {
     "host/:ip"   : "listInstances",
     "dashboard"  : "gotoDashboard",
-    "daemons"    : "manageDaemons",
+    "nodes"      : "manageNodes",
     "logs"       : "errorLogs"
   },
 
@@ -19,7 +19,7 @@ app.Dashboard = Backbone.Router.extend({
       app.controller.reset();
     });
 
-    this.on("route:manageDaemons", function() {
+    this.on("route:manageNodes", function() {
       app.controller.displayManage();
     });
 

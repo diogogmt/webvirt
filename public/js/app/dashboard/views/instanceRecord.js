@@ -58,9 +58,8 @@ app.InstanceRecordView = Backbone.View.extend({
         console.log( "    VIRSH:" + data.data);
         self.refreshRecord();
       },
-      function () {
-        toastr.error("Error communicating with interface-server");
-        console.log( "XX Error communicating with interface-server! XX");
+      function (jqXHR, err, ex) {
+        toastr.error("Error communicating with interface-server! ERR: " + jqXHR.responseText);
       });
   },
 
@@ -84,9 +83,8 @@ app.InstanceRecordView = Backbone.View.extend({
         // Update model
         self.model.fetch();
       },
-      function () {
-        toastr.error("Error communicating with interface-server");
-        console.log( "XX Error communicating with interface-server! XX");
+      function (jqXHR, err, ex) {
+        toastr.error("Error communicating with interface-server! ERR: " + jqXHR.responseText);
       });
   },
 
@@ -110,9 +108,8 @@ app.InstanceRecordView = Backbone.View.extend({
         // Update model
         self.model.fetch();
       },
-      function () {
-        toastr.error("Error communicating with interface-server");
-        console.log( "XX Error communicating with interface-server! XX");
+      function (jqXHR, err, ex) {
+        toastr.error("Error communicating with interface-server! ERR: "  + jqXHR.responseText);
       });
   },
 
@@ -136,9 +133,8 @@ app.InstanceRecordView = Backbone.View.extend({
         // Update model
         self.model.fetch();
       },
-      function () {
-        toastr.error("Error communicating with interface-server");
-        console.log( "XX Error communicating with interface-server! XX");
+      function (jqXHR, err, ex) {
+        toastr.error("Error communicating with interface-server! ERR: "  + jqXHR.responseText);
       });
   },
 
@@ -162,9 +158,8 @@ app.InstanceRecordView = Backbone.View.extend({
         // Update model
         self.model.fetch();
       },
-      function () {
-        toastr.error("Error communicating with interface-server");
-        console.log( "XX Error communicating with interface-server! XX");
+      function (jqXHR, err, ex) {
+        toastr.error("Error communicating with interface-server! ERR: " + jqXHR.responseText);
       });
   },
 

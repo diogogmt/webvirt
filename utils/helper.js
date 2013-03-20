@@ -15,6 +15,7 @@ Helper.prototype.getDaemonsIp = function (cb) {
   var self = this;
   Step([
     function getIps () {
+      console.log("Retrieving daemon ips");
       client.keys("hosts:*", this);
     },
 
@@ -26,7 +27,18 @@ Helper.prototype.getDaemonsIp = function (cb) {
         cb(err);
         return;
       }
+      if (!keys.length) {
+        err = "No hosts found";
+        
+        console.log("No keys!");
+        logger.warn(err, {file: __filename, line: __line});
+        this.exitChain();
+        cb(err);
+        return;
+      }
+
       _.map(keys, function (key) {
+        console.log("In MAP");
         client.hget(key, "type", step.parallel(key.split(":")[1]));
       });
 

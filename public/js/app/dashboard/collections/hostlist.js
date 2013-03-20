@@ -14,7 +14,6 @@ app.HostList = Backbone.Collection.extend({
   },
 
   refresh: function() {
-    // Clear collection
     var s = function() {
       console.log("Host collection created");
       toastr.success("Libvirt host information refreshed");
@@ -23,13 +22,16 @@ app.HostList = Backbone.Collection.extend({
     var e = function() {
       console.log("Host collection failed to refresh!");
       toastr.error("Connection to Interface-Server refused", "Host refresh failed:");
+      $('#content-area').empty();
     };
 
     this.fetch({success: s, error: e});
   },
 
   parse: function (data) {
-    if (data.err) {
+    if (typeof(data.err) === "string") {
+      toastr.error("Host Error: " + data.err);                
+    } else if (data.err) {
       _.each(data.err, function (el) {
         toastr.error("Daemon-host list is out of date, or the connection to the daemon @ " + el.ip + " has been lost!", "Daemon-Host IP: " + el.ip);
       });
