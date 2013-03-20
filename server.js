@@ -58,17 +58,6 @@ process.on('uncaughtException', function(err) {
 
 
 
-// Get logger handler
-var di = {};
-di.config = require('./config/config.js');
-var logger = require('./utils/logger.js').inject(di);
-
-logger.on("socket", function () {
-  console.log("**********logger on.socket");
-  this.socketIO = loggerSocket;
-  // logger.info("after socket ON");
-  // console.log("this: ", this);
-});
 
 
 
@@ -79,19 +68,31 @@ server.listen(app.get('port'), function() {
   console.log("Express server listening on port " + app.get('port'));
 });
 
+if (process.env["NODE_TYPE"] === "server") {
+  // Get logger handler
+  var di = {};
+  di.config = require('./config/config.js');
+  var logger = require('./utils/logger.js').inject(di);
 
-// Create socket.io connection
-var io = require('socket.io')
-console.log("creating socket connection");
-var loggerSocket = io.listen(server, {log: false}).of('/logger');
+  logger.on("socket", function () {
+    console.log("**********logger on.socket");
+    this.socketIO = loggerSocket;
+    // logger.info("after socket ON");
+    // console.log("this: ", this);
+  });
+
+  // Create socket.io connection
+  var io = require('socket.io')
+  console.log("creating socket connection");
+  var loggerSocket = io.listen(server, {log: false}).of('/logger');
 
 
-loggerSocket.on('connection', function(socket){
-  console.log("Logger Client Connected");
-  socket.join(socket.handshake.sessionID);
-  // Emit event to logger
-  logger.emit("socket");
-});
-
+  loggerSocket.on('connection', function(socket){
+    console.log("Logger Client Connected");
+    socket.join(socket.handshake.sessionID);
+    // Emit event to logger
+    logger.emit("socket");
+  });
+}
 
 
