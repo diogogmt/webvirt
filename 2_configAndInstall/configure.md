@@ -1,3 +1,0 @@
-## Common Configuration ##
-
-[Feature incomplete]
