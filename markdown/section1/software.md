@@ -1,9 +1,8 @@
-# Software Prerequisites
-------------------------
+## Software Prerequisites
 
-## Common ##
+### Common ###
 
-### Operating Systems ###
+#### Operating Systems ####
 
 Both the *WebVirt Manager* and the *WebVirt Nodes* are built for Linux-based operating systems.  The three distribution families that are explicitly supported are:
 
@@ -11,11 +10,13 @@ Both the *WebVirt Manager* and the *WebVirt Nodes* are built for Linux-based ope
 	*    Debian/Ubuntu (**Ubuntu Release 12.04.2 LTS** Tested)
 	*    OpenSUSE (Testing in progress)
 
-### Prerequisites & Dependancies ###
+#### Prerequisites & Dependancies ####
 
-A number of packages are required before installation can begin.  For the current release, the *WebVirt Manager* and *WebVirt Node* have the same dependancies for a proper installation.  Packages required for pre-install are **in bold**:
+A number of packages are required before installation can begin.  For the current release, the *WebVirt Manager* and *WebVirt Node* have the same dependancies for a proper installation.
 
-#### Red Hat/Fedora ####
+Packages required for pre-install are **in bold**:
+
+##### Red Hat/Fedora #####
 
   *    **git**
   *    **openssl-libs**
@@ -24,7 +25,7 @@ A number of packages are required before installation can begin.  For the curren
   *    gcc-c++
   *    wget
 
-#### Debian/Ubuntu ####
+##### Debian/Ubuntu #####
 
   *    **git**
   *    **openssl**
@@ -33,7 +34,7 @@ A number of packages are required before installation can begin.  For the curren
   *    g++
   *    wget
 
-#### OpenSUSE ####
+##### OpenSUSE #####
 
   *    **git**
   *    **openssl**    ?? (Platform specific version TBD)
