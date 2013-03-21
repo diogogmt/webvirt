@@ -9,7 +9,9 @@
 1.  Install git & openssl
 
     Debian/Ubuntu: `apt-get install -y git openssl libssl-dev`
+
     Fedora:        `yum install git openssl-libs openssl-devel`
+    
     SUSE:          `zipper in git openssl libopenssl-devel`
 
 2.  Clone WebVirt repo to local install folder
@@ -20,8 +22,8 @@
 
 4.  Run the *WebVirt-Node* Installation script, installing additional dependancies as advised.
 
-    **NOTE:** Installing as root is NOT required. If installing as root, root permissions will be required to make modifications
-
     `./webvirt-node-install.sh`
+
+    **NOTE:** Installing as root is NOT required. If installing as root, root permissions will be required to make modifications
 
 5.  Run `node_start.sh` to start the *WebVirt-Node*
