@@ -6,8 +6,12 @@ The WebVirt Application requires that all of its components have direct network 
 
 ### WebVirt Node ###
 
-The *WebVirt Node* requires a dedicated port on its host machine in order to function properly.  By default, this is set to **4000**, but can be manually configured by the system administrator before and after installation.
+The *WebVirt Node* requires:
+
+*  Open access to a port, default **4000** \*
 
 ### WebVirt Manager ###
 
-The *WebVirt Manager* requires a dedicated port on its host machine in order to function properly.  By default, this is set to **3000**, but can be manually configured by the system administrator before and after installation.
+*  Open access to a port, default **3000** \*
+
+    \* Ports can be manually configured by the system administrator before and after installation.  
