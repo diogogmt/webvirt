@@ -14,19 +14,7 @@ app.API = {
       datatype: "json",
       cache: false,
       success: success,
-      error: function(textStatus) {
-        // INTERFACE-SERVER ERROR HANDLING
-        switch (textStatus) {
-          case "null":
-          case "timeout":
-          case "error":
-          case "abort":
-          case "parsererror": 
-          default:
-            error();  
-            break;
-        } // END Switch
-      } // END Error
+      "error": error
     }); // END Ajax
   }, // END callServer 
 } 

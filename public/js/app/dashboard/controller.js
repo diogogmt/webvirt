@@ -17,14 +17,15 @@ var ENTER_KEY = 13;
         $("#content-area").empty();
       });
 
-      toastr.options.fadeOut = 50000;
+      toastr.options.timeOut = 10000;
+      toastr.options.fadeOut = 1000;
       toastr.options.tapToDismiss = true;
 
+      console.log(toastr);
     },
 
     reset: function(cb) {
       var self = this;
-
 
       // Set callback to wait for Hosts collection to finish API calls
       this.listenTo(app.Hosts, "reset", function() {
@@ -32,6 +33,7 @@ var ENTER_KEY = 13;
 
         // Empty record area
         $("#content-area").empty();
+
         // Display hosts
         app.Hosts.each(this.displayHost, this);
 
@@ -60,9 +62,6 @@ var ENTER_KEY = 13;
 
       // Set host-detail-view to default
       this.displayDetails();
-
-      // Create pagination view
-      // this.paginate();
 
       // Run callback
       if (cb) {
@@ -152,7 +151,7 @@ var ENTER_KEY = 13;
       console.log("----Attempting render: collecting host model details | ip: " + host.get("ip"));
       console.log(host.toJSON());
 
-      if (host.get("ip")) {
+      if (host.get("ip") && host.get("hypervisor")) {
         var view = new app.RecordView({model: host, type: "host"});
         $("#content-area").append( view.render().el );
       }
@@ -218,7 +217,7 @@ var ENTER_KEY = 13;
 
       var self = this;
       var crumbs = {
-        curPage: "Daemon Management",
+        curPage: "Node Management",
         routes: [
           {path: "#dashboard", sequence: "Dashboard"}
         ]

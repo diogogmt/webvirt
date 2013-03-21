@@ -54,9 +54,6 @@ script#instance-record-template(type='text/template')
   <div class="well-small instance-record">
   <table class="instance">
   <tr>
-  <td class="instance-id">
-  <strong>ID:</strong> <em class="muted"><%= vid %></em>
-  </td>
   <td class="instance-name">
   <strong>Name:</strong> <em class="muted"><%= id %></em>
   </td>
@@ -106,17 +103,16 @@ script#navigation-template(type='text/template')
   <ul class="nav nav-list">
   <li class="nav-header">Manage</li>
   <li class="<%= active === "dashboard" ? "active" : "" %>"><a href="#dashboard">Dashboard</a></li>
-  <li class="<%= active === "daemon" ? "active" : "" %>"><a href="#daemons">Daemons</a></li>
+  <li class="<%= active === "daemon" ? "active" : "" %>"><a href="#nodes">Node Manager</a></li>
   <li class="nav-header">Admin</li>
   <li class="<%= active === "logs" ? "active" : "" %>"><a href="#logs">Logs</a></li>
-  <li><a href="user/logout">Logout</a></li>
   </ul>
 
 script#manage-template(type='text/template')
   <h3>Add single host</h3>
   <div class="input-append">
-  <input id="newDaemon" type="text" placeholder="Daemon IP address" autofocus="autofocus" class="input-large">
-  <button id="addDaemon" class="btn btn-primary">Add Daemon</button>
+  <input id="newDaemon" type="text" placeholder="Node IP address" autofocus="autofocus" class="input-large">
+  <button id="addDaemon" class="btn btn-primary">Add Node</button>
   </div>
   <h3>Upload list of hosts</h3>
   <form id="hostManagementForm">
