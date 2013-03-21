@@ -6,7 +6,7 @@ var events = require('events');
 var _logger;
 
 var CustomLogger = function (config) {
-  
+  console.log("CustomLogger constructor");
 
   this.socketIO;
   var self = this;
@@ -18,20 +18,19 @@ var CustomLogger = function (config) {
 
   // Requiring `winston-redis` will expose 
   // `winston.transports.Redis`
-  require('../external/winston-redis/lib/winston-redis.js').Redis;
+  console.log("starting winstoms-redis");
+  require('../external/winston-redis/lib/winston-redis.js').Redis
 
-
-  // winston.add(winston.transports.File, {
-  //   'filename': path,
-  //   'level': 'error',
-  //   'stream': false
-  // });
+  console.log("winston.add...");
   winston.add(winston.transports.Redis, {
+    container: function (level, msg, meta) {
+      console.log("level: ", level);
+      return "winston:" + level;
+    },
     'channel': 'steamLogs'
   });
 
-  // winston.handleExceptions(new winston.transports.File({ filename: config.exceptionsPath }));
-  winston.handleExceptions(new winston.transports.Redis());
+  winston.handleExceptions(winston.transports.Redis);
   winston.exitOnError = false;
 
   winston.remove(winston.transports.Console);
@@ -39,16 +38,12 @@ var CustomLogger = function (config) {
       handleExceptions: true,
       json: true
   });
-  // console.log("winston.stream: ", winston.stream);
+  
   winston.stream({ start: -1 }).on('log', function(log) {
     console.log("\n***winston.stream");
-    console.log("log: ", log);
-    console.log("log.transport: ", log.transport);
     var type = log.transport[0]
-    console.log("type: ", type);
     if (self.socketIO && type === "redis") {
       console.log("\n**emitting socket msg");
-
       self.socketIO.emit("newLog", log);
     } else {
       console.log("this.loggerSocket not init");
@@ -75,7 +70,7 @@ CustomLogger.prototype.error = function (msg, metadata) {
 
 CustomLogger.prototype.query = function (options, cb) {
   console.log("CustomLogger.prototype.query");
-  console.log("options: ", options);
+  // console.log("options: ", options);
   var start = options.start || 1;
   var rows = options.rows || 50;
   var type = options.type || 'redis';
@@ -83,10 +78,10 @@ CustomLogger.prototype.query = function (options, cb) {
 
   
 
-  console.log("start: ", start);
-  console.log("rows: ", rows);
-  console.log("type: ", type);
-  console.log("level: ", level);
+  // console.log("start: ", start);
+  // console.log("rows: ", rows);
+  // console.log("type: ", type);
+  // console.log("level: ", level);
 
   winston.query({
     'start': +start,
@@ -94,7 +89,7 @@ CustomLogger.prototype.query = function (options, cb) {
     'level': level
   }, function (err, data) {
     console.log("winston.query");
-    console.log("arguments: ", arguments);
+    // console.log("arguments: ", arguments);
     var logs = [];
     var redisLogs = data.redis;
     var redisLogsLen = redisLogs && redisLogs.length || 0;
@@ -102,7 +97,7 @@ CustomLogger.prototype.query = function (options, cb) {
     console.log("data.redis.length: ", data.redis.length);
     for (i = 0; i < redisLogsLen; i++) {
       var log = redisLogs[i];
-      console.log("log.level: ", log.level);
+      // console.log("log.level: ", log.level);
       // if (log.level === level) {
         // log.id = +start + i;
         logs.push(redisLogs[i]);
@@ -114,6 +109,7 @@ CustomLogger.prototype.query = function (options, cb) {
 }
 
 module.exports.inject = function (di) {
+  console.log("CustomLogger inject");
   if (!_logger) {
     _logger = new CustomLogger(di.config.logger);
   }
