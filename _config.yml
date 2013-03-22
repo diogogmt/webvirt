@@ -1,0 +1,18 @@
+## Config: Dev
+auto: true
+url: http://localhost:4444
+
+server: true
+server_port: 4444
+
+source: .
+destination: ./_site
+
+## Config: Std
+baseurl: /jekyll_demo
+permalink: none
+
+## Config: Github 
+pygments: true
+safe: true
+lsi: false

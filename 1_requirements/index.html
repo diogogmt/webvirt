@@ -1,0 +1,49 @@
+---
+layout: default
+title: Prerequisites
+---
+
+<header>
+  <div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+      <div class="container">
+        <a href="#" class="brand">WebVirt Documentation</a>
+        <ul class="nav">
+          <li class="active"><a href="#">Prerequisites</a></li>
+          <li><a href="#">Config & Install</a></li>
+          <li class="divider-vertical"></li>
+          <li><a href="#">User Guide</a></li>
+          <li class="divider-vertical"></li>
+          <li><a href="#">Architecture</a></li>
+          <li><a href="#">Reference (API & Config)</a></li>                                
+          <li><a href="#">Troubleshooting</a></li>                                
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="row">
+  <div class="span2">
+    <!-- Navigation -->
+    <div id="navigation" class="well sidebar-nav">
+      <ul>
+        {% for post in site.categories.1_requirements %}
+          <li><a class="lower" href="#{{ post.title }}">{{ post.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="span10">
+    <div id="heading"></div>
+    <div class="row">
+      <div class="span10">
+			  {% for post in site.categories.1_requirements %}
+			  <article id="{{ post.title }}">
+			    {{ post.content }}
+			  </article>
+			  {% endfor %}
+      </div>
+    </div>
+    <div id="pagination" class="pagination pagination-right"></div>
+  </div>

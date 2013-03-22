@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WebVirt Documentation - {{page.title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../css/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="../css/custom.css" rel="stylesheet" media="screen">
+    <link href="../css/plugins/toastr/css/toastr.min.css" rel="stylesheet" media="screen">
+    <link href="../css/plugins/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements --><!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  </head>
+  <body>
+    <div id="virshmanagerapp">
+      <div id="virshmanagerapp">
+        <!-- Header -->
+        <header>
+          <div class="navbar navbar-fixed-top navbar-inverse">
+            <div class="navbar-inner">
+              <div class="container">
+                <a href="#" class="brand">WebVirt Documentation</a>
+                <ul class="nav">
+                  <li class="active"><a href="#">Prerequisites</a></li>
+                  <li><a href="#">Config & Install</a></li>
+                  <li class="divider-vertical"></li>
+                  <li><a href="#">Functionality & Usage</a></li>
+                  <li class="divider-vertical"></li>
+                  <li><a href="#">Architecture</a></li>
+                  <li><a href="#">Reference (API & Config)</a></li>                                
+                  <li><a href="#">Troubleshooting</a></li>                                
+                </ul>
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
+      <div id="main" class="container">
+        <div class="row">
+          <div class="span2">
+            <!-- Navigation -->
+            <div id="navigation" class="well sidebar-nav">
+              <ul class="nav nav-list">
+              <li class="nav-header">Manage</li>
+              <li class="active"><a href="#dashboard">Dashboard</a></li>
+              <li class=""><a href="#nodes">Node Manager</a></li>
+              <li class="nav-header">Admin</li>
+              <li class=""><a href="#logs">Logs</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="span10">
+            <div id="heading"></div>
+            <div class="row">
+              <div class="span10">
+                <div id="content-area" class="well">
+
+                  {{ content }}
+
+                </div>
+              </div>
+            </div>
+            <div id="pagination" class="pagination pagination-right"></div>
+          </div>
+
+          <!-- Footer -->
+          <footer>
+            <div class="row-fluid">
+              <div class="span12">
+                <footer>
+                  <hr>
+                  <p class="muted">Designed and Maintained by <abbr title="Centre for the Development of Open Technology @ Seneca College">CDOT</abbr> | Built on {Backbone.js Bootstrap.js Node.js}</p>
+                </footer>
+              </div>
+            </div>
+          </footer>
+          <script src="../js/plugins/jquery-1.9.1.min.js"></script>
+          <script src="../js/plugins/underscore.js"></script>
+          <script src="../js/plugins/toastr.min.js"></script>
+          <script src="../js/plugins/bootstrap.min.js"></script>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

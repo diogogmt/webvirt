@@ -1,0 +1,174 @@
+/* ********************************************** *
+ * ** Custom CSS for VirshManager *************** *
+ * ********************************************** *
+ * ***** By: Kieran Sedgwick | CDOT @ Seneca **** *
+ * ********************************************** */
+
+/**
+ * Scaffolding
+ **/
+
+body {
+  padding-top: 60px;
+}
+.sidebar-nav {
+  padding: 4px 0px;
+}
+
+/**
+ * Dashboard - TABLE: Host Records
+ **/
+
+ .host-record {
+  background-color: #F0F0F0;
+  border: 1px solid #E0E0E0;
+  margin-bottom: 5px;
+ }
+
+ .host-blank {
+  background-color: #FFFFFF;
+  border: 1px dotted #E0E0E0;
+  margin-bottom: 5px;
+ }
+
+ .host-title {
+  background-color: #F0F0F0;
+  border: 1px dotted #E0E0E0;
+  margin-bottom: 5px;
+ }
+
+.host-active {
+  background-color: #F0F0F0;
+  border: 1px solid #E0E0E0;
+  margin-bottom: 5px;
+ }
+
+.host-inactive {
+  background-color: #FFFFFF;
+  border: 1px dashed #E0E0E0;
+  margin-bottom: 5px;
+ }
+
+table.host {
+  width: 100%;
+  vertical-align: center;
+
+}
+
+.host-btn, .host-id,
+.host-ip, .host-lastactive,
+.host-state, .host-manage {
+  vertical-align: center;
+  font-size: 1.2em;
+
+}
+
+.host-btn {
+  width: 6%;
+}
+
+.host-id {
+  width: 10%;
+}
+
+.host-ip {
+  width: 20%;
+}
+
+.host-lastactive {
+  width: 40%;
+}
+
+.host-state {
+  text-align: left;
+}
+
+.host-manage {
+
+}
+
+/**
+ * Dashboard - TABLE: Host Details 
+ **/
+
+ .host-details {
+  margin: 5px 0 0 0;
+  background-color: #F5F5F5;
+  width: 50%;
+ }
+
+/**
+ * Dashboard - TABLE: Instance Details
+ **/
+
+ 
+ .instance-record {
+  background-color: #F0F0F0;
+  border: 1px solid #E0E0E0;
+  margin-bottom: 5px;
+ }
+
+ .instance-blank {
+  background-color: #FFFFFF;
+  border: 1px dotted #E0E0E0;
+  margin-bottom: 5px;
+ }
+
+.instance-active {
+  background-color: #F0F0F0;
+  border: 1px solid #E0E0E0;
+  margin-bottom: 5px;
+ }
+
+.instance-inactive {
+  background-color: #FFFFFF;
+  border: 1px dashed #E0E0E0;
+  margin-bottom: 5px;
+ }
+
+table.instance {
+  width: 100%;
+  vertical-align: center;
+}
+
+.instance-btn, .instance-id,
+.instance-ip, .instance-lastactive,
+.instance-state, .instance-manage {
+  vertical-align: center;
+  font-size: 1.2em;
+
+}
+
+.instance-btn {
+  width: 6%;
+}
+
+.instance-id {
+  width: 10%;
+}
+
+.instance-name {
+  width: 30%;
+}
+
+.instance-lastactive {
+  width: 45%;
+}
+
+.instance-state {
+  text-align: right;
+}
+
+.instance-manage {
+
+}
+
+.wrap-log {
+  border: solid black 1px;
+  margin: 5px 0 5px 0;
+  padding: 0 5px 0 5px ;
+}
+#logsList {
+  list-style-type: none;    
+  margin:0;
+}
