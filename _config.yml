@@ -9,7 +9,7 @@
 # destination: ./_site
 
 ## Config: Std
-baseurl: /
+baseurl: /virt-node
 permalink: none
 
 ## Config: Github 
