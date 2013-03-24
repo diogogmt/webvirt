@@ -6,9 +6,9 @@
 
 Both the *WebVirt Manager* and the *WebVirt Nodes* are built for Linux-based operating systems.  The three distribution families that are explicitly supported are:
 
-	*    Red Hat/Fedora (**Fedora Release 17, 18** Tested)
-	*    Debian/Ubuntu (**Ubuntu Release 12.04.2 LTS** Tested)
-	*    OpenSUSE (Testing in progress)
+*    Red Hat/Fedora (**Fedora Release 17, 18** Tested)
+*    Debian/Ubuntu (**Ubuntu Release 12.04.2 LTS** Tested)
+*    OpenSUSE (Testing in progress)
 
 #### Prerequisites & Dependancies ####
 
@@ -18,28 +18,28 @@ Packages required for pre-install are **in bold**:
 
 ##### Red Hat/Fedora #####
 
-  *    **git**
-  *    **openssl-libs**
-  *    **openssl-devel**
-  *    make
-  *    gcc-c++
-  *    wget
+*    **git**
+*    **openssl-libs**
+*    **openssl-devel**
+*    make
+*    gcc-c++
+*    wget
 
 ##### Debian/Ubuntu #####
 
-  *    **git**
-  *    **openssl**
-  *    **libssl-dev**
-  *    make
-  *    g++
-  *    wget
+*    **git**
+*    **openssl**
+*    **libssl-dev**
+*    make
+*    g++
+*    wget
 
 ##### OpenSUSE #####
 
-  *    **git**
-  *    **openssl**    ?? (Platform specific version TBD)
-  *    **libssl-dev** ?? (Platform specific version TBD)
-  *    make
-  *    g++            ?? (Platform specific version TBD)
-  *    wget
+*    **git**
+*    **openssl**    ?? (Platform specific version TBD)
+*    **libssl-dev** ?? (Platform specific version TBD)
+*    make
+*    g++            ?? (Platform specific version TBD)
+*    wget
 

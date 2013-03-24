@@ -9,7 +9,7 @@ source: .
 destination: ./_site
 
 ## Config: Std
-baseurl: /jekyll_demo
+baseurl: /
 permalink: none
 
 ## Config: Github 

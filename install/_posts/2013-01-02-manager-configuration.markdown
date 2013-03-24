@@ -2,7 +2,7 @@
 
 ### Manager Configuration ###
 
-[Feature Incomplete]
+\[Feature Incomplete\]
 
 ### Manager Installation ###
 

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Prerequisites
+title: Install
 ---
 
 <header>
@@ -9,27 +9,27 @@ title: Prerequisites
       <div class="container">
         <a href="#" class="brand">WebVirt Documentation</a>
         <ul class="nav">
-          <li class="active"><a href="#">Prerequisites</a></li>
-          <li><a href="#">Config & Install</a></li>
+          <li><a href="/requirements/">Prerequisites</a></li>
+          <li class="active"><a href="/install/">Config & Install</a></li>
           <li class="divider-vertical"></li>
-          <li><a href="#">User Guide</a></li>
+          <li><a href="/guide/">User Guide</a></li>
           <li class="divider-vertical"></li>
-          <li><a href="#">Architecture</a></li>
-          <li><a href="#">Reference (API & Config)</a></li>                                
+          <li><a href="/architecture/">Architecture</a></li>
+          <li><a href="">Reference (API & Config)</a></li>                                
           <li><a href="#">Troubleshooting</a></li>                                
         </ul>
       </div>
     </div>
   </div>
 </header>
-
 <div class="row">
   <div class="span2">
     <!-- Navigation -->
-    <div id="navigation" class="well sidebar-nav">
-      <ul>
-        {% for post in site.categories.1_requirements %}
-          <li><a class="lower" href="#{{ post.title }}">{{ post.title }}</a></li>
+    <div id="navigation" class="well sidebar-nav affix">
+      <ul id="sidenav" class="nav nav-list">
+          <li 
+        {% for post in site.categories.install %}
+          <li><a href="#{{ post.title }}">{{ post.title }}</a></li>
         {% endfor %}
       </ul>
     </div>
@@ -37,8 +37,8 @@ title: Prerequisites
   <div class="span10">
     <div id="heading"></div>
     <div class="row">
-      <div class="span10">
-			  {% for post in site.categories.1_requirements %}
+      <div data-spy="scroll" data-target="#sidenav" class="span10">
+			  {% for post in site.categories.install reverse %}
 			  <article id="{{ post.title }}">
 			    {{ post.content }}
 			  </article>

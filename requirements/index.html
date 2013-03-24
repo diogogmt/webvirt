@@ -1,0 +1,49 @@
+---
+layout: default
+title: Prerequisites
+---
+
+<header>
+  <div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+      <div class="container">
+        <a href="#" class="brand">WebVirt Documentation</a>
+        <ul class="nav">
+          <li class="active"><a href="/requirements/">Prerequisites</a></li>
+          <li><a href="/install/">Config & Install</a></li>
+          <li class="divider-vertical"></li>
+          <li><a href="/guide/">User Guide</a></li>
+          <li class="divider-vertical"></li>
+          <li><a href="/architecture/">Architecture</a></li>
+          <li><a href="">Reference (API & Config)</a></li>                                
+          <li><a href="#">Troubleshooting</a></li>                                
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="row">
+  <div class="span2">
+    <!-- Navigation -->
+    <div id="navigation" class="well sidebar-nav affix">
+      <ul id="sidenav" class="nav nav-list">
+          <li 
+        {% for post in site.categories.requirements %}
+          <li><a href="#{{ post.title }}">{{ post.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="span10">
+    <div id="heading"></div>
+    <div class="row">
+      <div data-spy="scroll" data-target="#sidenav" class="span10">
+			  {% for post in site.categories.requirements %}
+			  <article id="{{ post.title }}">
+			    {{ post.content }}
+			  </article>
+			  {% endfor %}
+      </div>
+    </div>
+    <div id="pagination" class="pagination pagination-right"></div>
+  </div>

@@ -2,7 +2,7 @@
 
 ### Node Configuration ###
 
-[Feature Incomplete]
+\[Feature Incomplete\]
 
 ### Node Installation ###
 
