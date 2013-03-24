@@ -1,3 +1,8 @@
+---
+rawtitle: networkprereq
+
+---
+
 ## Network Prerequisites ##
 
 ### Common ###
@@ -8,10 +13,10 @@ The WebVirt Application requires that all of its components have direct network 
 
 The *WebVirt Node* requires:
 
-*  Open access to a port, default **4000** \*
+*  Open access to a port, default `4000` \*
 
 ### WebVirt Manager ###
 
-*  Open access to a port, default **3000** \*
+*  Open access to a port, default `3000` \*
 
     \* Ports can be manually configured by the system administrator before and after installation.  

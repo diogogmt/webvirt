@@ -1,3 +1,6 @@
+---
+rawtitle: manager
+---
 ## Manager Setup ##
 
 ### Manager Configuration ###

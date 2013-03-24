@@ -2,33 +2,15 @@
 layout: default
 title: Prerequisites
 ---
+{% include topnav.html %}
 
-<header>
-  <div class="navbar navbar-fixed-top navbar-inverse">
-    <div class="navbar-inner">
-      <div class="container">
-        <a href="#" class="brand">WebVirt Documentation</a>
-        <ul class="nav">
-          <li class="active"><a href="/requirements/">Prerequisites</a></li>
-          <li><a href="/install/">Config & Install</a></li>
-          <li class="divider-vertical"></li>
-          <li><a href="/guide/">User Guide</a></li>
-          <li class="divider-vertical"></li>
-          <li><a href="/architecture/">Architecture</a></li>
-          <li><a href="">Reference (API & Config)</a></li>                                
-          <li><a href="#">Troubleshooting</a></li>                                
-        </ul>
-      </div>
-    </div>
-  </div>
-</header>
 <div class="row">
   <div class="span2">
     <!-- Navigation -->
-    <div id="navigation" class="well sidebar-nav affix">
-      <ul id="sidenav" class="nav nav-list">
+    <div class="well sidebar-nav affix">
+      <ul class="nav nav-list">
         {% for post in site.categories.requirements %}
-          <li><a href="#{{ post.title }}">{{ post.title }}</a></li>
+          <li><a href="#{{ post.rawtitle }}">{{ post.title }}</a></li>
         {% endfor %}
       </ul>
     </div>
@@ -36,9 +18,9 @@ title: Prerequisites
   <div class="span10">
     <div id="heading"></div>
     <div class="row">
-      <div data-spy="scroll" data-target="#sidenav" class="span10">
+      <div data-offset="25" class="span10">
 			  {% for post in site.categories.requirements %}
-			  <article id="{{ post.title }}">
+			  <article class="well post" id="{{ post.rawtitle }}">
 			    {{ post.content }}
 			  </article>
 			  {% endfor %}

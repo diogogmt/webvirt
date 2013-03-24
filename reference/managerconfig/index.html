@@ -1,16 +1,15 @@
 ---
 layout: default
-title: Install
+title: Manager Configuration
 ---
 
 {% include topnav.html %}
-
 <div class="row">
   <div class="span2">
     <!-- Navigation -->
     <div class="well sidebar-nav affix">
       <ul class="nav nav-list"> 
-        {% for post in site.categories.install %}
+        {% for post in site.categories.managerconfig %}
           <li><a href="#{{ post.rawtitle }}">{{ post.title }}</a></li>
         {% endfor %}
       </ul>
@@ -20,7 +19,7 @@ title: Install
     <div id="heading"></div>
     <div class="row">
       <div data-offset="25" class="span10">
-			  {% for post in site.categories.install reverse %}
+			  {% for post in site.categories.managerconfig %}
 			  <article class="well post" id="{{ post.rawtitle }}">
 			    {{ post.content }}
 			  </article>

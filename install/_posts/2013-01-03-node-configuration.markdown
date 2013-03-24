@@ -1,3 +1,6 @@
+---
+rawtitle: node
+---
 ## Node Setup ##
 
 ### Node Configuration ###
