@@ -12,23 +12,23 @@
 
  1. Clone the github repository:
  
-      git clone git://github.com/diogogmt/virt-node.git
+      `git clone git://github.com/diogogmt/virt-node.git`
 
  2. Change to virt-node directory:
  
-      cd virt-node
+      `cd virt-node`
 
  3. Checkout to a stable branch:
  
-      git checkout 0.1
+      `git checkout 0.1`
 
  3. Install Openssl & the Openssl-dev packages:
 
       Debian/Ubuntu: 
-          apt-get install -y openssl libssl-dev
+          `apt-get install -y openssl libssl-dev`
 
       Fedora:
-          yum install openssl-libs openssl-devel
+          `yum install openssl-libs openssl-devel`
 
 
  Install:
@@ -37,10 +37,10 @@
  Two scripts are provided to automate the installation of the Webvirt application.
 
       [Webvirt-Manager]: 
-          webvirt-manager-install.sh
+          `webvirt-manager-install.sh`
 
       [Webvirt-Node]:
-          webvirt-node-install.sh
+          `webvirt-node-install.sh`
 
 
  The script will check for critical dependancies before executing, and then display the 
@@ -54,10 +54,10 @@
  To start the server, run the corresponding script:
 
       [Manager]: 
-          server_start.sh
+          `server_start.sh`
 
       [Node]:
-          client_start.sh
+          `client_start.sh`
 
 
  Important info: 
@@ -66,10 +66,10 @@
  By default, the installation process creates a web server listening on a port:
 
       [Manager]: 
-          3000
+          `3000`
 
       [Node]:
-          4000
+          `4000`
 
  As soon as the [Webvirt-Manager] is running, it can be reached via any modern browser
  through the host IP & port combination. 
