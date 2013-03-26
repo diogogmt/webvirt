@@ -43,6 +43,4 @@ For a complete list of all package-dependancies, check the *Prerequisites* page.
 
     `./webvirt-manager-install.sh`
 
-    **NOTE:** Installing as root is NOT required. If installing as root, root permissions will be required to make modifications
-
 5.  Run `./manager_start.sh` to start the *WebVirt-Manager*
