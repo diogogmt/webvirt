@@ -21,13 +21,6 @@ function checkError() {
   fi
 }
 
-echo "Checking for depencies $DEPENDENCIES ..."
-deps
-echo -e "All depencies are installed, moving on.\n"
-# Clean install.log file
-echo "" > $INSTALL_LOG 2>&1
-
-
 #######################
 # Node.js installation
 ######################

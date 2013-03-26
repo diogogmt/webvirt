@@ -10,7 +10,7 @@
     "jade": "0.28.2",
     "async": "0.2.6",
     "request": "2.16.6",
-    "underscore": "0.2.2",
+    "underscore": "1.4.4",
     "redis": "0.8.2",
     "winston": "0.6.2",
     "injectr": "0.4.0",
