@@ -1,0 +1,12 @@
+script#breadcrumbs-template(type='text/template')
+  ul.breadcrumb
+    <% if (typeof(routes) !== "undefined") { %>
+    <% _.each(routes, function(route) { %> 
+    li
+      a(href!='<%= route.hash %>')
+        <%= route.name %>
+      span.divider
+    <% }) %>
+    <% } %>
+    li.active
+      <%= curPage %>

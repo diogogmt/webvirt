@@ -1,0 +1,15 @@
+script#node-nav-template(type = "text/template")
+  h3 Add single host
+    .input-append
+        input#newDaemon.input-large(type='text', placeholder='Node IP address', autofocus='autofocus')
+        button#addDaemon.btn.btn-primary Add Node
+      h3 Upload list of hosts
+      form#hostManagementForm
+        input#file.hide.ie_show(type='file', name='file')
+        .input-append.ie_hide
+          input#pretty-input.input-large(type='text', onclick='$(\'#file\').click();')
+          a.btn(onclick='$(\'#file\').click();') Browse
+        button#uploadHosts.btn.btn-primary Upload file
+      h3 Host list
+      section#main
+        ul#daemonsList.nav.nav-tabs.nav-stacked

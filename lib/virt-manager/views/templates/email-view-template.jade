@@ -1,0 +1,33 @@
+script#email-view-template(type = "text/template")
+  div.well-small.instance-record
+    table.instance
+      tr
+        td.instance-name
+          strong Name:
+          em.muted <%= id %>
+        td.instance-state
+          strong VM Status:
+          strong.text-success <%= status %>
+        td.instance-manage
+          div.btn-group.pull-right
+            a.btn.dropdown-toggle(data-toggle="dropdown", href="#")
+              |Actions
+              span.caret
+            ul.dropdown-menu
+              li.instance-action(data-action="start", data-ip!="<%= ip %>", data-name!="<%= id %>")
+                a(tabindex="-1")
+                  |Start
+              li.instance-action(data-action="shutdown", data-ip!="<%= ip %>", data-name!="<%= id %>")
+                a(tabindex="-1")
+                  |Shutdown
+              li.instance-action(data-action="resume", data-ip!="<%= ip %>", data-name!="<%= id %>")
+                a(tabindex="-1")
+                  |Resume
+              li.instance-action(data-action="suspend", data-ip!="<%= ip %>", data-name!="<%= id %>")
+                a(tabindex="-1")
+                  |Suspend
+              li.instance-action(data-action="destroy", data-ip!="<%= ip %>", data-name!="<%= id %>")
+                a(tabindex="-1")
+                  |Destory
+            a.btn.btn-primary.refresh(href="#", data-ip!="<%= ip %>")
+              |Refresh

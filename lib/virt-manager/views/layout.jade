@@ -1,0 +1,76 @@
+doctype 5
+html
+  head
+    title BBCloneMail: A Backbone.Marionette Reference Application
+    //- link(href="/css/bbclonemail.css", rel="stylesheet", type"=text/css")
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(href='/css/plugins/bootstrap/css/bootstrap.min.css', rel='stylesheet', media='screen')
+    link(href='/css/custom.css', rel='stylesheet', media='screen')
+    link(href='/css/plugins/toastr/css/toastr.min.css', rel='stylesheet', media='screen')
+    link(href='/css/plugins/bootstrap/css/bootstrap-responsive.min.css', rel='stylesheet')
+
+    include templates/email-preview-template
+    include templates/email-view-template
+    include templates/mail-categories-view-template
+    include templates/contact-categories-view-template
+    include templates/contact-item-template
+    include templates/app-selector-template
+    include templates/log-levels-tab-template
+    include templates/node-item-template
+    include templates/node-nav-template
+    include templates/host-content2-empty-template
+    include templates/breadcrumbs-template
+    include templates/loading-template
+
+  body
+
+    #virshmanagerapp
+      // Header 
+      header
+        .navbar.navbar-fixed-top.navbar-inverse
+          .navbar-inner
+            .container
+              a.brand(href='#') VirtManager
+              p.navbar-text.pull-left
+                small A Libvirt Cluster Web Console
+              
+              // Username View 
+              #logout
+
+    #main.container
+      .row
+        .span2
+          #navigation.well.sidebar-nav          
+              
+        .span10
+          //- #heading
+          #content-one
+          .row
+            .span10
+              //- #description-area
+              #content-two
+              //- #content-area.well
+              #content-three.well
+              #content-four
+            #pagination.pagination.pagination-right
+
+    // Footer 
+    footer
+      .row-fluid
+        .span12
+          footer
+            hr
+            p.muted
+              | Designed and Maintained by 
+              abbr(title='Centre for the Development of Open Technology @ Seneca College') CDOT
+              |  | Built on {Backbone.js Bootstrap.js Node.js}
+
+    #temp-holder
+
+    include scripts
+
+    script
+      $(function(){
+        console.log("starting BBCloneMail");
+        BBCloneMail.start();
+      });

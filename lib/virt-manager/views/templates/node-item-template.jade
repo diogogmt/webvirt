@@ -1,0 +1,7 @@
+script#node-item-template(type = "text/template")
+  .view
+  .input-prepend.input-append
+      span.add-on
+        // img(src='/img/glyphicons/png/glyphicons_206_ok_2.png')
+      input#appendedPrependedInput(type='text', value!='<%= ip %>')
+      button.deleteBtn.btn(data-ip!='<%= ip %>') Delete

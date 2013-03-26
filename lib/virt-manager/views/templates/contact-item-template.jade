@@ -1,0 +1,19 @@
+script#log-item-template(type="text/template")
+  .wrap-log
+      li
+        b Timestamp
+        |<%= timestamp %>
+      li
+        b File
+        |<%= file %>
+      li
+        b Line
+        |<%= line %>
+      li
+        b Message
+        |<%= message %>
+
+
+script#view-more-logs-template(type="text/template")
+  button.view-more-logs-btn
+    |View More
