@@ -1,9 +1,15 @@
 console.log("utils/logger.js");
-var path = require("path");
-var winston = require('winston');
-var events = require('events');
+var winston
+  , events 
+  , client;
 
 var _logger;
+
+
+// Requiring `winston-redis` will expose 
+// `winston.transports.Redis`
+console.log("starting winstoms-redis");
+require('../external/winston-redis/lib/winston-redis.js');
 
 var CustomLogger = function (config) {
   console.log("CustomLogger constructor");
@@ -11,35 +17,21 @@ var CustomLogger = function (config) {
   this.socketIO;
   var self = this;
 
-  var path = config.clientPath;
-  if (process.env['NODE_TYPE'] === "server") {
-    path = config.serverPath;
-  }
-
-  // Requiring `winston-redis` will expose 
-  // `winston.transports.Redis`
-  console.log("starting winstoms-redis");
-  require('../external/winston-redis/lib/winston-redis.js').Redis
-
-  console.log("winston.add...");
-  winston.add(winston.transports.Redis, {
-    container: function (level, msg, meta) {
-      console.log("level: ", level);
-      return "winston:" + level;
-    },
-    'channel': 'steamLogs'
-  });
-
-  winston.handleExceptions(winston.transports.Redis);
-  winston.exitOnError = false;
-
-  winston.remove(winston.transports.Console);
-  winston.add(winston.transports.Console, {
-      handleExceptions: true,
-      json: true
+  this.logger = new (winston.Logger)({
+    transports: [
+      new (winston.transports.Console)(),
+      new (winston.transports.Redis)({
+        container: function (level, msg, meta) {
+          console.log("level: ", level);
+          return "winston:" + level;
+        },
+        'channel': 'steamLogs'
+      })
+      // new (winston.transports.File)({ filename: 'somefile.log' })
+    ]
   });
   
-  winston.stream({ start: -1 }).on('log', function(log) {
+  this.logger.stream({ start: -1 }).on('log', function(log) {
     console.log("\n***winston.stream");
     var type = log.transport[0]
     if (self.socketIO && type === "redis") {
@@ -52,20 +44,20 @@ var CustomLogger = function (config) {
 
 }
 
-CustomLogger.prototype = new events.EventEmitter();
 
 CustomLogger.prototype.info = function (msg, metadata) {
   // console.log("CustomLogger.info");
-  winston.info(msg + "\n", metadata);
+  this.logger.info(msg + "\n", metadata);
   
 };
 
 CustomLogger.prototype.warn = function (msg, metadata) {
-  winston.warn(msg + "\n", metadata);
+  this.logger.warn(msg + "\n", metadata);
 };
 
 CustomLogger.prototype.error = function (msg, metadata) {
-  winston.error(msg + "\n", metadata);
+  // winston.error(msg + "\n", metadata);
+  this.logger.error(msg + "\n", metadata);
 };
 
 CustomLogger.prototype.query = function (options, cb) {
@@ -76,25 +68,25 @@ CustomLogger.prototype.query = function (options, cb) {
   var type = options.type || 'redis';
   var level = options.level || 'error';
 
-  
-
   // console.log("start: ", start);
   // console.log("rows: ", rows);
   // console.log("type: ", type);
   // console.log("level: ", level);
-
-  winston.query({
+  var from = new Date(26 * 60 * 60 * 1000);
+  console.log("from: ", from)
+  this.logger.query({
     'start': +start,
     'rows': +rows,
-    'level': level
+    'level': level,
+    'from': from
   }, function (err, data) {
     console.log("winston.query");
-    // console.log("arguments: ", arguments);
+    console.log("arguments: ", arguments);
     var logs = [];
     var redisLogs = data.redis;
     var redisLogsLen = redisLogs && redisLogs.length || 0;
     var i;
-    console.log("data.redis.length: ", data.redis.length);
+    // console.log("data.redis.length: ", data.redis.length);
     for (i = 0; i < redisLogsLen; i++) {
       var log = redisLogs[i];
       // console.log("log.level: ", log.level);
@@ -110,7 +102,12 @@ CustomLogger.prototype.query = function (options, cb) {
 
 module.exports.inject = function (di) {
   console.log("CustomLogger inject");
+  client = di.client;
+  path = di.path;
+  winston = di.winston;
+  events = di.events;
   if (!_logger) {
+    CustomLogger.prototype.__proto__ = new events.EventEmitter();
     _logger = new CustomLogger(di.config.logger);
   }
   return _logger;

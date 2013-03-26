@@ -29,11 +29,24 @@ console.log("process.env[NODE_TYPE]: ", process.env["NODE_TYPE"]);
 
 var port = process.env["NODE_PORT"];
 
+if (process.env["NODE_TYPE"] === "server") {
+  // Get logger handler
+  var di = {};
+  di.config = require('./config/config.js');
+  di.client = require('./utils/db-conn.js');
+  di.winston = require('winston');
+  di.events = require('events');
+  console.log("requiring logger");
+  var logger = require('./utils/logger.js').inject(di);
+}
+
 //CORS middleware
 var allowCrossDomain = function(req, res, next) {
   console.log("allowCrossDomain");
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Methods", "DELETE, POST, GET, PUT, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  // res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
 }
 
@@ -61,6 +74,11 @@ app.configure('development', function(){
 
 app.use(require("./lib"));
 
+app.options("*", function (req, res) {
+  console.log("options route");
+  res.json(true);
+})
+
 process.on('uncaughtException', function(err) {
   logger.error( "Error: Uncaught Exception, " + err.toString(), {file: __filename, line: __line});
 });
@@ -78,11 +96,6 @@ server.listen(app.get('port'), function() {
 });
 
 if (process.env["NODE_TYPE"] === "server") {
-  // Get logger handler
-  var di = {};
-  di.config = require('./config/config.js');
-  var logger = require('./utils/logger.js').inject(di);
-
   logger.on("socket", function () {
     console.log("**********logger on.socket");
     this.socketIO = loggerSocket;
