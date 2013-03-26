@@ -17,6 +17,7 @@ $(function () {
 
 
   ChangePassword.prototype.isFormValid = function () {
+    console.log("ChangePassword - isFormValid");
     var $newPasswordConfirm = $("#newPasswordConfirm")
       , $newPassword = $("#newPassword")
       , $username = $("#username")
@@ -47,17 +48,20 @@ $(function () {
       $newPasswordConfirm.focus();
       isValid = false;
     }
-
+    console.log("isValid: ", isValid);
     return isValid;
   }
 
   ChangePassword.prototype.bindEventHandlers = function () {
+    console.log("ChangePassword - bindEventHandlers");
     var self = this;
     $("#submit-form").click(function (e) {
       e.preventDefault();
-      if (self.isFormValid()) {
+      console.log("checking if form is valid");
+      if (!self.isFormValid()) {
         return false;
       }
+      console.log("making ajax call");
       $.ajax({
         type: "POST",
         url: "/user/changePassword",
