@@ -3,7 +3,7 @@ var Step
   , _
   , logger
   , bcrypt
-  , scrypt
+  // , scrypt
   , _helper;
 
 
@@ -109,26 +109,34 @@ Helper.prototype.handleStepException = function (msg, cb) {
 }
 
 Helper.prototype.createUser = function (opts, cb) {
-  var hashKey = opts.hashKey || null
-    , password = opts.password || null
-    , scryptConfig = opts.scryptConfig || {}
-    , maxtime =  scryptConfig.maxtime
-    , maxmem = scryptConfig.maxmem
-    , maxmemfrac = scryptConfig.maxmemfrac
+  var hashKey = opts.hashKey || null;
+  var password = opts.password || null;
+    // , scryptConfig = opts.scryptConfig || {}
+    // , maxtime =  scryptConfig.maxtime
+    // , maxmem = scryptConfig.maxmem
+    // , maxmemfrac = scryptConfig.maxmemfrac
 
-  bcrypt.genSalt(100, function (err, salt) {
-    var saltLength = salt.length;
-    var saltedPass = salt.slice(0,saltLength / 2) + password + salt.slice(saltLength / 2, saltLength);
-
-    scrypt.passwordHash(saltedPass, maxtime, maxmem, maxmemfrac, function(err, scryptHash) {
+  // bcrypt.genSalt(100, function (err, salt) {
+  //   var saltLength = salt.length;
+  //   var saltedPass = salt.slice(0,saltLength / 2) + password + salt.slice(saltLength / 2, saltLength);
+// 
+    // scrypt.passwordHash(saltedPass, maxtime, maxmem, maxmemfrac, function(err, scryptHash) {
+    //   client.multi()
+    //     .hset(hashKey, "password", scryptHash)
+    //     .hset(hashKey, "salt", salt)
+    //     .exec(function (err, status) {
+    //       cb(err, status);
+    //     });
+    // });
+  // });
+    bcrypt.hash(password, 8, function(err, hash) {
       client.multi()
-        .hset(hashKey, "password", scryptHash)
-        .hset(hashKey, "salt", salt)
+        .hset(hashKey, "password", hash)
+        // .hset(hashKey, "salt", salt)
         .exec(function (err, status) {
           cb(err, status);
         });
     });
-  });
 }
 
 
