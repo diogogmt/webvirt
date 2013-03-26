@@ -21,13 +21,6 @@ function checkError() {
   fi
 }
 
-echo "Checking for depencies $DEPENDENCIES ..."
-deps
-echo -e "All depencies are installed, moving on.\n"
-# Clean install.log file
-echo "" > $INSTALL_LOG 2>&1
-
-
 #######################
 # Node.js installation
 ######################
@@ -80,17 +73,18 @@ checkError $CMD_RESULT "$MSG"
 
 
 
-
+# We are commiting all npm dependencies to github so there is no
+# need to download them anymore
 ################################
 # NPM Dependencies installation
 ################################
-echo "Installing npm dependencies."
+#echo "Installing npm dependencies."
 # sudo npm install > /dev/null 2>> $INSTALL_LOG
-npm install
+#npm install
 #Check for errors
-CMD_RESULT=$?
-MSG="ERROR installating npm dependencies"
-checkError $CMD_RESULT "$MSG"
+#CMD_RESULT=$?
+#MSG="ERROR installating npm dependencies"
+#checkError $CMD_RESULT "$MSG"
 
 ################################
 # Installating git submodules
