@@ -21,16 +21,16 @@ For a complete list of all package-dependancies, check the *Prerequisites* page.
 #### Install Steps ####
 
 
-1.  Install git & openssl
+1.  Install prequisite system packages
 
-    Debian/Ubuntu: `apt-get install -y git openssl libssl-dev`
+    Debian/Ubuntu: `apt-get install -y git openssl libssl-dev make g++ wget`
 
-    Fedora:        `yum install git openssl-libs openssl-devel`
+    Fedora:        `yum install git openssl-libs openssl-devel make gcc-c++ wget`
     
-    SUSE:          `zipper in git openssl libopenssl-devel`
+    SUSE:          `zipper in git openssl libopenssl-devel make gcc-c++ wget`
 
     **NOTE**: All installation steps should be completed as a normal user.  Only use root permissions when installing the system package prerequisites listed here, or as indicated by the install script.
-
+    
 2.  Clone WebVirt repo to local install folder
 
     `git clone git://github.com/diogogmt/virt-node.git`
