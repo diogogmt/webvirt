@@ -2,7 +2,14 @@
 rawtitle: softwareprereq
 ---
 
+
 ## Software Prerequisites
+
+### Node ###
+
+The *WebVirt Node* requires Libvirt in order for carry out its API functions.  
+
+Ensure the *WebVirt Node* is only installed on machines being used as VM hosts managed by Libvirt.
 
 ### Common ###
 
@@ -16,7 +23,7 @@ Both the *WebVirt Manager* and the *WebVirt Nodes* are built for Linux-based ope
 
 #### Prerequisites & Dependancies ####
 
-A number of packages are required before installation can begin.  For the current release, the *WebVirt Manager* and *WebVirt Node* have the same dependancies for a proper installation.
+A number of packages are required before installation can begin.  The names for each package will vary depending on your distribution. Find your distro below for a list of package names specific to your version of Linux. 
 
 ##### Red Hat/Fedora #####
 
@@ -39,9 +46,10 @@ A number of packages are required before installation can begin.  For the curren
 ##### OpenSUSE #####
 
 *    `git`
-*    `openssl`    ?? (Platform specific version TBD)
-*    `libssl-dev` ?? (Platform specific version TBD)
+*    `openssl`
+*    `libopenssl-devel` 
 *    `make`
-*    `g++`            ?? (Platform specific version TBD)
+*    `gcc-c++`         
 *    `wget`
 
+    **NOTE**: See the *Config & Install* section for more detailed installation examples. 

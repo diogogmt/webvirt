@@ -9,6 +9,18 @@ rawtitle: manager
 
 ### Manager Installation ###
 
+#### Overview ####
+
+The *WebVirt Manager* is a combination of a web-server and data aggregator that sends and receives information to/from *WebVirt Nodes*.  Through the web-based UI, actions can be performed on virtual instances hosted on a machine running the *WebVirt Node*.  Installation should be quick and painless - be sure to follow the instructions carefully.
+
+    **NOTE**: All installation steps should be completed as a normal user.  Only use root permissions when installing additional system package prerequisites as indicated by the install script.
+
+The steps below are comprehensive, though they only list system-packages that the installation script is not configured to check for.  All other necessary system-packages will be checked at install time, at which point you will be prompted to install the ones that are missing.
+
+For a complete list of all package-dependancies, check the *Prerequisites* page.
+
+#### Install Steps ####
+
 1.  Install git & openssl
 
     Debian/Ubuntu: `apt-get install -y git openssl libssl-dev`
@@ -27,12 +39,10 @@ rawtitle: manager
     
     `git checkout 0.1`
 
-4.  Ensure all necessary dependancies are installed.  (See *Prerequisites* section for more details)
-
-5.  Run the *WebVirt-Manager* Installation script, installing additional dependancies as advised.
+4.  Run the *WebVirt-Manager* Installation script, installing additional dependancies as advised.
 
     `./webvirt-manager-install.sh`
 
     **NOTE:** Installing as root is NOT required. If installing as root, root permissions will be required to make modifications
 
-6.  Run `manager_start.sh` to start the *WebVirt-Manager*
+5.  Run `./manager_start.sh` to start the *WebVirt-Manager*
