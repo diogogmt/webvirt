@@ -1,5 +1,8 @@
 # Webvirsh Quickstart Guide #
 
+This is a quick-start guide, based on release **0.1**. For full documentation, visit `diogogmt.github.com/virt-node`
+
+
  Prerequisites: 
  -----------------
 
