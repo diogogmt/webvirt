@@ -79,7 +79,7 @@ checkError $CMD_RESULT "$MSG"
 ################################
 echo "Installing npm dependencies."
 # sudo npm install > /dev/null 2>> $INSTALL_LOG
-npm install
+npm install --unsafe-perm=true
 #Check for errors
 CMD_RESULT=$?
 MSG="ERROR installating npm dependencies"
