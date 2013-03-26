@@ -21,12 +21,18 @@ rawtitle: manager
 
     `git clone git://github.com/diogogmt/virt-node.git`
 
-3.  Ensure all necessary dependancies are installed.  (See *Prerequisites* section for more details)
+3.  Navigate to cloned directory and checkout to the latest stable branch (currently **0.1**)
+    
+    `cd virt-node` 
+    
+    `git checkout 0.1`
 
-4.  Run the *WebVirt-Manager* Installation script, installing additional dependancies as advised.
+4.  Ensure all necessary dependancies are installed.  (See *Prerequisites* section for more details)
+
+5.  Run the *WebVirt-Manager* Installation script, installing additional dependancies as advised.
 
     `./webvirt-manager-install.sh`
 
     **NOTE:** Installing as root is NOT required. If installing as root, root permissions will be required to make modifications
 
-5.  Run `manager_start.sh` to start the *WebVirt-Manager*
+6.  Run `manager_start.sh` to start the *WebVirt-Manager*
