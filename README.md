@@ -1,6 +1,4 @@
-/* ************************************************************ *
- * ** Webvirsh Quickstart Guide ******************************* *
- * ************************************************************ */
+# Webvirsh Quickstart Guide #
 
  Prerequisites: 
  -----------------
@@ -12,11 +10,19 @@
  Preinstall:
  -----------------
 
- 1) Clone the github repository:
+ 1. Clone the github repository:
  
       git clone git://github.com/diogogmt/virt-node.git
 
- 2) Install Openssl & the Openssl-dev packages:
+ 2. Change to virt-node directory:
+ 
+      cd virt-node
+
+ 3. Checkout to a stable branch:
+ 
+      git checkout 0.1
+
+ 3. Install Openssl & the Openssl-dev packages:
 
       Debian/Ubuntu: 
           apt-get install -y openssl libssl-dev
