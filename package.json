@@ -7,20 +7,18 @@
   },
   "dependencies": {
     "express": "3.1.0",
-    "jade": "*",
-    "async": "*",
-    "request": "*",
-    "underscore": "*",
-    "redis": "*",
-    "winston": "*",
-    "injectr": "*",
-    "scrypt": "*",
-    "bcrypt-nodejs": "*",
-    "connect": "*",
-    "bcrypt": "*",
-    "sliced": "*",
-    "socket.io": "*",
-    "nodemon": "*",
-    "forever-monitor": "*"
+    "jade": "0.28.2",
+    "async": "0.2.6",
+    "request": "2.16.6",
+    "underscore": "0.2.2",
+    "redis": "0.8.2",
+    "winston": "0.6.2",
+    "injectr": "0.4.0",
+    "connect": "2.7.3",
+    "bcrypt": "0.7.5",
+    "sliced": "0.0.5",
+    "socket.io": "0.9.13",
+    "nodemon": "0.7.3",
+    "forever-monitor": "1.1.0"
   }
 }
