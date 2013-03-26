@@ -69,7 +69,7 @@ BBCloneMail.module("DashboardApp", function(DashboardApp, App){
       var action = options.action;
       var name = options.name;
 
-      var url = "http://142.204.133.138:3000/" + action + "/" + ip + "/" + name;
+      var url = "/" + action + "/" + ip + "/" + name;
       var options = {
         type: 'PUT',
         url: url,

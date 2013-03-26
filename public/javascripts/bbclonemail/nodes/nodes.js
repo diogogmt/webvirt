@@ -39,7 +39,7 @@ var Node = Backbone.Model.extend({
 
     url: function () {
       console.log("NodeCollection - url");
-      var url = "http://142.204.133.138:3000/daemons/";
+      var url = "/daemons/";
       return url;
     },
 

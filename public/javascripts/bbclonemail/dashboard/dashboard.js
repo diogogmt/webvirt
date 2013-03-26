@@ -26,7 +26,7 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
       console.log("----options: ", options);
       options = options || {};
       this.ip = options.ip;
-      this.url = "http://142.204.133.138:3000/list/vms/" + this.ip;
+      this.url = "/list/vms/" + this.ip;
       console.log("this.url: ", this.url);
     },
 

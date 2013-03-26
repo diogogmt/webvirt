@@ -45,7 +45,7 @@ BBCloneMail.module("LogsApp.Logs", function(Logs, App, Backbone, Marionette, $, 
 
     url: function () {
       console.log("LogCollection - url");
-      var url = "http://142.204.133.138:3000/logs/" + this.type + "/" + this.level + "/" + this.start + "/" + this.rows;
+      var url = "/logs/" + this.type + "/" + this.level + "/" + this.start + "/" + this.rows;
       console.log("url: ", url);
       return url;
     },

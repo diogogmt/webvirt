@@ -67,7 +67,7 @@ BBCloneMail.module("NodesApp", function(NodesApp, App){
       console.log("NodesApp.Controller - bindAjaxUploadForm");
       var that = this;
       $("#hostManagementForm").ajaxForm({
-        url: "http://142.204.133.138:3000/daemons/upload",
+        url: "/daemons/upload",
         type: "POST",
         dataType: "json",
         clearForm: true,
