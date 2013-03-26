@@ -25,31 +25,13 @@ Both the *WebVirt Manager* and the *WebVirt Nodes* are built for Linux-based ope
 
 A number of packages are required before installation can begin.  The names for each package will vary depending on your distribution. Find your distro below for a list of package names specific to your version of Linux. 
 
-##### Red Hat/Fedora #####
 
-*    `git`
-*    `openssl-libs`
-*    `openssl-devel`
-*    `make`
-*    `gcc-c++`
-*    `wget`
+*    git
+*    openssl
+*    openssl dev headers
+*    make
+*    g++
+*    wget
+*    libvirt
 
-##### Debian/Ubuntu #####
-
-*    `git`
-*    `openssl`
-*    `libssl-dev`
-*    `make`
-*    `g++`
-*    `wget`
-
-##### OpenSUSE #####
-
-*    `git`
-*    `openssl`
-*    `libopenssl-devel` 
-*    `make`
-*    `gcc-c++`         
-*    `wget`
-
-    **NOTE**: See the *Config & Install* section for more detailed installation examples. 
+    NOTE: See the *Config & Install* section for more detailed installation examples. 
