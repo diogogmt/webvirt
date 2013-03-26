@@ -1,7 +1,7 @@
 # Webvirsh Quickstart Guide #
 
 
-    **NOTE**: For full documentation, visit `diogogmt.github.com/virt-node`
+    **NOTE**: For full documentation, visit diogogmt.github.com/virt-node
 
 
  Prerequisites: 
