@@ -1,0 +1,6 @@
+/public/*
+/lib/*
+/nodejs/*
+/redis/*
+/node_modules/*
+/external/*
