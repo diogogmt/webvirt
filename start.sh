@@ -14,4 +14,4 @@ export NODE_PATH=$MY_PATH
 
 
 # node_modules/forever/bin/forever start server.js
-node_modules/nodemon/nodemon.js server.js
+nohup node server.js &
