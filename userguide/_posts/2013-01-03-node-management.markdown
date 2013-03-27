@@ -25,12 +25,6 @@ To upload the file:
 
 2.  Use the management interface browse your filesystem and select the JSON-formatted file you wish to upload.
 
-3.  Click **Upload List** to add all of the IPs into the *WebVirt Manager* database simultaniously.
-
-### Adding Hosts (Auto) | EXPERIMENTAL ###
-
-If your network configuration & security support the use of the *NMAP* utility, you can use the *WebVirt Crawler* functionality to automatically discover and add the IPs of machines running the *WebVirt Node*.
-
-This function will only discover *Nodes* on the subnet provided at install time.  For more details on install-time configuration, see the *configuration* section.  For technical details on the *WebVirt Crawler*, 
+3.  Click **Upload List** to add all of the IPs into the *WebVirt Manager* database simultaniously. 
 
 ### Common Issues ###
