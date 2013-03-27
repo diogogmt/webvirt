@@ -1,4 +1,3 @@
-console.log("mail.js");
 BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, Marionette, $, _){
   "use strict";
 
@@ -67,11 +66,12 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
     parse: function (response) {
       console.log("****ContactCollection - parse");
       console.log("response: ", response);
-      console.log("response.length: ", response.length);
       response = response || {};
       var hosts = response.hosts || [];
+      var errs = response.err || [];
       console.log("hosts: ", hosts);
       var hostsLen = hosts.length;
+      var errsLen = errs.length;
       console.log("hostsLen: ", hostsLen);
       var host;
       var i;
@@ -87,31 +87,15 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
           : true;
       }
 
+      for (i = 0; i < errsLen; i ++) {
+        var err = errs[i];
+        console.log("err: ", err);
+        toastr.error(err.err, "Error with IP: " + err.ip)
+      }
+
       return hosts;
     },
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   // Repository Controller
@@ -121,22 +105,21 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
 
     initialize: function () {
       console.log("Dashboard.Repository.Controller - initialize");
-      this.emailCollection = new HostCollection();
-      // this.emailCollection.fetch();
+      this.hostCollection = new HostCollection();
     },
 
-    getEmailCollection: function () {
-      console.log("Dashboard.Repository.Controller - getEmailCollection");
-      return this.emailCollection;
+    getHostCollection: function () {
+      console.log("Dashboard.Repository.Controller - getHostCollection");
+      return this.hostCollection;
     },
 
     getAll: function(){
       console.log("Dashboard.Repository.Controller - getAll");
       var deferred = $.Deferred();
 
-      this._getMail(function(mail){
-        console.log("mail: ", mail)
-        deferred.resolve(mail);
+      this._getHosts(function(hosts){
+        console.log("hosts: ", hosts)
+        deferred.resolve(hosts);
       });
 
       return deferred.promise();
@@ -149,7 +132,7 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
 
       this._getVmInstances({ip: ip}, function(instanceList){
         console.log("----instanceList: ", instanceList);
-        // var mail = mailList.get(id);
+        // var hosts = mailList.get(id);
         console.log("----resolving deffered promise");
         deferred.resolve(instanceList);
       });
@@ -157,12 +140,11 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
       return deferred.promise();
     },
 
-    
 
-    _getMail: function(callback){
-      console.log("Dashboard.Repository.Controller - _getMail");
-      this.emailCollection.on("reset", callback);
-      this.emailCollection.fetch();
+    _getHosts: function(callback){
+      console.log("Dashboard.Repository.Controller - _getHosts");
+      this.hostCollection.on("reset", callback);
+      this.hostCollection.fetch();
     },
 
     _getVmInstances: function(options, callback){

@@ -15,6 +15,9 @@ body {
   padding: 4px 0px;
 }
 
+li {
+  list-style: none;
+}
 /**
  * Dashboard - TABLE: Host Records
  **/

@@ -34,7 +34,7 @@ BBCloneMail.module("DashboardApp", function(DashboardApp, App){
       console.log("DashboardApp.Controller - showInstances");
       var that = this;
       $.when(this.repo.getById(id)).then(function (email) {
-        var host = that.repo.getEmailCollection().get(id);
+        var host = that.repo.getHostCollection().get(id);
         var navView = new DashboardApp.Dashboard.VirtHostItemView({
           model: host
         });
