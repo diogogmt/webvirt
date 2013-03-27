@@ -62,7 +62,7 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
 
   var HostCollection = Backbone.Collection.extend({
     model: Host,
-    url: "http://142.204.133.138:3000/list/models/hosts",
+    url: "/list/models/hosts",
 
     parse: function (response) {
       console.log("****ContactCollection - parse");
