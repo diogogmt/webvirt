@@ -30,17 +30,15 @@ For a complete list of all package-dependancies, check the *Prerequisites* page.
     SUSE:          `zipper in git openssl libopenssl-devel make gcc-c++ wget`
 
     **NOTE**: All installation steps should be completed as a normal user.  Only use root permissions when installing the system package prerequisites listed here, or as indicated by the install script.
-    
+
 2.  Clone WebVirt repo to local install folder
 
     `git clone git://github.com/diogogmt/virt-node.git`
 
-3.  Navigate to cloned directory and checkout to the latest stable branch (currently **0.1**)
+3.  Navigate to cloned directory and checkout to the latest stable branch (currently **master**)
     
     `cd virt-node` 
     
-    `git checkout 0.1`
-
 4.  Run the *WebVirt-Manager* Installation script.
 
     `./webvirt-manager-install.sh`

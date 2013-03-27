@@ -33,12 +33,10 @@ For a complete list of all package-dependancies, check the *Prerequisites* page.
 
     `git clone git://github.com/diogogmt/virt-node.git`
 
-3.  Navigate to cloned directory and checkout to the latest stable branch (currently **0.1**)
+3.  Navigate to cloned directory and checkout to the latest stable branch (currently **master**)
     
     `cd virt-node` 
     
-    `git checkout 0.1`
-
 4.  Run the *WebVirt-Node* Installation script, installing additional dependancies as advised
 
     `./webvirt-node-install.sh`
