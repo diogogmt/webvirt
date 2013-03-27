@@ -2,7 +2,7 @@
 
 PROJECT_ROOT=$(pwd)
 
-NODE_JS_VERSION="v0.10.0"
+NODE_JS_VERSION="v0.8.10"
 NODE_JS_FILENAME="node-${NODE_JS_VERSION}-linux-x64.tar.gz"
 NODE_JS_URL="http://nodejs.org/dist/${NODE_JS_VERSION}/${NODE_JS_FILENAME}"
 

@@ -19,7 +19,6 @@
     "sliced": "0.0.5",
     "socket.io": "0.9.13",
     "nodemon": "0.7.3",
-    "forever-monitor": "1.1.0",
     "forever": "0.10.0"
   }
 }
