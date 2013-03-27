@@ -73,18 +73,6 @@ checkError $CMD_RESULT "$MSG"
 
 
 
-
-################################
-# NPM Dependencies installation
-################################
-echo "Installing npm dependencies."
-# sudo npm install > /dev/null 2>> $INSTALL_LOG
-npm install --unsafe-perm=true
-#Check for errors
-CMD_RESULT=$?
-MSG="ERROR installating npm dependencies"
-checkError $CMD_RESULT "$MSG"
-
 ################################
 # Installating git submodules
 ################################
@@ -100,6 +88,20 @@ git submodule update
 CMD_RESULT=$?
 MSG="ERROR updating git submodules"
 checkError $CMD_RESULT "$MSG"
+
+
+################################
+# NPM Dependencies installation
+################################
+echo "Installing npm dependencies."
+# sudo npm install > /dev/null 2>> $INSTALL_LOG
+npm install --unsafe-perm=true
+#Check for errors
+CMD_RESULT=$?
+MSG="ERROR installating npm dependencies"
+checkError $CMD_RESULT "$MSG"
+
+
 
 echo -e "\n-----------------------\n"
 echo    "Installation completed!"
