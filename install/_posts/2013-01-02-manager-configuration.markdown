@@ -28,11 +28,11 @@ The *WebVirt Manager* is a combination of a web-server and data aggregator that 
 
 2.  Clone WebVirt repo to local install folder
 
-    `git clone git://github.com/diogogmt/virt-node.git`
+    `git clone git://github.com/diogogmt/webvirt.git`
 
 3.  Navigate to cloned directory and checkout to the latest stable branch (currently **master**)
     
-    `cd virt-node` 
+    `cd webvirt` 
     
 4.  Run the *WebVirt-Manager* Installation script.
 

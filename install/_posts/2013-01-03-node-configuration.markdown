@@ -27,11 +27,11 @@ The *WebVirt Node* is a daemon that sits on a host running Libvirt.  This allows
 
 2.  Clone WebVirt repo to local install folder
 
-    `git clone git://github.com/diogogmt/virt-node.git`
+    `git clone git://github.com/diogogmt/webvirt.git`
 
 3.  Navigate to cloned directory and checkout to the latest stable branch (currently **master**)
     
-    `cd virt-node` 
+    `cd webvirt` 
     
 4.  Run the *WebVirt-Node* Installation script, installing additional dependancies as advised
 
