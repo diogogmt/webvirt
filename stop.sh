@@ -13,4 +13,4 @@ export PATH=$NODE_PATH:$NODE:$PATH
 export NODE_PATH=$MY_PATH
 
 
-node_modules/forever/bin/forever start server.js
+node_modules/forever/bin/forever stop server.js
