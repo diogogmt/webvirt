@@ -33,3 +33,6 @@ The *WebVirt Node* is a daemon that sits on a host running Libvirt.  This allows
  
 5.  Run `./node_start.sh` to start the *WebVirt-Node*
  
+#### Troubleshooting ####
+
+If a *WebVirt Node* does not reply to an API call within three seconds, it is considered down.

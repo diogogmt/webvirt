@@ -14,7 +14,7 @@ Currently, WebVirt supports three methods of *WebVirt Node* Management:
 
 1.  From the browser, navigate to the "Create User" page:
 
-		e.g. "http://localhost:3000/user/create"
+		e.g. "http://localhost:3500/user/create"
 
 2.  Follow the prompts to create a user
 
@@ -26,7 +26,7 @@ To change your password:
 
 2.  Navigate to the "Change Password" page:
 
-		e.g. "http://localhost:3000/user/changePassword"
+		e.g. "http://localhost:3500/user/changePassword"
 
 3.  Follow the prompts to change your password
 
@@ -38,7 +38,7 @@ To change your password:
 
 2.  Navigate to the "Change Password" page:
 
-		e.g. "http://localhost:3000/user/changePassword"
+		e.g. "http://localhost:3500/user/changePassword"
 
 3.  Follow the prompts to change your password
 
@@ -54,6 +54,6 @@ To reset a password currently requires the following steps:
 
 3.  From the browser, navigate to the "Create User" page:
 
-		e.g. "http://localhost:3000/user/create"
+		e.g. "http://localhost:3500/user/create"
 
 4.  Follow the prompts to create a new user
