@@ -1,5 +1,3 @@
-console.log("nodes.js");
-
 BBCloneMail.module("NodesApp.Nodes", function(Nodes, App, Backbone, Marionette, $, _){
   "use strict";
 
@@ -19,13 +17,20 @@ var Node = Backbone.Model.extend({
 
   validate: function (attrs, options) {
     console.log("Node.Model - validate");
-    var ip = attrs["ip"] || null
-      , match = ip && ip.match(/^(?!255)\d{1,3}\.(?!255)\d{1,3}\.(?!255)\d{1,3}\.(?!0)(?!255)\d{1,3}$/)
-      , len = match && match.length || 0;
+    // console.log("----attrs: ", attrs);
+    // console.log("----options: ", options);
+    // var ip = attrs["ip"] || null
+    //   , match = ip && ip.match(/^(?!255)\d{1,3}\.(?!255)\d{1,3}\.(?!255)\d{1,3}\.(?!0)(?!255)\d{1,3}$/)
+    //   , len = match && match.length || 0;
     
-    if (len != 1) {
-      return "Invalid IP";
-    }
+    // console.log("----ip: ", ip);
+    // if (len != 1) {
+    //   console.log("----ip: ", ip);
+    //   console.log("----match: ", match);
+    //   console.log("----len: ", len);
+    //   console.log("---Invalid IP");
+    //   return "Invalid IP";
+    // }
   }
 });
 
@@ -44,9 +49,9 @@ var Node = Backbone.Model.extend({
     },
 
     parse: function (response) {
-      console.log("NodeCollection - pase");
+      console.log("********\n\nNodeCollection - pasre");
       console.log("response: ", response);
-      var data = _.map(response.daemons, function (ip) {
+      var data = _.map(response, function (ip) {
         return {
           customId: ip,
           ip: ip
@@ -67,69 +72,56 @@ var Node = Backbone.Model.extend({
       console.log("Nodes.Repository - initialize");
       this.options = options;
       this.isLogFull = false;
+
     },
 
-    getAll: function(){
+    getAll: function(options){
       console.log("Nodes.Repository - getAll");
       var deferred = $.Deferred();
 
-      this._getNodes(function(nodes){
+      this._getNodes(options, function(nodes){
         deferred.resolve(nodes);
       });
 
       return deferred.promise();
     },
 
-    createNode: function (ip) {
+    createNode: function (data, options) {
       console.log("Nodes.Repository - createNode");
-      console.log("----ip: ", ip);
-      console.log("----destroying node");
-      var node = 
-      this.nodeCollection.create(
-        {
-          ip: ip
-        },
-        {
-          'wait': true,
-          'success': function (model, res) {
-            console.log("nodeCollection.createNode - success");
-            // var ip = model.get('ip');
-            // toastr.success("Daemon with ip " + ip + " was successfuly added.", 'Success!');
-          },
-          'error': function (model, res) {
-            console.log("nodeCollection.createNode - error");
-            // var ip = model.get('ip');
-            // toastr.error("Failed to add daemon " + ip, 'An error occured.');
-          },
-          'complete': function () {
-            console.log("nodeCollection.createNode - complete");
-          },
-        }
-      );
+      console.log("----data: ", data);
+      console.log("----options: ", options);
+      console.log("----creating node");
+      var node = this.nodeCollection.create(data, options);
+      // var ip = data.ip;
+      // var node = new Node();
+      // node.url = "/daemons";
+      // console.log("saving node");
+      // node.save("ip", ip, options);
+      // console.log
 
       if (node.validationError) {
         console.log("Failed to add daemon " + ip, 'An error occured.');
       }
     },
 
-    deleteNode: function (ip) {
+    deleteNode: function (ip, options) {
       console.log("Nodes.Repository - deleteNode");
       console.log("----ip: ", ip);
       console.log("----this.nodeCollection: ", this.nodeCollection);
       console.log("----this.nodeCollection(ip): ", this.nodeCollection.get(ip));
       console.log("----destroying node");
-      this.nodeCollection.get(ip).destroy();
+      this.nodeCollection.get(ip).destroy(options);
     },
 
-    _getNodes: function(callback){
+    _getNodes: function(options, callback){
       console.log("Nodes.Repository - _getNodes");
       this.nodeCollection = new NodeCollection();
       this.nodeCollection.on("reset", callback);
-      this.nodeCollection.on("remove", Marionette.triggerMethod.call(App.NodesApp.controller, "nodes:show"));
-      this.nodeCollection.on("add", Marionette.triggerMethod.call(App.NodesApp.controller, "nodes:show"));
-      
-      this.nodeCollection.fetch();
-    }
-    
+      this.nodeCollection.on("remove", Marionette.triggerMethod.call(App.NodesApp.controller, "nodes:sync"));
+      // this.nodeCollection.on("add", Marionette.triggerMethod.call(App.NodesApp.controller, "nodes:show"));
+      this.nodeCollection.on("sync", Marionette.triggerMethod.call(App.NodesApp.controller, "nodes:sync"));
+
+      this.nodeCollection.fetch(options);
+    } // end _getNodes
   });
 });

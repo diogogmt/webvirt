@@ -1,4 +1,3 @@
-console.log("mailapp.js")
 BBCloneMail.module("DashboardApp", function(DashboardApp, App){
   "use strict";
 
@@ -14,24 +13,61 @@ BBCloneMail.module("DashboardApp", function(DashboardApp, App){
     showHosts: function(){
       console.log("DashboardApp.Controller - showHosts");
       var that = this;
-      $.when(this.repo.getAll()).then(function (emailList) {
-        that.mainNavRegion.close();
-        var navView = new DashboardApp.Dashboard.Content2Emtpy();
-        that.mainNavRegion.show(navView);
+      var options = {
+        'success': function (model, res) {
+          console.log("showHosts - success");
+          console.log("arguments: ", arguments);
+          var inbox = new App.DashboardApp.Dashboard.VirtHosts({
+            region: that.mainRegion,
+            email: model
+          });
 
-        var inbox = new App.DashboardApp.Dashboard.VirtHosts({
-          region: that.mainRegion,
-          email: emailList
-        });
+          that.showComponent(inbox);
 
-        that.showComponent(inbox);
-      });
+        },
+        'error': function (model, res) {
+          console.log("showHosts - error");
+          console.log("arguments: ", arguments);
+          toastr.error(res.responseText, "Error");
+          that.showNoHosts();
+        },
+      }
+      that.mainNavRegion.close();
+      var navView = new DashboardApp.Dashboard.Content2Emtpy();
+      that.mainNavRegion.show(navView);
+
+      $.when(this.repo.getAll(options));
 
       Backbone.history.navigate("#hosts");
     },
 
     showInstances: function(id){
       console.log("DashboardApp.Controller - showInstances");
+      var that = this;
+      var options = {
+        'success': function (model, res) {
+          console.log("showInstances - success");
+          console.log("arguments: ", arguments);
+          that._showInstances(id);
+        },
+        'error': function (model, res) {
+          console.log("showInstances - error");
+          console.log("arguments: ", arguments);
+          toastr.error(res.responseText, "Error");
+          toastr.error("Need to display a view with error info", "Info");
+          // that.showNoHosts();
+        },
+      }
+      if (!that.repo.getHostCollection().length) {
+        $.when(this.repo.getAll(options));
+      }
+
+      
+    },
+
+    _showInstances: function(id){
+      console.log("DashboardApp.Controller - _showInstances");
+      console.log("---id: ", id);
       var that = this;
       $.when(this.repo.getById(id)).then(function (email) {
         var host = that.repo.getHostCollection().get(id);
@@ -48,12 +84,20 @@ BBCloneMail.module("DashboardApp", function(DashboardApp, App){
 
         Backbone.history.navigate("#hosts/" + email.ip);
       });
-
-      
     },
 
     onShow: function(){
       console.log("DashboardApp.Controller - onShow");
+    },
+
+    showNoHosts: function(){
+      console.log("\n\n***\n\nDashboardApp.Controller - onNoHosts");
+      var viewer = new DashboardApp.Dashboard.NoHostsController({
+        region: this.mainRegion,
+      });
+
+      console.log("---viewer: ", viewer);
+      this.showComponent(viewer);
     },
 
     onInstanceRefresh: function(ip){

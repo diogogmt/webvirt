@@ -28,7 +28,7 @@ Helper.prototype.getDaemonsIp = function (cb) {
         return;
       }
       if (!keys.length) {
-        err = "No hosts found";
+        err = "Didn't find any WebVirt Nodes";
         
         console.log("No keys!");
         logger.warn(err, {file: __filename, line: __line});

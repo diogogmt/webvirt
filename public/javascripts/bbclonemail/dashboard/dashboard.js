@@ -78,6 +78,10 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
       for (i = 0; i < hostsLen; i++) {
         host = hosts[i];
         console.log("host: ", host);
+        if (host.err) {
+          host.active = false;
+          continue;
+        }
         host.memCritical = (parseFloat(host.memUsed) / (parseFloat(host.memFree)
           + parseFloat(host.memUsed))) < 0.9
           ? false
@@ -90,8 +94,11 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
       for (i = 0; i < errsLen; i ++) {
         var err = errs[i];
         console.log("err: ", err);
-        toastr.error(err.err, "Error with IP: " + err.ip)
+        toastr.error(err.err, "Error with IP: " + err.ip);
+        host.active = false;
       }
+
+      console.log("hosts: ". hosts);
 
       return hosts;
     },
@@ -113,11 +120,11 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
       return this.hostCollection;
     },
 
-    getAll: function(){
+    getAll: function(options){
       console.log("Dashboard.Repository.Controller - getAll");
       var deferred = $.Deferred();
 
-      this._getHosts(function(hosts){
+      this._getHosts(options, function(hosts){
         console.log("hosts: ", hosts)
         deferred.resolve(hosts);
       });
@@ -141,10 +148,10 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
     },
 
 
-    _getHosts: function(callback){
+    _getHosts: function(options, callback){
       console.log("Dashboard.Repository.Controller - _getHosts");
       this.hostCollection.on("reset", callback);
-      this.hostCollection.fetch();
+      this.hostCollection.fetch(options);
     },
 
     _getVmInstances: function(options, callback){

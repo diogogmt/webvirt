@@ -1,5 +1,5 @@
 export NODE_TYPE="server"
-export NODE_PORT=3000
+export NODE_PORT=3500
 
 REDIS_DIR="redis/redis-2.6.11/src"
 REDIS_CONF="config/redis.conf"

@@ -1,4 +1,3 @@
-console.log("mailItemView.js");
 // Mail Viewer
 // -----------
 //

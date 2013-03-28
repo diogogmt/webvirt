@@ -61,7 +61,7 @@ app.configure(function () {
   app.use(express.methodOverride());
   app.use(express.cookieParser('test'));
   app.use(express.session());
-  app.use(allowCrossDomain);
+  // app.use(allowCrossDomain);
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -80,12 +80,8 @@ app.options("*", function (req, res) {
 })
 
 process.on('uncaughtException', function(err) {
-  logger.error( "Error: Uncaught Exception, " + err.toString(), {file: __filename, line: __line});
+  console.log( "Error: Uncaught Exception, " + err.toString(), {file: __filename, line: __line});
 });
-
-
-
-
 
 
 // Create && Start http server

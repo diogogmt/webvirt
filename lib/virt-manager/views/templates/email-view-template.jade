@@ -19,7 +19,7 @@ script#email-view-template(type = "text/template")
                   |Start
               li.instance-action(data-action="shutdown", data-ip!="<%= ip %>", data-name!="<%= id %>")
                 a(tabindex="-1")
-                  |Shutdown
+                  |ACPID Shutdown
               li.instance-action(data-action="resume", data-ip!="<%= ip %>", data-name!="<%= id %>")
                 a(tabindex="-1")
                   |Resume
@@ -28,6 +28,6 @@ script#email-view-template(type = "text/template")
                   |Suspend
               li.instance-action(data-action="destroy", data-ip!="<%= ip %>", data-name!="<%= id %>")
                 a(tabindex="-1")
-                  |Destory
+                  |Force Shutdown
             a.btn.btn-primary.refresh(href="#", data-ip!="<%= ip %>")
               |Refresh

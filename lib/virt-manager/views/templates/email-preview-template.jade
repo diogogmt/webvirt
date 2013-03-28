@@ -3,8 +3,13 @@ script#email-preview-template(type = "text/template")
     table.host
       tr
         td.host-btn
-          a(class!='btn <%= active ? "btn-success" : "btn-danger" %>', href!="#hosts/<%= ip %>")
+          <% if (active) { %>
+          a(class!='btn btn-success', href!="#hosts/<%= ip %>")
             i.icon-cog
+          <% } else { %>
+          a(class!='btn btn-danger')
+            i.icon-cog
+          <% } %>
         td.host-ip
           strong IP:
           em.muted <%= ip %>
@@ -12,9 +17,11 @@ script#email-preview-template(type = "text/template")
         td.host-state
           strong Daemon Status: 
           strong.text-success <%= active ? 'Connected' : 'Disconnected'%>
+        <% if (active) { %>
         td.host-manage
           button.btn(type="button", data-toggle="collapse", data-target!='#host-<%= ip.split(".").join("_") %>')
             i(class!='<%= expanded ? "icon-chevron-up" : "icon-chevron-down" %>')
+        <% } %>
     div(id!='host-<%= ip.split(".").join("_") %>', class!='collapse <%= expanded ? "in" : "out" %>')
       table.table.table-bordered.table-condensed.host-details
         tr

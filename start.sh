@@ -13,4 +13,9 @@ export PATH=$NODE_PATH:$NODE:$PATH
 export NODE_PATH=$MY_PATH
 
 
+# Need to automate prod an dev envs
+
+# Production env
 node_modules/forever/bin/forever start server.js
+# Dev env
+#node_modules/nodemon/nodemon.js server.js
