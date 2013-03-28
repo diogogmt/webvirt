@@ -25,9 +25,15 @@ BBCloneMail.module("LogsApp", {
 
       showLogs: function(){
         console.log("Contacts.Router - showLogs");
-        var curPage = "WebVirt Logs"
+        var curPage = "Logs";
+        var routes = [
+          {
+            hash: "#hosts",
+            name: "Dashboard"
+          }
+        ]
         // Display breadcrumbs
-        App.LogsApp.controller.showBreadcrumbs(curPage);
+        App.LogsApp.controller.showBreadcrumbs(curPage, routes);
         console.log("----showing loading icon");
         App.LogsApp.controller.showLoadingIcon(App.LogsApp.controller.mainRegion);
 

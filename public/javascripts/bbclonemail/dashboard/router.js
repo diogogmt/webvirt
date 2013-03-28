@@ -33,7 +33,7 @@ BBCloneMail.module("DashboardApp", {
       showHosts: function(){
         console.log("DashboardApp.Router - showHosts");
         console.log("---show breadcrumbs");
-        var curPage = "Hosts list"
+        var curPage = "Dashboard"
         App.DashboardApp.controller.showBreadcrumbs(curPage);
 
         console.log("----showing loading icon");
@@ -44,17 +44,17 @@ BBCloneMail.module("DashboardApp", {
       },
 
       showInstances: function(id){
-        console.log("DashboardApp.Router - showInstances");
+        console.log("^^^^^^^^^^^\n\nDashboardApp.Router - showInstances^^^^^^^^\n\n");
 
 
         console.log("----showing loading icon");
         App.DashboardApp.controller.showLoadingIcon(App.DashboardApp.controller.mainRegion);
 
-        var curPage = id + " instances list";
+        var curPage = "Node " + id;
         var routes = [
           {
             hash: "#hosts",
-            name: "Hosts list"
+            name: "Dashboard"
           }
         ]
         App.DashboardApp.controller.showBreadcrumbs(curPage, routes);

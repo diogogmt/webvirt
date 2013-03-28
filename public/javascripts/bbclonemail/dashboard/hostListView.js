@@ -1,4 +1,3 @@
-console.log("mailListVIew");
 // Mail Inbox
 // ----------
 //
@@ -12,6 +11,29 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
     template: "#host-content2-empty-template",
   });
 
+  Dashboard.NoHostsItemView = Marionette.ItemView.extend({
+    template: "#host-list-empty-template",
+  });
+
+  Dashboard.NoHostsController = Marionette.Controller.extend({
+
+    initialize: function(options){
+      console.log("Dashboard.NoHostsController.Controller - initialize");
+      this.region = options.region;
+    },
+
+    show: function(){
+      console.log("Dashboard.NoHostsController.Controller - show");
+      var view = new Dashboard.NoHostsItemView({
+      });
+
+      console.log("----showing view on region");
+      console.log("view: ", view);
+      this.region.show(view);
+      console.log("this.region: ", this.region);
+      console.log("view: ", view);
+    }
+  });
 
   // Mail Preview
   // ------------
@@ -47,13 +69,13 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
 
   Dashboard.VirtHosts = Marionette.Controller.extend({
     initialize: function(options){
-      console.log("Dashboard.Inbox.Controller - initialize");
+      console.log("Dashboard.VirtHosts.Controller - initialize");
       this.region = options.region;
       this.email = options.email;
     },
 
     show: function(){
-      console.log("Dashboard.Inbox.Controller - show");
+      console.log("Dashboard.VirtHosts.Controller - show");
       var listView = new Dashboard.VirtHostsListView({
         collection: this.email
       });
@@ -64,7 +86,7 @@ BBCloneMail.module("DashboardApp.Dashboard", function(Dashboard, App, Backbone, 
     },
 
     _emailSelected: function(view, args){
-      console.log("Dashboard.Inbox.Controller - _emailSelected");
+      console.log("Dashboard.VirtHosts.Controller - _emailSelected");
       this.trigger("email:selected", args.model);
     }
   });

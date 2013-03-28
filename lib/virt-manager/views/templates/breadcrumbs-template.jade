@@ -5,7 +5,7 @@ script#breadcrumbs-template(type='text/template')
     li
       a(href!='<%= route.hash %>')
         <%= route.name %>
-      span.divider
+      |   /
     <% }) %>
     <% } %>
     li.active

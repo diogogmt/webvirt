@@ -27,8 +27,14 @@ BBCloneMail.module("NodesApp", {
 
       showNodes: function(){
         console.log("Nodes.Router - showNodes");
-        var curPage = "WebVirt Nodes Management"
-        App.NodesApp.controller.showBreadcrumbs(curPage);
+        var curPage = "Nodes";
+        var routes = [
+          {
+            hash: "#hosts",
+            name: "Dashboard"
+          }
+        ]
+        App.NodesApp.controller.showBreadcrumbs(curPage, routes);
         console.log("----showing loading icon");
         App.NodesApp.controller.showLoadingIcon(App.NodesApp.controller.mainRegion);
 
