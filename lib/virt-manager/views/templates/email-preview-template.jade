@@ -25,15 +25,16 @@ script#email-preview-template(type = "text/template")
     div(id!='host-<%= ip.split(".").join("_") %>', class!='collapse <%= expanded ? "in" : "out" %>')
       table.table.table-bordered.table-condensed.host-details
         tr
-          th(rowspan="2") Hypervisor
+          th(rowspan="4") Hypervisor
           th Type
           td <%= hypervisor %>
         tr
           th(class!='<%= loadCritical === true ? "text-error" : "" %>') Load Average
           td(class!='<%= loadCritical === true ? "text-error" : "" %>') <%= load %>
+        tr  
           th(rowspan="2") RAM
-          th(class!='<%= memCritical === true ? "text-error" : "" %>') Used
-          td <%= memUsed %> GB
+          th Used
+          td(class!='<%= memCritical === true ? "text-error" : "" %>') <%= memUsed %> GB
         tr
-          th(class!='<%= memCritical === true ? "text-error" : "" %>') Free
-          td <%= memFree %> GB
+          th Free
+          td(class!='<%= memCritical === true ? "text-error" : "" %>') <%= memFree %> GB
