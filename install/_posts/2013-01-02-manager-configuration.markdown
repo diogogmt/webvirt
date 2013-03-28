@@ -5,7 +5,9 @@ rawtitle: manager
 
 #### Overview ####
 
-The *WebVirt Manager* is a combination of a web-server and data aggregator that sends and receives information to/from *WebVirt Nodes*.  Through the web-based UI, actions can be performed on virtual instances hosted on a machine running the *WebVirt Node*.  Installation should be quick and painless - be sure to follow the instructions carefully.
+The *WebVirt Manager* is a combination of a web-server and data aggregator that sends and receives information to/from *WebVirt Nodes*.  Through the web-based UI, actions can be performed on virtual instances hosted on a machine running the *WebVirt Node*. 
+
+Installation should be quick and painless - be sure to follow the instructions carefully.
 
 #### Install Steps ####
 

@@ -5,7 +5,9 @@ rawtitle: node
  
 #### Overview #### 
  
-The *WebVirt Node* is a daemon that sits on a host running Libvirt.  This allows it to query Libvirt directly for instance information before sending it back to the *WebVirt Manager* in JSON format.  Installation should be quick and painless - be sure to follow the instructions carefully.  
+The *WebVirt Node* is a daemon that sits on a host running Libvirt.  This allows it to query Libvirt directly for instance information before sending it back to the *WebVirt Manager* in JSON format.  
+
+Installation should be quick and painless - be sure to follow the instructions carefully.  
  
 #### Install Steps #### 
  
