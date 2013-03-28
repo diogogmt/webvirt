@@ -33,9 +33,6 @@ Installation should be quick and painless - be sure to follow the instructions c
  
     `./webvirt-node-install.sh` 
   
-#### Troubleshooting ####
-
-If a *WebVirt Node* does not reply to an API call within three seconds, it is considered down.
 
 #### Starting the Node ####
 
@@ -48,3 +45,7 @@ If a *WebVirt Node* does not reply to an API call within three seconds, it is co
 1.  Ensure you are in the *WebVirt* root directory
 
 2.  Run `./stop.sh` to stop all *WebVirt* components currently running on the system
+
+#### Troubleshooting ####
+
+If a *WebVirt Node* does not reply to an API call within three seconds, it is considered down.
