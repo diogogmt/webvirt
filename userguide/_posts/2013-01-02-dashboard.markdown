@@ -30,11 +30,13 @@ It is possible to perform a limited range of actions on instances directly from 
 
 **Shutdown**
 
-		Initiate a system shutdown on the instance. Because this action allows for the virtual operating system to follow its own shutdown procedure, the effect is not immediate.
+		Initiate a system shutdown on the instance. Because this action allows for the virtual operating system to follow its own shutdown procedure, the effect is not immediate.  
+
+*NOTE:* The host must have the ACPID package installed for this function to operate properly.  See [the manpage](http://linux.die.net/man/8/acpid) for details
 
 **Force Shutdown**
 
-		Initiate a forced shutdown, equivelent to "Pulling the plug" on a physical machine.
+		Initiate a forced shutdown (`virsh destroy`), equivilent to "Pulling the plug" on a physical machine.
 
 **Suspend**
 

@@ -30,18 +30,6 @@ To change your password:
 
 3.  Follow the prompts to change your password
 
-### Changing your Password ###
- 
-To change your password:
-
-1.  Login as normal
-
-2.  Navigate to the "Change Password" page:
-
-		e.g. "http://localhost:3500/user/changePassword"
-
-3.  Follow the prompts to change your password
-
 ### Forgotten your Password? ###
 
 To reset a password currently requires the following steps:
