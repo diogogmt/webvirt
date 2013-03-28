@@ -3,12 +3,6 @@ rawtitle: manager
 ---
 ## Manager Setup ##
 
-### Manager Configuration ###
-
-\[Feature Incomplete\]
-
-### Manager Installation ###
-
 #### Overview ####
 
 The *WebVirt Manager* is a combination of a web-server and data aggregator that sends and receives information to/from *WebVirt Nodes*.  Through the web-based UI, actions can be performed on virtual instances hosted on a machine running the *WebVirt Node*.  Installation should be quick and painless - be sure to follow the instructions carefully.
@@ -16,7 +10,7 @@ The *WebVirt Manager* is a combination of a web-server and data aggregator that 
 #### Install Steps ####
 
 
-1.  Install prequisite system packages
+1.  Install prerequisite system packages
 
     Debian/Ubuntu: `apt-get install -y git openssl libssl-dev make g++ wget`
 
