@@ -1,9 +1,13 @@
-console.log("NodesApp.js");
 BBCloneMail.module("NodesApp", function(NodesApp, App){
   "use strict";
  
   // Contact List Views
   // ------------------
+
+  NodesApp.EmptyView = Marionette.ItemView.extend({
+    template: "#node-manager-empty-template",
+  });
+
 
   NodesApp.NodeView = Marionette.ItemView.extend({
     template: "#node-item-template",
@@ -42,6 +46,7 @@ BBCloneMail.module("NodesApp", function(NodesApp, App){
     createDaemon: function (e) {
       console.log("NodesApp.NavView - createDaemon");
       var ip = $("#newDaemon").val();
+      $("#newDaemon").val("");
       console.log("ip: ", ip);
       Marionette.triggerMethod.call(NodesApp.controller, "node:create", ip);
     },
@@ -85,28 +90,26 @@ BBCloneMail.module("NodesApp", function(NodesApp, App){
           that.showLoadingIcon(that.mainRegion);
           return true;;
         },
-        success: function (data) {
-          console.log("ajaxform success");
-          console.log("data: ", data);
-
-          var data = data.data;
-          var dataLen = data && data.length || 0;
-          console.log("dataLen: ", dataLen);
-          for (var i = 0; i < dataLen; i++) {
-            var obj = data[i];
-            console.log("obj: ", obj);
-            if (obj.err) {
-              console.log("Failed to add host " + obj.ip, 'An error occured.');
-            } else {
-              console.log("Add host " + obj.ip, 'Action completed.');
-            }
+        success: function (res) {
+          console.log("\n\n************\n\nAJAXFORM success\n");
+          console.log("res: ", res);
+          for (var key in res) {
+            var err = res[key];
+            console.log("err: ", err);
+            if (err) {
+              toastr.error(err, "Error");
+              continue;
+            } 
+            toastr.success("Added WebVirt Node " + key, "Success");
           }
+          
           console.log("showing nodes");
           that.showNodes();
         },
-        error: function () {
+        error: function (res) {
           console.log("ajaxform error");
-          that.showNodes();
+          toastr.error(res.responseText, "Error");
+          that.renderNodesEmpty();
         },
         complete: function () {
           console.log("ajaxform complete");
@@ -121,18 +124,90 @@ BBCloneMail.module("NodesApp", function(NodesApp, App){
     onNodeCreate: function(ip){
       console.log("NodesApp.Controller - onNodeCreate");
       console.log("creating new node");
-      this.repo.createNode(ip);
+
+      var that = this;
+      var data = {
+        'ip': ip,
+        'customId': ip,
+      }
+
+      var options = {
+        'wait': true,
+        'success': function (model, res) {
+          console.log("nodeCollection.create - success");
+          console.log("arguments: ", arguments);
+          console.log("----that.repo.nodeCollection: ", that.repo.nodeCollection);
+          console.log("----that.repo.nodeCollection.length: ", that.repo.nodeCollection.length);
+          if (that.repo.nodeCollection.length === 1) {
+            console.log("---rendering nodes list");
+            that.renderNodesList();
+          }
+          toastr.success("Added WebVirt Node " + model.id, "Success");
+
+        },
+        'error': function (model, res) {
+          console.log("nodeCollection.create - error");
+          console.log("arguments: ", arguments);
+          toastr.error(res.responseText, "Error");
+        },
+      }
+
+      this.repo.createNode(data, options);
     },
 
     onNodeDelete: function(ip){
       console.log("NodesApp.Controller - onNodeDelete");
       console.log("deleting node from repo");
-      this.repo.deleteNode(ip);
+      var that = this;
+      var options = {
+        'wait': true,
+        'success': function (model, res) {
+          console.log("onNodeDelete - success");
+          console.log("arguments: ", arguments);
+          console.log("----that.repo.nodeCollection: ", that.repo.nodeCollection);
+          console.log("----that.repo.nodeCollection.length: ", that.repo.nodeCollection.length);
+          if (!that.repo.nodeCollection.length) {
+            console.log("---no more nodes in the list");
+            that.renderNodesEmpty();
+          }
+          toastr.success("Removed WebVirt Node " + model.id, "Success");
+
+        },
+        'error': function (model, res) {
+          console.log("onNodeDelete - error");
+          console.log("arguments: ", arguments);
+          toastr.error(res.responseText, "Error");
+        },
+      }
+      this.repo.deleteNode(ip, options);
     },
 
     onNodesShow: function(){
       console.log("NodesApp.Controller - onNodesShow");
       this.showNodes;
+    },
+
+    renderNodesList: function(collection){
+      console.log("\n\n*****\nNodesApp.Controller - renderNodesList\n\n");
+      var collection = this.repo.nodeCollection;
+      console.log("collection: ", collection);
+      var view = new NodesApp.NodeListView({
+        collection: collection
+      });
+
+      console.log("----view: ", view);
+      console.log("----showing view on mainRegion")
+      this.mainRegion.show(view);
+    },
+
+    renderNodesEmpty: function(){
+      console.log("\n\n*****\nNodesApp.Controller - renderNodesEmpty\n\n");
+      var view = new NodesApp.EmptyView({
+      });
+
+      console.log("----view: ", view);
+      console.log("----showing view on mainRegion")
+      this.mainRegion.show(view);
     },
 
     showAddWidgets: function(){
@@ -146,21 +221,30 @@ BBCloneMail.module("NodesApp", function(NodesApp, App){
       console.log("NodesApp.Controller - showNodes");
       var that = this;
       
+      var options = {
+        'success': function (collection, res) {
+          console.log("nodeCollection.fetch - success");
+          console.log("---collection: ", collection);
+          console.log("---collection.length: ", collection.length);
+          that.renderNodesList(collection);
+        },
+        'error': function (collection, res) {
+          console.log("nodeCollection.fetch - error");
+          console.log("arguments: ", arguments);
+          that.renderNodesEmpty();
+          toastr.error(res.responseText, "Error");
+        },
+      }
 
-      $.when(this.repo.getAll()).then(function(nodes){
-        console.log("when callback");
-        var view = new NodesApp.NodeListView({
-          collection: nodes
-        });
-
-        console.log("view: ", view);
-        console.log("showing view on mainRegion")
-        that.mainRegion.show(view);
+      $.when(this.repo.getAll(options)).then(function(nodes){
+        console.log("----when callback");
+        console.log("----nodes: ", nodes);
+        
         // that.mainRegion.open(view);
 
         Backbone.history.navigate("nodes");
-      });
-    },
+      }); // end when
+    }, // end showNodes
 
   });
 

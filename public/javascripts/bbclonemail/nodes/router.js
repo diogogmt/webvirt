@@ -1,4 +1,3 @@
-console.log("nodes - router.js")
 BBCloneMail.module("NodesApp", {
   startWithParent: false,
   define: function(NodesApp, App){
