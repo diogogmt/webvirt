@@ -2,46 +2,48 @@
 layout: default
 title: Prerequisites
 ---
-<header>
-  <div class="navbar navbar-fixed-top navbar-inverse">
-    <div class="navbar-inner">
-      <div class="container">
-        <a href="/webvirt/" class="brand">WebVirt Documentation</a>
-        <ul class="nav">
-          <li class="active"><a href="/webvirt/requirements/">Prerequisites</a></li>
-          <li><a href="/webvirt/install/">Config & Install</a></li>
-          <li class="divider-vertical"></li>
-          <li><a href="/webvirt/userguide/">User Guide</a></li>
-          <li class="divider-vertical"></li>
-<!--           <li class="dropdown">
-            <a id="referenceDD" role="button" class="dropdown-toggle" data-toggle="dropdown" href="#">Reference (API & Config)</a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="referenceDD">
-              <li role="presentation">
-                <a role="menuitem" href="/webvirt/reference/nodeapi/">Node API</a>
-              </li>
-              <li role="presentation">
-                <a role="menuitem" href="/webvirt/reference/nodeconfig/">Node Configuration</a>
-              </li>
-              <li role="presentation" class="divider"></li>
-              <li role="presentation">
-                <a role="menuitem" href="/webvirt/reference/managerapi/">Manager API</a>
-              </li>
-              <li role="presentation">
-                <a role="menuitem" href="/webvirt/reference/managerconfig/">Manager Configuration</a>
-              </li>
-            </ul>
-          </li>                                -->
-        </ul>
+<div class="row">
+  <header>
+    <div class="navbar navbar-fixed-top navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container">
+          <a href="/webvirt/" class="brand">WebVirt Documentation</a>
+          <ul class="nav">
+            <li class="active"><a href="/webvirt/requirements/">Prerequisites</a></li>
+            <li><a href="/webvirt/install/">Config & Install</a></li>
+            <li class="divider-vertical"></li>
+            <li><a href="/webvirt/userguide/">User Guide</a></li>
+            <li class="divider-vertical"></li>
+  <!--           <li class="dropdown">
+              <a id="referenceDD" role="button" class="dropdown-toggle" data-toggle="dropdown" href="#">Reference (API & Config)</a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="referenceDD">
+                <li role="presentation">
+                  <a role="menuitem" href="/webvirt/reference/nodeapi/">Node API</a>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" href="/webvirt/reference/nodeconfig/">Node Configuration</a>
+                </li>
+                <li role="presentation" class="divider"></li>
+                <li role="presentation">
+                  <a role="menuitem" href="/webvirt/reference/managerapi/">Manager API</a>
+                </li>
+                <li role="presentation">
+                  <a role="menuitem" href="/webvirt/reference/managerconfig/">Manager Configuration</a>
+                </li>
+              </ul>
+            </li>                                -->
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</header>
+  </header>
+</div>
 
 <div class="row">
   <div class="span2">
     <!-- Navigation -->
     <div class="well sidebar-nav affix">
-      <ul class="nav nav-list">
+      <ul class="nav nav-list"> 
         {% for post in site.categories.requirements %}
           <li><a href="#{{ post.rawtitle }}">{{ post.title }}</a></li>
         {% endfor %}
@@ -52,12 +54,13 @@ title: Prerequisites
     <div id="heading"></div>
     <div class="row">
       <div data-offset="25" class="span10">
-			  {% for post in site.categories.requirements %}
-			  <article class="well post" id="{{ post.rawtitle }}">
-			    {{ post.content }}
-			  </article>
-			  {% endfor %}
+        {% for post in site.categories.requirements reverse %}
+        <article class="well post" id="{{ post.rawtitle }}">
+          {{ post.content }}
+        </article>
+        {% endfor %}
       </div>
     </div>
     <div id="pagination" class="pagination pagination-right"></div>
   </div>
+</div>
