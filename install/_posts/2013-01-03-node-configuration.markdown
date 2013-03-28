@@ -32,9 +32,19 @@ Installation should be quick and painless - be sure to follow the instructions c
 4.  Run the *WebVirt-Node* Installation script, installing additional dependencies as advised 
  
     `./webvirt-node-install.sh` 
- 
-5.  Run `./node_start.sh` to start the *WebVirt-Node*
- 
+  
 #### Troubleshooting ####
 
 If a *WebVirt Node* does not reply to an API call within three seconds, it is considered down.
+
+#### Starting the Node ####
+
+1.  Ensure you are in the *WebVirt* root directory
+
+2.  Run `./node_start.sh` to start the *WebVirt-Node*
+
+#### Stopping the Node ####
+
+1.  Ensure you are in the *WebVirt* root directory
+
+2.  Run `./stop.sh` to stop all *WebVirt* components currently running on the system

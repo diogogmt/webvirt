@@ -11,7 +11,6 @@ Installation should be quick and painless - be sure to follow the instructions c
 
 #### Install Steps ####
 
-
 1.  Install prerequisite system packages
 
     Debian/Ubuntu: `apt-get install -y git openssl libssl-dev make g++ wget`
@@ -34,4 +33,14 @@ Installation should be quick and painless - be sure to follow the instructions c
 
     `./webvirt-manager-install.sh`
 
-5.  Run `./manager_start.sh` to start the *WebVirt-Manager*
+#### Starting the Manager ####
+
+1.  Ensure you are in the *WebVirt* root directory
+
+2.  Run `./manager_start.sh` to start the *WebVirt-Manager*
+
+#### Stopping the Manager ####
+
+1.  Ensure you are in the *WebVirt* root directory
+
+2.  Run `./stop.sh` to stop all *WebVirt* components currently running on the system
