@@ -13,11 +13,11 @@ Installation should be quick and painless - be sure to follow the instructions c
  
 1.  Install prerequisite system packages 
  
-    Debian/Ubuntu: `apt-get install -y git openssl libssl-dev make g++ wget` 
+    Debian/Ubuntu: `apt-get install -y git openssl libssl-dev make g++ wget libvirt0 libvirt-bin` 
  
-    Fedora:        `yum install git openssl-libs openssl-devel make gcc-c++ wget` 
+    Fedora:        `yum install git openssl-libs openssl-devel make gcc-c++ wget libvirt` 
      
-    SUSE:          `zipper in git openssl libopenssl-devel make gcc-c++ wget` 
+    SUSE:          `zipper in git openssl libopenssl-devel make gcc-c++ wget libvirt` 
  
     **NOTE**: All installation steps should be completed as a normal user.  Only use root permissions when installing the system package prerequisites listed here, or as indicated by the install script. 
  
