@@ -32,6 +32,7 @@ A number of packages are required before installation can begin.  The names for 
 *    g++ 
 *    wget 
 *    libvirt 
+*		 qemu
  
     NOTE: See the *Install* section for more detailed installation examples.
  
