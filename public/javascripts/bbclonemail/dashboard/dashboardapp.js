@@ -58,9 +58,8 @@ BBCloneMail.module("DashboardApp", function(DashboardApp, App){
           // that.showNoHosts();
         },
       }
-      if (!that.repo.getHostCollection().length) {
-        $.when(this.repo.getAll(options));
-      }
+
+      $.when(this.repo.getAll(options));
 
       
     },
