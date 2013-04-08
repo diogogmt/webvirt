@@ -25,7 +25,7 @@ Installation should be quick and painless - be sure to follow the instructions c
 
     `git clone git://github.com/diogogmt/webvirt.git`
 
-3.  Navigate to cloned directory and checkout to the latest stable branch (currently **master**)
+3.  Navigate to cloned directory and checkout to the latest stable branch (currently **v1.0-release**)
     
     `cd webvirt` 
     
