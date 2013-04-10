@@ -1,2 +1,2 @@
- For full documentation, visit **diogogmt.github.com/webvirt**
+ For full documentation, visit **diogogmt.github.io/webvirt**
 
